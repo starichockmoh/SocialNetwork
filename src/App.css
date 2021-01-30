@@ -1,0 +1,23 @@
+body {
+  background-color: lightskyblue;
+}
+.app-wrapper {
+  display: grid;
+  margin: 0 auto;
+  width: 1150px;
+  grid-template-areas:
+          "h h"
+          "n c";
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: 160px 1fr;
+  grid-gap: 10px;
+}
+.app-wrapper-content {
+  grid-area: c;
+  background-color: aliceblue;
+  border-radius: 10px;
+}
+
+
+
+

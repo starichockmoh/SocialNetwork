@@ -1,0 +1,13 @@
+.item{
+    color: black;
+}
+.item img{
+    width: 30px;
+    border-radius: 30px;
+}
+
+.Hr {
+    background-color: maroon;
+    height: 2px
+}
+

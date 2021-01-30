@@ -1,0 +1,28 @@
+.FriendBar {
+    margin-top: 10px;
+    margin-right: 10px;
+    background-color: lightskyblue;
+    border-radius: 10px;
+
+}
+img {
+    width: 32px;
+    border-radius: 20px;
+}
+.OnOf{
+    width: 15px;
+    border-radius: 20px;
+}
+a{
+    text-decoration: none;
+}
+a:visited {
+    color: black;
+}
+a:hover {
+    color: maroon;
+    text-decoration: underline;
+}
+a.active {
+    color: lightcyan;
+}

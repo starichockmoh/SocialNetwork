@@ -1,0 +1,12 @@
+.Preloader {
+    width: 150px;
+    height: 150px;
+}
+.AppPreloader{
+    width: 400px;
+    height: 400px;
+    margin-left: 100px;
+}
+.AppLoadingBlock{
+    margin:0 auto;
+}

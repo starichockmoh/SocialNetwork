@@ -1,0 +1,65 @@
+.Dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-column-gap: 10px;
+}
+
+.DialogsItem{
+    padding: 10px;
+    background-color: azure;
+    border-radius: 10px;
+}
+
+.OnOf{
+    width: 15px;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+.Dialog {
+    border-bottom: 2px solid green;
+    background-color: darkseagreen;
+    border-right: 2px solid maroon;
+    border-left: 2px solid maroon;
+    margin-top: 5px;
+    font-family: cursive;
+}
+.Dialog Img {
+    width: 20px;
+    border-radius: 5px;
+}
+
+.Messages {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 50px;
+    padding: 10px;
+    background-color: darkseagreen;
+}
+
+.Message {
+
+}
+.Dialog a {
+    text-decoration: none;
+    color: black;
+}
+
+.Dialog a:visited {
+    color: black;
+}
+
+.Dialog a:hover {
+    color: lightcyan;
+    text-decoration: underline;
+}
+
+.Dialog a.active {
+    color: lightcyan;
+}
+
+.NewMessage {
+    background-color: darkseagreen;
+}
+.EnterMessage{
+    border-radius: 4px;
+}

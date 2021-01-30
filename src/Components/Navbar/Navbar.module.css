@@ -1,0 +1,60 @@
+.nav {
+    grid-area: n;
+    background-color: lightcyan;
+    border-radius: 20px;
+}
+
+.item {
+    margin-left: 15px;
+    font-family: "Arial Narrow";
+    font-size: 22pt;
+
+}
+
+.settings {
+    margin-top: 400px;
+    margin-left: 15px;
+    font-family: 'Arial Narrow';
+    font-size: 22pt;
+}
+
+.item a {
+     text-decoration: none;
+     color: black;
+ }
+
+.item a:visited {
+    color: black;
+}
+
+.item a:hover {
+    color: #800000;
+    text-decoration: underline;
+}
+
+.item a.active {
+    color: #800000;
+}
+.settings a {
+    text-decoration: none;
+    color: black;
+}
+
+.settings a:visited {
+    color: black;
+}
+
+.settings a:hover {
+    color: #800000;
+    text-decoration: underline;
+}
+
+.settings a.active {
+    color: #800000;
+}
+
+.friendsBar {
+    margin-top: 30px;
+    margin-left: 15px;
+
+}
