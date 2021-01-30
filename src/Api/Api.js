@@ -66,6 +66,5 @@ export const UserAPI = {
             .then(response => {
                 return response.data
             })
-
     }
 }
