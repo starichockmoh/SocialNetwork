@@ -1,0 +1,1 @@
+{"version":3,"sources":["News.module.css","NewPost.module.css"],"names":[],"mappings":"AAAA,uBACG,WACH,CCFA,yBACI,sBAAyB,CACzB,iBAAkB,CAClB,cACJ","file":"4.4999de9d.chunk.css","sourcesContent":[".NewsPosts {\r\n   padding: 7px;\r\n}",".NewsPost {\r\n    border: 0.5px solid black;\r\n    border-radius: 4px;\r\n    margin-top: 3px;\r\n}"]}
