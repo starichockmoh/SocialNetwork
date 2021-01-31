@@ -1,7 +1,7 @@
 import React from "react";
 import './App.css';
 import store from "./Redux/ReduxStore";
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter, Route, withRouter} from "react-router-dom";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializedApp} from "./Redux/Reducers/AppReducer";
@@ -65,11 +65,11 @@ const AppContainer = compose(
 
 const FirstReactApp = () => {
     return <React.StrictMode>
-        <BrowserRouter>
+        <HashRouter basename = {process.env.PUBLIC_URL}>
             <Provider store={store}>
                 <AppContainer/>
             </Provider>
-        </BrowserRouter>
+        </HashRouter>
     </React.StrictMode>
 }
 
