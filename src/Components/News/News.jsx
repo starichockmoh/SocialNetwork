@@ -1,7 +1,6 @@
 import React from "react";
 import s from "./News.module.css"
 import NewsPost from "./NewsPost/NewsPost";
-import ProfileInfoForm from "../Profile/ProfileInfo/ProfileInfoForm";
 
 
 const News = (props) => {
@@ -18,7 +17,6 @@ const News = (props) => {
             {NewPostElements}
             <textarea onChange={OnChangeNews} value={props.NewsState.NewsNewsText}/>
             <span><button onClick={OnNewsAdd}>Добавить новость </button></span>
-            <ProfileInfoForm onSubmit = {(data) => {console.log(data)}}/>
         </div>
     )
 }
