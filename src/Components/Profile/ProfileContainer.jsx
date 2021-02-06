@@ -3,7 +3,7 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {
     getProfile,
-    getProfileStatus, UpdateProfileInfo,
+    getProfileStatus, saveMainPhoto, UpdateProfileInfo,
     UpdateProfileStatus
 } from "../../Redux/Reducers/ProfileReducer";
 import {withRouter} from "react-router-dom"
@@ -40,13 +40,15 @@ let mapStateToProps = (state) => {
     return {
         ProfileInfo: state.ProfilePage.ProfileInfo,
         CurrentUserId: state.Auth.CurrentUserId,
-        ProfileStatus: state.ProfilePage.ProfileStatus
+        ProfileStatus: state.ProfilePage.ProfileStatus,
+        isFetching: state.ProfilePage.isFetching,
+        submitWasSuccess: state.ProfilePage.submitWasSuccess
     }
 }
 export default compose(
     connect(mapStateToProps, {
         getProfile,
-        getProfileStatus, UpdateProfileStatus, UpdateProfileInfo
+        getProfileStatus, UpdateProfileStatus, UpdateProfileInfo, saveMainPhoto
     }),
     withRouter,
     withAuthRedirect

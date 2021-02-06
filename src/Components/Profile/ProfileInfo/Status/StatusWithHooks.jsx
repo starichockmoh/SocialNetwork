@@ -19,7 +19,7 @@ const StatusWithHooks = (props) => {
     const changeInputStatus = (e) => {
             setStatus(e.currentTarget.value)
     }
-    if (props.CurrentUserId === props.userId){
+    if (props.IDisCurrent){
 
     return <>
         {!editMode &&

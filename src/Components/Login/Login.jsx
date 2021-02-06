@@ -1,25 +1,34 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {authLogin} from "../../Redux/Reducers/AuthReducer";
+import {ActivateCaptcha, authLogin} from "../../Redux/Reducers/AuthReducer";
 import LoginReduxForm from "./LoginForm";
+import s from './Login.module.css'
 import {Redirect} from "react-router-dom";
 
 
 
-const Login = (props) => {
-    const onSubmit = (dataForm) => {
-        props.authLogin(dataForm.email, dataForm.password, dataForm.rememberMe)
+class Login extends React.Component {
+    componentDidMount() {
+        this.props.ActivateCaptcha()
     }
-    if (props.isAuth) {
-        return <Redirect to={"/"}/>
+    render() {
+        const onSubmit = (dataForm) => {
+            this.props.authLogin(dataForm.email, dataForm.password, dataForm.rememberMe)
+        }
+        if (this.props.isAuth) {
+            return <Redirect to={"/"}/>
+        }
+        return <div>
+            <h1>LOGIN</h1>
+            <img className={s.CaptchaImg} src={this.props.CaptchaImg}/>
+            <LoginReduxForm onSubmit={onSubmit}/>
+        </div>
     }
-    return <div>
-        <h1>LOGIN</h1>
-        <LoginReduxForm onSubmit={onSubmit}/>
-    </div>
 }
 
 let mapStateToProps = (state) => ({
-    isAuth: state.Auth.isAuth
+    isAuth: state.Auth.isAuth,
+    CaptchaImg: state.Auth.CaptchaImg
+
 })
-export default connect( mapStateToProps, {authLogin})(Login)
+export default connect( mapStateToProps, {authLogin, ActivateCaptcha})(Login)

@@ -8,13 +8,15 @@ let maxLength20 = maxLengthCreator(20)
 const SpecialTextArea = SpecialFormCreator('textarea')
 
 const MessageInputForm = (props) => {
+    if (props.submitSucceeded){
+        props.reset()
+    }
     return <form onSubmit={props.handleSubmit}>
         {FieldCreator('messageInput', [required,maxLength20], SpecialTextArea, 'Write message', null)}
         <button>add</button>
     </form>
-
 }
 
-const MessageInputReduxForm = reduxForm({form: 'messageInput'})(MessageInputForm)
+const MessageInputReduxForm = reduxForm({form: 'messageInputer'})(MessageInputForm)
 
 export default MessageInputReduxForm

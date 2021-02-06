@@ -9,9 +9,12 @@ const maxLength30 =  maxLengthCreator(20)
 const SpecialTextArea = SpecialFormCreator('textarea')
 
 const PostInputForm = (props) => {
+    if (props.submitSucceeded){
+        props.reset()
+    }
     return <form onSubmit={props.handleSubmit}>
         {FieldCreator('postInput', [required,maxLength30], SpecialTextArea, 'Write new post', null)}
-        <button>Add new post</button>
+        <button>add</button>
     </form>
 
 }

@@ -1,12 +1,16 @@
 import {UserAPI} from "../../Api/Api";
-
-const ADD_POST = 'ADD_PROFILE_POST'
-const SET_PROFILE = 'SET_PROFILE'
-const SET_PROFILE_STATUS = 'SET_PROFILE_STATUS'
-const DELETE_POST = 'DELETE_PROFILE_POST'
-const UPDATE_PROFILE_INFO = 'UPDATE_PROFILE_INFO'
+import {SetCurrentUserProfile} from "./AuthReducer";
+import {stopSubmit} from "redux-form";
+import {HelperStopSubmit} from "../../Utils/HelperStopSubmit";
 
 
+const PROFILE_ADD_POST = 'PROFILE_ADD_POST'
+const PROFILE_SET_PROFILE = 'PROFILE_SET_PROFILE'
+const PROFILE_SET_PROFILE_STATUS = 'PROFILE_SET_PROFILE_STATUS'
+const PROFILE_DELETE_POST = 'PROFILE_DELETE_POST'
+const PROFILE_UPDATE_PHOTO = 'PROFILE_UPDATE_PHOTO'
+const PROFILE_IS_FETCHING_PHOTO_TOGGLE = 'PROFILE_IS_FETCHING_PHOTO_TOGGLE'
+const SUBMIT_WAS_SUCCESS = 'SUBMIT_WAS_SUCCESS'
 
 
 let InitialState = {
@@ -15,21 +19,28 @@ let InitialState = {
         {message: 'salam', id: 2, likecount: 228},
     ],
     ProfileInfo: null,
-    ProfileStatus: ''
-
+    ProfileStatus: '',
+    isFetching: false,
+    submitWasSuccess: false
 }
 
 
 const ProfileReducer = (state = InitialState, action) => {
     switch (action.type) {
-        case DELETE_POST: {
+        case SUBMIT_WAS_SUCCESS: {
+            return {
+                ...state,
+                submitWasSuccess: action.success
+            }
+        }
+        case PROFILE_DELETE_POST: {
             return {
                 ...state,
                 PostsData: state.PostsData.filter(u => u.id !== action.postId)
             }
         }
 
-        case ADD_POST: {
+        case PROFILE_ADD_POST: {
             let NewPost = {
                 message: action.post,
                 id: 5,
@@ -40,26 +51,39 @@ const ProfileReducer = (state = InitialState, action) => {
                 PostsData: [...state.PostsData, NewPost]
             }
         }
-        case SET_PROFILE:
+        case PROFILE_SET_PROFILE:
             return {
                 ...state,
                 ProfileInfo: action.ProfileInfo
             }
-        case SET_PROFILE_STATUS:
+        case PROFILE_SET_PROFILE_STATUS:
             return {
                 ...state,
                 ProfileStatus: action.status
             }
+        case PROFILE_UPDATE_PHOTO:
+            return {
+                ...state,
+                ProfileInfo: {...state.ProfileInfo,photos: {...action.photo}},
+            }
+        case PROFILE_IS_FETCHING_PHOTO_TOGGLE:{
+            return {
+                ...state,
+                isFetching: !state.isFetching
+            }
+        }
         default:
             return state
     }
 }
 
-export const deleteProfilePost = (postId) => ({type: DELETE_POST, postId})
-export const addNewPost = (post) => ({type: ADD_POST, post})
-export const setProfile = (ProfileInfo) => ({type: SET_PROFILE, ProfileInfo})
-export const setProfileStatus = (status) => ({type: SET_PROFILE_STATUS, status})
-
+export const deleteProfilePost = (postId) => ({type: PROFILE_DELETE_POST, postId})
+export const submitWasSuccess = (success) => ({type: SUBMIT_WAS_SUCCESS, success})
+export const addNewPost = (post) => ({type: PROFILE_ADD_POST, post})
+export const setProfile = (ProfileInfo) => ({type: PROFILE_SET_PROFILE, ProfileInfo})
+export const setProfileStatus = (status) => ({type: PROFILE_SET_PROFILE_STATUS, status})
+const updateProfilePhoto = (photo) => ({type: PROFILE_UPDATE_PHOTO, photo})
+const isFetchingPhotoToggle = () => ({type: PROFILE_IS_FETCHING_PHOTO_TOGGLE})
 
 export const getProfileStatus = (userId) => async (dispatch) => {
     let response = await UserAPI.getProfileStatus(userId)
@@ -72,10 +96,15 @@ export const UpdateProfileStatus = (status) => async (dispatch) => {
         dispatch(setProfileStatus(status))
     }
 }
-export  const UpdateProfileInfo = (userId,AboutMe,lookingForAJob,lookingForAJobDescription,fullName,contacts=null) => async (dispatch) => {
-    let response = await UserAPI.changeProfile(userId,AboutMe,lookingForAJob,lookingForAJobDescription,fullName,contacts)
+export  const UpdateProfileInfo = (id, profile) => async (dispatch) => {
+    let response = await UserAPI.changeProfile(id, {...profile})
     if (response.resultCode === 0) {
-        dispatch(getProfile(userId))
+        dispatch(getProfile(id))
+        dispatch(submitWasSuccess(true))
+    }
+    else {
+        let errorMessages = response.messages.length > 0 ? response.messages : 'Some error'
+        dispatch(stopSubmit('ProfileInfoInput', {'contacts' : {...HelperStopSubmit(errorMessages)}}))
     }
 
 }
@@ -83,6 +112,15 @@ export const getProfile = (userId) => async (dispatch) => {
     let response = await UserAPI.getUserProfile(userId)
     dispatch(setProfile(response))
 
+}
+export const saveMainPhoto = (photo) => async (dispatch) => {
+    dispatch(isFetchingPhotoToggle())
+    let response = await UserAPI.changeMainPhoto(photo)
+    if (response.data.resultCode === 0){
+        dispatch(isFetchingPhotoToggle())
+        dispatch(updateProfilePhoto(response.data.data.photos))
+        dispatch(SetCurrentUserProfile(response.data.data.photos.large))
+    }
 }
 
 export default ProfileReducer;

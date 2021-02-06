@@ -8,7 +8,7 @@ const Dialogs = (props) => {
     let DialogsElements = props.DialogsState.DialogsData.map(d => <DialogItem key = {d.id} Img={d.Img} Name={d.Name} id={d.id} OnOf={d.OnOf}/>);
     let MyMessagesElements = props.DialogsState.MessagesData.MyMessages.map(m => <Message key = {m.id} message={m.message} id={m.id}/>);
 
-    let addMessage = (dataForm) => {
+    const addMessage = (dataForm) => {
         props.AddMessage(dataForm.messageInput)
     }
     return (

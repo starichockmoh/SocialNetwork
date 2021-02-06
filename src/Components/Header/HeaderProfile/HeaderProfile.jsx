@@ -9,7 +9,7 @@ const HeaderProfile = (props) => {
     return <div>
         <button onClick={onLogOut}>Log Out</button>
         {props.login}
-        {props.CurrentUserPhoto? props.CurrentUserPhoto: <img src = {UserPhoto}/> }
+        {props.CurrentUserPhoto? <img src = {props.CurrentUserPhoto}/>: <img src = {UserPhoto}/> }
     </div>
 }
 

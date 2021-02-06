@@ -11,6 +11,9 @@ const Profile = (props) => {
                          ProfileStatus = {props.ProfileStatus}
                          ProfileInfo={props.ProfileInfo}
                          UpdateProfileInfo = {props.UpdateProfileInfo}
+                         saveMainPhoto = {props.saveMainPhoto}
+                         isFetching = {props.isFetching}
+                         submitWasSuccess = {props.submitWasSuccess}
             />
             <MyPostsContainer/>
         </div>

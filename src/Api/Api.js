@@ -3,11 +3,14 @@ import * as axios from "axios";
 const AxiosInstance = axios.create({
     withCredentials: true,
     headers: {
-        'API-KEY': 'bd00ffb7-cce4-4216-900b-0b45ad38455d'
+        'API-KEY': 'b1cf864d-0236-4524-ba18-8f6783744dea'
     },
     baseURL: 'https://social-network.samuraijs.com/api/1.0'
 })
 
+export const Captcha = () => {
+    return AxiosInstance.get('security/get-captcha-url')
+}
 export const AuthApi = {
     AuthUser() {
         return AxiosInstance.get(`auth/me`)
@@ -61,10 +64,19 @@ export const UserAPI = {
     updateStatus (status){
         return AxiosInstance.put(`profile/status/`,{status: status})
     },
-    changeProfile(userId,AboutMe,lookingForAJob,lookingForAJobDescription,fullName,contacts){
-        return AxiosInstance.put(`profile`,{userId,AboutMe,lookingForAJob,lookingForAJobDescription,fullName,contacts})
+    changeProfile(userId, profile){
+        return AxiosInstance.put(`profile`,{userId, ...profile})
             .then(response => {
                 return response.data
             })
+    },
+    changeMainPhoto(photo){
+        const formData = new FormData()
+        formData.append("image", photo)
+        return AxiosInstance.put(`profile/photo`, formData, {
+            headers:{
+                'Content-Type': 'multipart/form-data'
+            }
+        })
     }
 }

@@ -1,16 +1,18 @@
-import {AuthApi, UserAPI} from "../../Api/Api";
+import {AuthApi, Captcha, UserAPI} from "../../Api/Api";
 import {stopSubmit} from "redux-form";
 
 
 const SET_CURRENT_USER_PROFILE = 'SET_CURRENT_USER_PROFILE'
 const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA'
+const SET_CAPTCHA_IMG = 'SET_CAPTCHA_IMG'
 
 let InitialState = {
     CurrentUserId: null,
     email: null,
     login: null,
     isAuth: false,
-    CurrentUserPhoto: null
+    CurrentUserPhoto: null,
+    CaptchaImg: ''
 }
 
 let AuthReducer = (state = InitialState, action) => {
@@ -25,6 +27,11 @@ let AuthReducer = (state = InitialState, action) => {
                 ...state,
                 CurrentUserPhoto: action.CurrentUserPhoto
             }
+        case SET_CAPTCHA_IMG:
+            return {
+                ...state,
+                CaptchaImg: action.CaptchaImg
+            }
         default:
             return state
 
@@ -35,7 +42,9 @@ const SetAuthUserData = (CurrentUserId, email, login, isAuth) => ({
     type: SET_AUTH_USER_DATA,
     data: {CurrentUserId, email, login, isAuth}
 })
-const SetCurrentUserProfile = (CurrentUserPhoto) => ({type: SET_CURRENT_USER_PROFILE, CurrentUserPhoto})
+export const SetCurrentUserProfile = (CurrentUserPhoto) => ({type: SET_CURRENT_USER_PROFILE, CurrentUserPhoto})
+const SetCaptchaImg = (CaptchaImg) => ({type: SET_CAPTCHA_IMG, CaptchaImg})
+
 
 
 export const authUser = () => async (dispatch) => {
@@ -44,7 +53,7 @@ export const authUser = () => async (dispatch) => {
         let {id, email, login} = response.data
         dispatch(SetAuthUserData(id, email, login, true))
         let ProfileResponse = await UserAPI.getUserProfile(response.data.id)
-        dispatch(SetCurrentUserProfile(ProfileResponse.photos.small))
+        dispatch(SetCurrentUserProfile(ProfileResponse.photos.large))
     }
 }
 
@@ -52,7 +61,8 @@ export const authLogin = (email, password, rememberMe) => async (dispatch) => {
     let response = await AuthApi.AuthLogin(email, password, rememberMe)
     if (response.data.resultCode === 0) {
         dispatch(authUser())
-    } else {
+    }
+    else {
         let errorMessage = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
         dispatch(stopSubmit('login', {_error: errorMessage}))
     }
@@ -64,6 +74,10 @@ export const authLogOut = () => async (dispatch) => {
     if (response.data.resultCode === 0) {
         dispatch(SetAuthUserData(null, null, null, false))
     }
+}
+export const ActivateCaptcha = () => async (dispatch) => {
+    let response = await Captcha()
+    dispatch(SetCaptchaImg(response.data.url))
 }
 
 
