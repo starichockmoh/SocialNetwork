@@ -1,2 +1,0 @@
-(this["webpackJsonpmy-app"]=this["webpackJsonpmy-app"]||[]).push([[5],{297:function(n,t,e){},304:function(n,t,e){"use strict";e.r(t);var p=e(0),u=e.n(p);e(297);t.default=function(){return u.a.createElement("div",null," Music ")}}}]);
-//# sourceMappingURL=5.bc150265.chunk.js.map
