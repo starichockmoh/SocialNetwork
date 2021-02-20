@@ -1,19 +1,13 @@
 import s from "./Paginator.module.css";
-import React, {useCallback, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {setCurrentPageAC} from "../../../Redux/Reducers/UsersReducer";
+import React, {useCallback, useState} from "react";
+import {useDispatch} from "react-redux";
 
 
-export const Paginator = React.memo(({onPageChanged, totalItems, pageSize}) => {
+export const Paginator = React.memo(({onPageChanged, totalItems, pageSize,currentPage, currentPageAc}) => {
     let pagesCount = Math.ceil(totalItems / pageSize)
-
     const dispatch = useDispatch()
-    const currentPage = useSelector(state => state.UsersPage.currentPage)
     const setCurrentPage = useCallback((page) => {
-        dispatch(setCurrentPageAC(page))},[dispatch])
-    useEffect(()=>{
-        onPageChanged(currentPage)
-    },[currentPage,onPageChanged])
+        dispatch(currentPageAc(page))},[dispatch,currentPageAc])
     let [pageLeft,changePageLeft] = useState(1)
     let [pageRight, changePageRight] = useState(10)
 
@@ -56,6 +50,7 @@ export const Paginator = React.memo(({onPageChanged, totalItems, pageSize}) => {
         {pages.map(p => {
             return <button onClick={() => {
                 setCurrentPage(p)
+                onPageChanged(p)
             }} className={currentPage === p && s.currentPage}>{p}</button>
         })}
         <button onClick={pageRight < pagesCount && changeSizeToRight}>→</button>

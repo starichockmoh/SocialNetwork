@@ -13,3 +13,25 @@
     color: maroon;
     border: 2px solid red;
 }
+.CaptchaControl{
+    display: grid;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas:
+    'span'
+    'img'
+    'input'
+;
+}
+.CaptchaImg{
+    width: 100px;
+    height: 70px;
+    grid-area: img;
+}
+.CaptchaInput{
+    grid-area: input;
+}
+.CaptchaSpan {
+    grid-area: span;
+    color: maroon;
+    border: 2px solid red;
+}

@@ -57,16 +57,19 @@ export const authUser = () => async (dispatch) => {
     }
 }
 
-export const authLogin = (email, password, rememberMe) => async (dispatch) => {
-    let response = await AuthApi.AuthLogin(email, password, rememberMe)
+export const authLogin = (email, password, rememberMe,captcha) => async (dispatch) => {
+    let response = await AuthApi.AuthLogin(email, password, rememberMe,captcha)
     if (response.data.resultCode === 0) {
         dispatch(authUser())
+        dispatch(SetCaptchaImg(''))
     }
     else {
         let errorMessage = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+        if (errorMessage === 'Incorrect anti-bot symbols'){
+            dispatch(ActivateCaptcha())
+        }
         dispatch(stopSubmit('login', {_error: errorMessage}))
     }
-
 }
 
 export const authLogOut = () => async (dispatch) => {

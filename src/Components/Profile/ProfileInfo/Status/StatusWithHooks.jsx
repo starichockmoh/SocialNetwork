@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 
 const StatusWithHooks = (props) => {
     let [editMode, setEditeMode] = useState(false)
-    let [status, setStatus] = useState(props.ProfileStatus)
+    let [status, setStatus] = useState('')
 
     useEffect(()=>{
         setStatus(props.ProfileStatus)

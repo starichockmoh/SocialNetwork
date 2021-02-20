@@ -1,12 +1,29 @@
 import React from "react";
-import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {Paginator} from "../Common/Paginator/Paginator";
+import Preloader from "../Common/Preloader/Preloader";
+import UserElement from "../Users/UserElement/UserElement";
+
 
 const Friends = (props) => {
     return (
         <div>
-        <div>Friends</div>
+            <Paginator
+                onPageChanged={props.onPageChanged} totalItems={props.totalUsersCount}
+                pageSize={props.pageSize}
+                currentPage={props.currentFriendPage}
+                currentPageAc = {props.setCurrentFriendPageAC}
+            />
+            {props.isFetching ? <Preloader/> :
+                props.friends.map(u => <UserElement key={u.id}
+                                                  user={u}
+                                                  toggleFollow={props.toggleFollow}
+                                                  followIsProgressing={props.followIsProgressing}
+                                                  FollowOrUnfollow={props.FollowOrUnfollow}
+                />)
+
+            }
         </div>
     )
 }
 
-export default withAuthRedirect(Friends)
+export default Friends

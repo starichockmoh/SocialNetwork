@@ -1,44 +1,62 @@
 .Dialogs {
     display: grid;
-    grid-template-columns: 2fr 10fr;
+    grid-template-columns: 170px 1fr;
+    grid-template-rows: 425px 50px;
     grid-column-gap: 10px;
+    grid-template-areas:
+    'dialog message'
+    'dialog input';
+}
+.HiddenDialogs {
+    display: grid;
+    grid-template-columns: 170px 805px;
+    grid-template-rows: 425px 50px;
+    grid-column-gap: 10px;
+    grid-template-areas:
+    'message message'
+    'input input';
+}
+.HideButton {
+    margin-top: 40px;
 }
 
 .DialogsItem{
     padding: 10px;
     background-color: azure;
     border-radius: 10px;
-}
-
-.OnOf{
-    width: 15px;
-    border-radius: 20px;
-    margin-top: 5px;
+    grid-area: dialog;
+    overflow-y: scroll;
 }
 .Dialog {
-    border-bottom: 2px solid green;
-    background-color: darkseagreen;
-    border-right: 2px solid maroon;
-    border-left: 2px solid maroon;
+    border-bottom: 2px solid lightskyblue;
+    background-color: lightblue;
+    border-right: 2px solid lightskyblue;
+    border-left: 2px solid lightskyblue;
     margin-top: 5px;
     font-family: cursive;
 }
-.Dialog Img {
-    width: 20px;
+.DialogActive{
+    border-bottom: 2px solid blue;
+    background-color: lavender;
+    border-right: 2px solid blue;
+    border-left: 2px solid blue;
+    margin-top: 5px;
+    font-family: cursive;
+    border-radius: 10px;
+}
+.DialogImg {
+    width: 50px;
+    height: 50px;
     border-radius: 5px;
 }
 
 .Messages {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 50px;
-    padding: 10px;
-    background-color: darkseagreen;
+    background-color: aliceblue;
+    grid-area: message;
+    overflow-y: scroll;
 }
 
-.Message {
 
-}
 .Dialog a {
     text-decoration: none;
     color: black;
@@ -58,7 +76,9 @@
 }
 
 .NewMessage {
-    background-color: darkseagreen;
+    grid-area: input;
+    background-color: aliceblue;
+    padding: 10px;
 }
 .EnterMessage{
     border-radius: 4px;

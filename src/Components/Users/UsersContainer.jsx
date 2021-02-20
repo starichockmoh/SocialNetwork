@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {
     requestUsers,
-  FollowOrUnfollow
+    FollowOrUnfollow, setCurrentPageAC
 } from "../../Redux/Reducers/UsersReducer";
 import Users from "./Users";
 import {compose} from "redux";
@@ -19,22 +19,19 @@ class UsersContainer extends React.Component {
     componentDidMount() {
         let {currentPage, pageSize} = this.props
         if (this.props.users.length === 0) {
-            this.props.requestUsers(currentPage,pageSize)
+            this.props.requestUsers(currentPage,pageSize,null)
         }
     }
 
     onPageChanged = (p) => {
-        let {pageSize} = this.props
-        this.props.requestUsers(p,pageSize)
+        let {pageSize,currentSearchTerm} = this.props
+        this.props.requestUsers(p,pageSize,false,currentSearchTerm)
     }
 
 
     render() {
         return <>
                 <Users {...this.props } onPageChanged={this.onPageChanged}
-                       changeSizeToRight={this.changeSizeToRight}
-                       changeSizeToLeft = {this.changeSizeToLeft}
-                       isFetching = {this.props.isFetching}
                 />
         </>
     }
@@ -46,11 +43,13 @@ let mapStateToProps = (state) => {
         pageSize: getPageSize(state),
         totalUsersCount: getTotalUsersCount(state),
         isFetching: getIsFetching(state),
-        followIsProgressing: getFollowIsProgressing(state)
+        followIsProgressing: getFollowIsProgressing(state),
+        currentPage: state.UsersPage.currentPage,
+        currentSearchTerm: state.UsersPage.currentSearchTerm
     }
 }
 
 
 export default compose(
-    connect(mapStateToProps, {requestUsers, FollowOrUnfollow,}),
+    connect(mapStateToProps, {requestUsers, FollowOrUnfollow,setCurrentPageAC}),
 )(UsersContainer)

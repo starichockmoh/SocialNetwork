@@ -1,0 +1,25 @@
+.MessageIm {
+    text-align: right
+}
+.MessageFriend{
+    text-align: left;
+}
+.line {
+    background-color: black;
+    height: 2px;
+}
+.MessageText{
+    padding: 5px;
+    font-family: "Trocchi";
+}
+.MessageTextNotViewed{
+    padding: 5px;
+    font-family: "Trocchi";
+    background-color: lavender;
+}
+.HiddenButton{
+    display: none;
+}
+.Button{
+
+}

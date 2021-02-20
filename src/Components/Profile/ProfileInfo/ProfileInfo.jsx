@@ -9,9 +9,11 @@ import ProfileDescriptionBlock from "./ProfileDescriptionBlock";
 import ProfilePhotoInputFile from "./ProfilePhotoInputFile";
 import {useDispatch} from "react-redux";
 import {submitWasSuccess} from "../../../Redux/Reducers/ProfileReducer";
+import {NavLink} from "react-router-dom";
 
 
 const ProfileInfo = (props) => {
+    let DialogUrl =  props.ProfileInfo && '/dialogs/' + props.ProfileInfo.userId
     let dispatch = useDispatch()
     useEffect(() => {
         if (props.submitWasSuccess){
@@ -34,6 +36,9 @@ const ProfileInfo = (props) => {
             props.saveMainPhoto(e.target.files[0])
         }
     }
+    const startDialog = () => {
+        props.AddNewDialog(props.ProfileInfo.userId)
+    }
     if (!props.ProfileInfo) {
         return <Preloader/>
     }
@@ -52,6 +57,8 @@ const ProfileInfo = (props) => {
             <div>
                 <StatusWithHooks UpdateProfileStatus={props.UpdateProfileStatus} ProfileStatus={props.ProfileStatus} IDisCurrent={IDisCurrent}/>
             </div>
+            <NavLink to = {DialogUrl}>
+                {!IDisCurrent && <button onClick={startDialog}>Start dialog</button>}</NavLink>
             {ProfileEditMode
                 ? <ProfileInfoForm initialValues={props.ProfileInfo} deactivateMode={deactivateMode} onSubmit={changeProfile}/>
                 : <ProfileDescriptionBlock IDisCurrent = {IDisCurrent} activateMode ={activateMode} ProfileInfo={props.ProfileInfo}/>

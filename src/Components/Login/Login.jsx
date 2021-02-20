@@ -1,29 +1,22 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {connect} from "react-redux";
-import {ActivateCaptcha, authLogin} from "../../Redux/Reducers/AuthReducer";
+import {authLogin} from "../../Redux/Reducers/AuthReducer";
 import LoginReduxForm from "./LoginForm";
-import s from './Login.module.css'
 import {Redirect} from "react-router-dom";
 
 
-
-class Login extends React.Component {
-    componentDidMount() {
-        this.props.ActivateCaptcha()
+const Login = (props) => {
+    const onSubmit = (dataForm) => {
+        console.log(dataForm)
+        props.authLogin(dataForm.email, dataForm.password, dataForm.rememberMe, dataForm.captcha)
     }
-    render() {
-        const onSubmit = (dataForm) => {
-            this.props.authLogin(dataForm.email, dataForm.password, dataForm.rememberMe)
-        }
-        if (this.props.isAuth) {
-            return <Redirect to={"/"}/>
-        }
-        return <div>
-            <h1>LOGIN</h1>
-            <img className={s.CaptchaImg} src={this.props.CaptchaImg}/>
-            <LoginReduxForm onSubmit={onSubmit}/>
-        </div>
+    if (props.isAuth) {
+        return <Redirect to={"/"}/>
     }
+    return <div>
+        <h1>LOGIN</h1>
+        <LoginReduxForm CaptchaImg={props.CaptchaImg} onSubmit={onSubmit}/>
+    </div>
 }
 
 let mapStateToProps = (state) => ({
@@ -31,4 +24,4 @@ let mapStateToProps = (state) => ({
     CaptchaImg: state.Auth.CaptchaImg
 
 })
-export default connect( mapStateToProps, {authLogin, ActivateCaptcha})(Login)
+export default connect( mapStateToProps, {authLogin})(Login)

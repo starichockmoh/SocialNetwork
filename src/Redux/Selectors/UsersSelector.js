@@ -3,10 +3,25 @@ import {createSelector} from "reselect";
 const getUsers = (state) => {
     return state.UsersPage.users
 }
+const getActiveUser = (state) => {
+    return state.ProfilePage.ProfileInfo
+}
 
+export const getFriends = (state) => {
+    return state.UsersPage.friends
+}
 export const getUsersSuper = createSelector(getUsers, (users) => {
     return users.filter(u => true)
 })
+export const getActiveUserFollowed = createSelector(getUsers, getActiveUser, (users,profile) => {
+    if (!profile) {
+        return null
+    }
+    else {
+        return users.filter(u => u.id === profile.userId)
+    }
+})
+
 
 
 export const getPageSize = (state) => {

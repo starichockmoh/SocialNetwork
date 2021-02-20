@@ -9,6 +9,9 @@ import {
 import {withRouter} from "react-router-dom"
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 import {compose} from "redux";
+import {FollowOrUnfollow} from "../../Redux/Reducers/UsersReducer";
+import {getActiveUserFollowed, getUsersSuper} from "../../Redux/Selectors/UsersSelector";
+import {AddNewDialog} from "../../Redux/Reducers/DialogsReducer";
 
 
 class ProfileContainer extends React.Component {
@@ -24,12 +27,12 @@ class ProfileContainer extends React.Component {
             this.props.getProfile(userId)
         }
     }
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //     if (!this.props.match.params.userId) {
-    //         this.props.getProfile(this.props.CurrentUserId)
-    //         this.props.getProfileStatus(this.props.CurrentUserId)
-    //     }
-    // }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (!this.props.match.params.userId && prevProps.match.params.userId) {
+            this.props.getProfile(this.props.CurrentUserId)
+            this.props.getProfileStatus(this.props.CurrentUserId)
+        }
+    }
 
     render() {
         return <Profile {...this.props} ProfileInfo={this.props.ProfileInfo}/>
@@ -42,13 +45,14 @@ let mapStateToProps = (state) => {
         CurrentUserId: state.Auth.CurrentUserId,
         ProfileStatus: state.ProfilePage.ProfileStatus,
         isFetching: state.ProfilePage.isFetching,
-        submitWasSuccess: state.ProfilePage.submitWasSuccess
+        submitWasSuccess: state.ProfilePage.submitWasSuccess,
+        activeUser: getActiveUserFollowed(state)
     }
 }
 export default compose(
     connect(mapStateToProps, {
         getProfile,
-        getProfileStatus, UpdateProfileStatus, UpdateProfileInfo, saveMainPhoto
+        getProfileStatus, UpdateProfileStatus, UpdateProfileInfo, saveMainPhoto,FollowOrUnfollow, AddNewDialog
     }),
     withRouter,
     withAuthRedirect

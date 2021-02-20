@@ -6,19 +6,36 @@ const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const SET_FETCHING = 'SET_USERS_FETCHING'
 const TOGGLE_FOLLOW_PROGRESSING = 'USERS_TOGGLE_FOLLOW_PROGRESSING'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+const SET_CURRENT_FRIEND_PAGE = 'SET_CURRENT_FRIEND_PAGE'
+const SET_CURRENT_SEARCH_TERM = 'SET_CURRENT_SEARCH_TERM'
+
 
 
 let InitialState = {
     users: [],
-    pageSize: 30,
+    friends: [],
+    pageSize: 15,
     totalUsersCount: 19,
+    totalFriendsCount: 3,
     isFetching: false,
     followIsProgressing: [],
-    currentPage: 1
+    currentPage: 1,
+    currentFriendPage: 1,
+    currentSearchTerm: ''
 }
 
 const UsersReducer = (state = InitialState, action) => {
     switch (action.type) {
+        case SET_CURRENT_SEARCH_TERM:
+            return {
+                ...state,
+                currentSearchTerm: action.term
+            }
+        case SET_CURRENT_FRIEND_PAGE:
+            return {
+                ...state,
+                currentFriendPage: action.FriendsPage
+            }
         case SET_CURRENT_PAGE:
             return {
                 ...state,
@@ -35,11 +52,23 @@ const UsersReducer = (state = InitialState, action) => {
                 })
             }
         case SET_USERS:
+            if (action.isFriendsArray){
+                return {
+                    ...state,
+                    friends: [...action.users]
+                }
+            }
             return {
                 ...state,
                 users: [...action.users]
             }
         case SET_TOTAL_USERS_COUNT:
+            if (action.isFriends){
+                return {
+                    ...state,
+                    totalFriendsCount: action.totalUsersCount
+                }
+            }
             return {
                 ...state,
                 totalUsersCount: action.totalUsersCount
@@ -66,19 +95,24 @@ export const toggleFollowProgressing = (isProgressing, userId) => ({
     isProgressing,
     userId
 })
+export const setCurrentFriendPageAC = (FriendsPage) => ({type: SET_CURRENT_FRIEND_PAGE,FriendsPage})
 export const setCurrentPageAC = (page) => ({type: SET_CURRENT_PAGE,page})
 export const toggleFollow = (userId) => ({type: FOLLOW_TOGGLE, userId})
-export const setUsers = (users) => ({type: SET_USERS, users})
-export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
+export const setUsers = (users,isFriendsArray) => ({type: SET_USERS, users,isFriendsArray})
+export const setTotalUsersCount = (totalUsersCount, isFriends=false) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount,isFriends})
 export const setFetching = (isFetching) => ({type: SET_FETCHING, isFetching})
+export const setCurrentSearchTerm = (term) => ({type: SET_CURRENT_SEARCH_TERM,term})
 
 
-export const requestUsers = (currentPage, pageSize) => async (dispatch) => {
+export const requestUsers = (currentPage, pageSize, friend=false,term='') => async (dispatch) => {
     dispatch(setFetching(true))   //активируем крутилку
-    let response = await UserAPI.getUsers(currentPage, pageSize)
+    if (term) {
+        dispatch(setCurrentSearchTerm(term))
+    }
+    let response = await UserAPI.getUsers(currentPage, pageSize, friend,term)
     dispatch(setFetching(false)) //снимаем крутилку
-    dispatch(setUsers(response.items)) //сетаем юзеров с респонса
-    dispatch(setTotalUsersCount(response.totalCount))//сетаем общее число юзеров
+    dispatch(setUsers(response.items,friend)) //сетаем юзеров с респонса
+    dispatch(setTotalUsersCount(response.totalCount,friend))//сетаем общее число юзеров
 
 }
 export const FollowOrUnfollow = (userId,follow) => async (dispatch) => {

@@ -3,13 +3,34 @@ import * as axios from "axios";
 const AxiosInstance = axios.create({
     withCredentials: true,
     headers: {
-        'API-KEY': 'b1cf864d-0236-4524-ba18-8f6783744dea'
+        'API-KEY': '4edd74e2-330b-411c-8c39-ff31c4d6ced4'
     },
     baseURL: 'https://social-network.samuraijs.com/api/1.0'
 })
 
+export const DialogsApi = {
+    PutDialog(userId) {
+        return AxiosInstance.put(`dialogs/${userId}`)
+    },
+    GetDialogs() {
+        return AxiosInstance.get('dialogs')
+    },
+    GetUserDialog(userId) {
+        let url = 'dialogs/' + userId +'/messages'
+        return AxiosInstance.get(url)
+    },
+    PutMessage(userId, message) {
+        let url = 'dialogs/' + userId +'/messages'
+        return AxiosInstance.post(url,{body: message})
+    },
+    DeleteMessage (messageId) {
+        return AxiosInstance.delete(`dialogs/messages/${messageId}`)
+    }
+}
+
 export const Captcha = () => {
     return AxiosInstance.get('security/get-captcha-url')
+
 }
 export const AuthApi = {
     AuthUser() {
@@ -18,8 +39,8 @@ export const AuthApi = {
                 return response.data
             })
     },
-    AuthLogin(email,password,rememberMe){
-        return AxiosInstance.post(`auth/login`, {email,password,rememberMe})
+    AuthLogin(email,password,rememberMe,captcha=null){
+        return AxiosInstance.post(`auth/login`, {email,password,rememberMe,captcha})
     },
     AuthLogOut(){
         return AxiosInstance.post(`auth/logout`)
@@ -28,8 +49,8 @@ export const AuthApi = {
 }
 
 export const UserAPI = {
-    getUsers(currentPage = 1, pageSize = 10) {
-        return AxiosInstance.get(`users?page=${currentPage}&count=${pageSize}`)
+    getUsers(currentPage = 1, pageSize = 10,friend = null,term='') {
+        return AxiosInstance.get(`users?page=${currentPage}&count=${pageSize}&friend=${friend}&term=${term}`)
             .then(response => {
                     return response.data
                 }

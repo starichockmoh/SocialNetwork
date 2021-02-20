@@ -1,28 +1,42 @@
-import React from "react";
+import React, {useState} from "react";
 import s from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
-import Message from "./Message/Message";
 import MessageInputReduxForm from "./DialogsForm";
+import UserDialog from "./UserDialog";
+
 
 const Dialogs = (props) => {
-    let DialogsElements = props.DialogsState.DialogsData.map(d => <DialogItem key = {d.id} Img={d.Img} Name={d.Name} id={d.id} OnOf={d.OnOf}/>);
-    let MyMessagesElements = props.DialogsState.MessagesData.MyMessages.map(m => <Message key = {m.id} message={m.message} id={m.id}/>);
-
-    const addMessage = (dataForm) => {
-        props.AddMessage(dataForm.messageInput)
+    let [isShowDialogsMenu, setIsShowDialogsMenu] = useState(true)
+    let DialogsElements = null
+    let UserInfo = null
+    if (props.DialogsData) {
+        if (props.UserId) {
+            UserInfo = props.DialogsData.filter(d => d.id == props.UserId)
+        }
+        DialogsElements = props.DialogsData.map(dialog => <DialogItem
+            UserId={props.UserId} key={dialog.id}
+            photo={dialog.photos.large} name={dialog.userName}
+            id={dialog.id}/>);
     }
+    const addMessage = (dataForm) => {
+        props.SendMessage(props.UserId, dataForm.messageInput)
+    }
+
+
     return (
-        <div className={s.Dialogs}>
-            <div className={s.DialogsItem}>
+        <div className={isShowDialogsMenu? s.Dialogs: s.HiddenDialogs}>
+            {isShowDialogsMenu? <div className={s.DialogsItem}>
+                <button onClick={() => {setIsShowDialogsMenu(false)}}> Hide Dialogs</button>
                 {DialogsElements}
-            </div>
+            </div>: <button className={s.HideButton} onClick={() => {setIsShowDialogsMenu(true)}}> Show Dialogs </button>}
+
             <div className={s.Messages}>
-                <div>{MyMessagesElements}</div>
-                <div align="right">
-                </div>
-                <div align="right" className={s.NewMessage}>
-                    <MessageInputReduxForm onSubmit = {addMessage}/>
-                </div>
+                <div><UserDialog UserInfo={UserInfo && UserInfo[0]} DeleteMessage={props.DeleteMessage}
+                                 UserId={props.UserId}
+                                 CurrentUserId={props.CurrentUserId} MessagesData={props.MessagesData}/></div>
+            </div>
+            <div className={s.NewMessage}>
+                <MessageInputReduxForm onSubmit={addMessage}/>
             </div>
         </div>
     )
