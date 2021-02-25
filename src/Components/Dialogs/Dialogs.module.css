@@ -1,25 +1,30 @@
 .Dialogs {
     display: grid;
-    grid-template-columns: 170px 1fr;
-    grid-template-rows: 425px 50px;
+    grid-template-columns: 170px 5fr 2fr;
+    grid-template-rows: 425px 60px;
     grid-column-gap: 10px;
     grid-template-areas:
-    'dialog message'
-    'dialog input';
+    'dialog message friendBar'
+    'dialog input friendBar';
 }
 .HiddenDialogs {
     display: grid;
-    grid-template-columns: 170px 805px;
+    grid-template-columns: 170px 5fr 2fr;
     grid-template-rows: 425px 50px;
     grid-column-gap: 10px;
     grid-template-areas:
-    'message message'
-    'input input';
+    'message message friendBar'
+    'input input friendBar';
 }
 .HideButton {
     margin-top: 40px;
 }
 
+.FriendBar {
+    grid-area: friendBar;
+    border: #aeb8c2 solid 1px;
+    border-radius: 3px;
+}
 .DialogsItem{
     padding: 10px;
     background-color: azure;

@@ -5,7 +5,7 @@ import userPhoto
 import {NavLink} from "react-router-dom";
 
 
-const UserElement = React.memo(({user,followIsProgressing,FollowOrUnfollow}) => {
+const UserElement = React.memo(({user,followIsProgressing,FollowOrUnfollow, isFriend}) => {
     return <div>
         <span>
             <div>
@@ -16,20 +16,16 @@ const UserElement = React.memo(({user,followIsProgressing,FollowOrUnfollow}) => 
             <div>
                 {(user.followed)
                     ? <button disabled={followIsProgressing.some(id => id === user.id)}
-                        onClick={() => {FollowOrUnfollow(user.id,false)}}>Unfollow</button>
+                        onClick={() => {FollowOrUnfollow(user.id,false,isFriend)}}>Unfollow</button>
 
                     : <button disabled={followIsProgressing.some(id => id === user.id)}
-                        onClick={() => {FollowOrUnfollow(user.id,true)}}>Follow</button>}
+                        onClick={() => {FollowOrUnfollow(user.id,true,isFriend)}}>Follow</button>}
             </div>
         </span>
         <span>
             <span>
                 <div>{user.name}</div>
                 <div> {user.status}</div>
-            </span>
-            <span>
-                <div>Москва</div>
-                <div>Россия</div>
             </span>
         </span>
     </div>

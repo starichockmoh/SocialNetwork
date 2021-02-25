@@ -16,9 +16,9 @@ const Friends = (props) => {
             {props.isFetching ? <Preloader/> :
                 props.friends.map(u => <UserElement key={u.id}
                                                   user={u}
-                                                  toggleFollow={props.toggleFollow}
                                                   followIsProgressing={props.followIsProgressing}
                                                   FollowOrUnfollow={props.FollowOrUnfollow}
+                                                    isFriend = {true}
                 />)
 
             }

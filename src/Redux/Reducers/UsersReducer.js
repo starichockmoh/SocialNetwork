@@ -14,7 +14,7 @@ const SET_CURRENT_SEARCH_TERM = 'SET_CURRENT_SEARCH_TERM'
 let InitialState = {
     users: [],
     friends: [],
-    pageSize: 15,
+    pageSize: 5,
     totalUsersCount: 19,
     totalFriendsCount: 3,
     isFetching: false,
@@ -42,14 +42,23 @@ const UsersReducer = (state = InitialState, action) => {
                 currentPage: action.page
             }
         case FOLLOW_TOGGLE:
-            return {
-                ...state,
-                users: state.users.map(u => {
+            let HelperUsersArray = (array) => {
+                return array.map(u => {
                     if (u.id === action.userId) {
                         return {...u, followed: !u.followed}
                     }
                     return u
                 })
+            }
+            if (action.isFriend) {
+                return {
+                    ...state,
+                    friends: HelperUsersArray(state.friends)
+                }
+            }
+            return {
+                ...state,
+                users: HelperUsersArray(state.users)
             }
         case SET_USERS:
             if (action.isFriendsArray){
@@ -90,14 +99,12 @@ const UsersReducer = (state = InitialState, action) => {
     }
 }
 
-export const toggleFollowProgressing = (isProgressing, userId) => ({
-    type: TOGGLE_FOLLOW_PROGRESSING,
-    isProgressing,
-    userId
+export const toggleFollowProgressing = (isProgressing, userId,isFriend) => ({
+    type: TOGGLE_FOLLOW_PROGRESSING, isProgressing, userId, isFriend
 })
 export const setCurrentFriendPageAC = (FriendsPage) => ({type: SET_CURRENT_FRIEND_PAGE,FriendsPage})
 export const setCurrentPageAC = (page) => ({type: SET_CURRENT_PAGE,page})
-export const toggleFollow = (userId) => ({type: FOLLOW_TOGGLE, userId})
+export const toggleFollow = (userId,isFriend) => ({type: FOLLOW_TOGGLE, userId,isFriend})
 export const setUsers = (users,isFriendsArray) => ({type: SET_USERS, users,isFriendsArray})
 export const setTotalUsersCount = (totalUsersCount, isFriends=false) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount,isFriends})
 export const setFetching = (isFetching) => ({type: SET_FETCHING, isFetching})
@@ -115,16 +122,16 @@ export const requestUsers = (currentPage, pageSize, friend=false,term='') => asy
     dispatch(setTotalUsersCount(response.totalCount,friend))//сетаем общее число юзеров
 
 }
-export const FollowOrUnfollow = (userId,follow) => async (dispatch) => {
+export const FollowOrUnfollow = (userId,follow,isFriend = false) => async (dispatch) => {
     dispatch(toggleFollowProgressing(true, userId))
     if (follow){
         let response = await UserAPI.followUser(userId)
         if (response.resultCode === 0) {
-            dispatch(toggleFollow(userId))
+            dispatch(toggleFollow(userId,isFriend))
         }}
     else {let response = await UserAPI.unfollowUser(userId)
         if (response.resultCode === 0) {
-            dispatch(toggleFollow(userId))
+            dispatch(toggleFollow(userId,isFriend))
         }}
     dispatch(toggleFollowProgressing(false, userId))
 }

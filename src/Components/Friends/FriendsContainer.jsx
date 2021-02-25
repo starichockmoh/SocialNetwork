@@ -6,27 +6,24 @@ import {
     FollowOrUnfollow,
     requestUsers,
     setCurrentFriendPageAC,
-    setCurrentPageAC
 } from "../../Redux/Reducers/UsersReducer";
 import {
-    getFollowIsProgressing, getFriends,
+    getFollowIsProgressing,
     getIsFetching,
-    getPageSize,
-    getTotalUsersCount, getUsersSuper
+    getPageSize
 } from "../../Redux/Selectors/UsersSelector";
 import Friends from "./Friends";
 
 class FriendsContainer extends React.Component {
     componentDidMount() {
         let {pageSize,currentFriendPage} = this.props
-        if (this.props.friends.length === 0) {
-            this.props.requestUsers(currentFriendPage,pageSize,true)
-        }
+        this.props.requestUsers(currentFriendPage,9,true)
+
 
     }
     onPageChanged = (p) => {
         let {pageSize} = this.props
-        this.props.requestUsers(p,pageSize, true)
+        this.props.requestUsers(p,9, true)
     }
 
     render() {

@@ -3,6 +3,9 @@ import s from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import MessageInputReduxForm from "./DialogsForm";
 import UserDialog from "./UserDialog";
+import 'antd/dist/antd.css';
+import {Button} from 'antd';
+import TestFriendBar from "./FriendBarForDialogs/TestFriendBar";
 
 
 const Dialogs = (props) => {
@@ -26,14 +29,17 @@ const Dialogs = (props) => {
     return (
         <div className={isShowDialogsMenu? s.Dialogs: s.HiddenDialogs}>
             {isShowDialogsMenu? <div className={s.DialogsItem}>
-                <button onClick={() => {setIsShowDialogsMenu(false)}}> Hide Dialogs</button>
+                <Button onClick={() => {setIsShowDialogsMenu(false)}}> Hide Dialogs</Button>
                 {DialogsElements}
-            </div>: <button className={s.HideButton} onClick={() => {setIsShowDialogsMenu(true)}}> Show Dialogs </button>}
+            </div>: <Button className={s.HideButton} onClick={() => {setIsShowDialogsMenu(true)}}> Show Dialogs </Button>}
 
             <div className={s.Messages}>
                 <div><UserDialog UserInfo={UserInfo && UserInfo[0]} DeleteMessage={props.DeleteMessage}
                                  UserId={props.UserId}
                                  CurrentUserId={props.CurrentUserId} MessagesData={props.MessagesData}/></div>
+            </div>
+            <div className={s.FriendBar}>
+                <TestFriendBar AddNewDialog = {props.AddNewDialog} FriendsArray = {props.Friends}/>
             </div>
             <div className={s.NewMessage}>
                 <MessageInputReduxForm onSubmit={addMessage}/>

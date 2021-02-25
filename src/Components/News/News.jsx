@@ -17,6 +17,7 @@ const News = (props) => {
             {NewPostElements}
             <textarea onChange={OnChangeNews} value={props.NewsState.NewsNewsText}/>
             <span><button onClick={OnNewsAdd}>Добавить новость </button></span>
+            {/*<embed> </embed>*/}
         </div>
     )
 }

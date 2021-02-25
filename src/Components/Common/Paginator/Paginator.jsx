@@ -1,6 +1,8 @@
 import s from "./Paginator.module.css";
 import React, {useCallback, useState} from "react";
 import {useDispatch} from "react-redux";
+import 'antd/dist/antd.css';
+import {Button} from 'antd';
 
 
 export const Paginator = React.memo(({onPageChanged, totalItems, pageSize,currentPage, currentPageAc}) => {
@@ -45,15 +47,15 @@ export const Paginator = React.memo(({onPageChanged, totalItems, pageSize,curren
     }
     return <div>
         {(pageLeft === 1)? null
-            : <span><button onClick={pageLeft > 1 && MaxLeft}>back</button>
-                <button onClick={pageLeft > 1 && changeSizeToLeft}>←</button></span> }
+            : <span><Button onClick={pageLeft > 1 && MaxLeft}>back</Button>
+                <Button onClick={pageLeft > 1 && changeSizeToLeft}>←</Button></span> }
         {pages.map(p => {
-            return <button onClick={() => {
+            return <Button onClick={() => {
                 setCurrentPage(p)
                 onPageChanged(p)
-            }} className={currentPage === p && s.currentPage}>{p}</button>
+            }} className={currentPage === p && s.currentPage}>{p}</Button>
         })}
-        <button onClick={pageRight < pagesCount && changeSizeToRight}>→</button>
-        <button onClick={pageRight < pagesCount && MaxRight}>next</button>
+        <Button onClick={pageRight < pagesCount && changeSizeToRight}>→</Button>
+        <Button onClick={pageRight < pagesCount && MaxRight}>next</Button>
     </div>
 })

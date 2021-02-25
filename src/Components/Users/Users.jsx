@@ -19,7 +19,6 @@ const Users = (props) => {
         {props.isFetching ? <Preloader/> :
                 props.users.map(u => <UserElement key={u.id}
                                                   user={u}
-                                                  toggleFollow={props.toggleFollow}
                                                   followIsProgressing={props.followIsProgressing}
                                                   FollowOrUnfollow={props.FollowOrUnfollow}
                 />)

@@ -1,8 +1,10 @@
 import s from "../Message/Message.module.css";
 import React, {useState} from "react";
-import {DeleteMessage} from "../../../Redux/Reducers/DialogsReducer";
+import {EditOutlined} from '@ant-design/icons';
+import {Button} from "antd";
 
 const Message = React.memo(props => {
+    let [ShowMenuMode, setShowMenuMode] = useState(false)
     let [DeliteMode, setDeliteMode] = useState(false)
     let activateDeliteModeToggle = () => {
         setDeliteMode(!DeliteMode)
@@ -10,13 +12,21 @@ const Message = React.memo(props => {
     const onDeleteMessage = () => {
         props.DeleteMessage(props.id, props.userId)
     }
-    return <div className={props.isImSender ? s.MessageIm : s.MessageFriend}>
-             <div className={props.viewed?s.MessageText:s.MessageTextNotViewed}>
-                 <img src={!props.isImSender && props.photo && props.photo}/>
-                 <span>{props.body} <button onClick={activateDeliteModeToggle}>...</button></span>
-                 <button onClick={onDeleteMessage} className={DeliteMode?s.Button:s.HiddenButton}>Delete</button>
+    return <div className={props.isImSender ? s.MessageIm : s.MessageFriend}
+                onMouseMove={() => {
+                    setShowMenuMode(true)
+                }}
+                onMouseLeave={() => {
+                    setShowMenuMode(false)
+                }}>
+        <div className={props.viewed ? s.MessageText : s.MessageTextNotViewed}>
+            <img src={!props.isImSender && props.photo && props.photo}/>
+            <span>
+                {props.body}
+                {ShowMenuMode && <Button icon={<EditOutlined/>} onClick={activateDeliteModeToggle}/>}
+            </span>
+            <Button onClick={onDeleteMessage} className={DeliteMode ? s.Button : s.HiddenButton}>Delete</Button>
         </div>
-        <hr className={s.line}/>
     </div>
 })
 

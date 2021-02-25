@@ -1,0 +1,14 @@
+.Friend{
+    margin: 2px;
+}
+.ActiveFriend {
+    cursor: pointer;
+    margin: 2px;
+    background-color: lightblue;
+}
+a{
+    color: black;
+}
+.FriendInfo{
+    color: black;
+}

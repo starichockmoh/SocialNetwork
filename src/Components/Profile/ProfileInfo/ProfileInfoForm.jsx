@@ -3,6 +3,8 @@ import {SpecialFormCreator} from "../../Common/FormsControls/FormControl";
 import {FieldCreator} from "../../Common/FormsControls/FieldCreator";
 import {reduxForm} from "redux-form";
 import React from "react";
+import 'antd/dist/antd.css';
+import {Button} from 'antd';
 import s from "../../Common/FormsControls/FormControl.module.css";
 
 let maxLength100 = maxLengthCreator(100)
@@ -18,8 +20,8 @@ const ProfileInfoInputForm = (props) => {
         Your contacts:
         <hr></hr>
         {Object.keys(props.initialValues.contacts).map(key => <ContactsProfileField key = {key} name= {key}/>)}
-        <button>add</button>
-        <button type={'button'} onClick={props.deactivateMode}>escape</button>
+        <button> Save </button>
+        <Button type={'button'} onClick={props.deactivateMode}> Escape </Button>
         {props.error && <div className={s.someoneError}>
             <span>{props.error}</span>
         </div>}
