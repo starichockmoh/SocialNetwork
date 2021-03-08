@@ -51,11 +51,6 @@ class App extends React.Component {
         }
         return (<div>
             <LayOut globalError={this.props.globalError} isAuth = {this.props.isAuth}/>
-            {/*<div className='app-wrapper'>*/}
-            {/*    /!*<HeaderContainer/>*!/*/}
-            {/*    /!*<Navbar/>*!/*/}
-            {/*    /!*<SuspenseMainContent globalError={this.props.globalError}/>*!/*/}
-            {/*</div>*/}
             </div>
         )
     }
