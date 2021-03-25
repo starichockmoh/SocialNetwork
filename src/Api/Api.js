@@ -32,7 +32,7 @@ export const Captcha = () => {
     return AxiosInstance.get('security/get-captcha-url')
 
 }
-export const AuthApi = {
+export const AuthAPI = {
     AuthUser() {
         return AxiosInstance.get(`auth/me`)
             .then(response => {

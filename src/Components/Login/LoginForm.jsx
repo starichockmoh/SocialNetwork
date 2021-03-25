@@ -16,9 +16,7 @@ const LoginForm = (props) => {
         {props.error && props.error !== 'Incorrect anti-bot symbols' && <div className={styles.someoneError}>
             <span>{props.error}</span>
         </div>}
-        {}
         {props.CaptchaImg !== '' ?  <CaptchaControl CaptchaImg={props.CaptchaImg}/>:null}
-
         <div>
             <button>LOG IN</button>
         </div>

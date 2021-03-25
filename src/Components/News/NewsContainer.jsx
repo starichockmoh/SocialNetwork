@@ -1,7 +1,7 @@
 import React from "react";
-import {addNewText, addNewPost} from "../../Redux/Reducers/NewsReducer";
 import News from "./News";
 import {connect} from "react-redux";
+import {addNewPost, addNewText} from "../../Redux/Reducers/NewsReducer";
 
 
 let mapStateToProps = (state) => {

@@ -33,10 +33,13 @@ const ProfileInfo = (props) => {
         setProfileEditeMode(false)
     }
     let changeProfile = (data) => {
+        console.log(data)
         props.UpdateProfileInfo(props.CurrentUserId, data)
     }
     const onMainPhotoSelected = (e) => {
         if (e.file) {
+            debugger
+            console.log(e.file)
             props.saveMainPhoto(e.file)
         }
     }

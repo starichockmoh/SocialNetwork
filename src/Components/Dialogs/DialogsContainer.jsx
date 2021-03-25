@@ -10,6 +10,7 @@ import {requestUsers} from "../../Redux/Reducers/UsersReducer";
 class DialogContainer extends React.Component {
     componentDidMount() {
         let userId = this.props.match.params.userId
+        console.log(typeof userId)
         if (userId){
             this.props.ShowMessages(userId)
         }

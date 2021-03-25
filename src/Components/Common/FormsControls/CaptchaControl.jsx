@@ -8,7 +8,7 @@ const CaptchaControl = (props) => {
     const SpecialInput = SpecialFormCreator('input')
     return <div className={s.CaptchaControl}>
         <span className={s.CaptchaSpan}>Write captcha</span>
-        <img className={s.CaptchaImg} src={props.CaptchaImg}/>
+        <img className={s.CaptchaImg} src={props.CaptchaImg} alt={''}/>
         {FieldCreator('captcha',[], SpecialInput,'Enter captcha',{className: s.CaptchaInput})}
     </div>
 }

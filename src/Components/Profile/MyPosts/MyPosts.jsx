@@ -5,7 +5,6 @@ import PostInputReduxForm from "./MyPostsForm";
 
 
 const MyPosts = React.memo(props => {
-    console.log(props)
     let PostsElements = [...props.PostsState].map(p => <Post deleteProfilePost = {props.deleteProfilePost} key={p.id} message={p.message} likecount={p.likecount}
                                                         id={p.id}/>);
     let addPost = (dataForm) => {
