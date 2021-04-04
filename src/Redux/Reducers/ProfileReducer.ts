@@ -1,8 +1,10 @@
 import {UserAPI} from "../../Api/Api";
-import {SetCurrentUserProfile} from "./AuthReducer";
+import {SetCurrentUserProfile, SetCurrentUserProfileActionType} from "./AuthReducer";
 import {stopSubmit} from "redux-form";
 import {HelperStopSubmit} from "../../Utils/HelperStopSubmit";
-import {PhotosType, PostType, ProfileType} from "../../Types/Types";
+import {PhotosType, PostType, ProfileType, ResultCodesEnum} from "../../Types/Types";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "../ReduxStore";
 
 
 const PROFILE_ADD_POST = 'PROFILE_ADD_POST'
@@ -27,7 +29,7 @@ let InitialState = {
 }
 export type InitialStateType = typeof InitialState
 
-const ProfileReducer = (state:InitialStateType = InitialState, action:any):InitialStateType => {
+const ProfileReducer = (state:InitialStateType = InitialState, action: ActionsType):InitialStateType => {
     switch (action.type) {
         case SUBMIT_WAS_SUCCESS: {
             return {
@@ -78,6 +80,11 @@ const ProfileReducer = (state:InitialStateType = InitialState, action:any):Initi
             return state
     }
 }
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsType>
+
+type ActionsType = deleteProfilePostActionType | submitWasSuccessActionType | addNewPostActionType |
+    setProfileActionType | setProfileStatusActionType | updateProfilePhotoActionType |
+    isFetchingPhotoToggleActionType
 
 type deleteProfilePostActionType = {
     type: typeof PROFILE_DELETE_POST
@@ -114,42 +121,52 @@ export const setProfileStatus = (status:string):setProfileStatusActionType => ({
 const updateProfilePhoto = (photo:PhotosType):updateProfilePhotoActionType => ({type: PROFILE_UPDATE_PHOTO, photo})
 const isFetchingPhotoToggle = ():isFetchingPhotoToggleActionType => ({type: PROFILE_IS_FETCHING_PHOTO_TOGGLE})
 
-export const getProfileStatus = (userId:string) => async (dispatch: Function) => {
+export const getProfileStatus = (userId:string | number): ThunkType  =>
+    async (dispatch,getState) => {
     let response = await UserAPI.getProfileStatus(userId)
     dispatch(setProfileStatus(response))
 
 }
-export const UpdateProfileStatus = (status:string) => async (dispatch: Function) => {
-        let response = await UserAPI.updateStatus(status)
-        if (response.data.resultCode === 0) {
+export const UpdateProfileStatus = (status:string) : ThunkType  =>
+    async (dispatch,getState) => {
+        let data = await UserAPI.updateStatus(status)
+        if (data.resultCode === ResultCodesEnum.Success) {
             dispatch(setProfileStatus(status))
         }
 
 }
-export  const UpdateProfileInfo = (id: number, profile: ProfileType) => async (dispatch: Function) => {
+export  const UpdateProfileInfo = (id: number, profile: ProfileType) : ThunkType  =>
+    async (dispatch,getState) => {
     let response = await UserAPI.changeProfile(id, {...profile})
-    if (response.resultCode === 0) {
+    if (response.resultCode === ResultCodesEnum.Success) {
         dispatch(getProfile(id))
         dispatch(submitWasSuccess(true))
     }
     else {
         let errorMessages = response.messages.length > 0 ? response.messages : 'Some error'
-        dispatch(stopSubmit('ProfileInfoInput', {'contacts' : {...HelperStopSubmit(errorMessages)}}))
+        if (typeof errorMessages !== "string"){
+            dispatch(stopSubmit('ProfileInfoInput', {'contacts' : {...HelperStopSubmit(errorMessages)}}))
+        }
+       else {
+            dispatch(stopSubmit('ProfileInfoInput', {_error: errorMessages}))
+        }
     }
 
 }
-export const getProfile = (userId: string | number) => async (dispatch: Function) => {
-    let response = await UserAPI.getUserProfile(userId)
-    dispatch(setProfile(response))
+export const getProfile = (userId: string | number) : ThunkType =>
+    async (dispatch,getState) => {
+    let data = await UserAPI.getUserProfile(userId)
+    dispatch(setProfile(data))
 
 }
-export const saveMainPhoto = (photo:any) => async (dispatch: Function) => {
+export const saveMainPhoto = (photo:any) : ThunkAction<Promise<void>, AppStateType, any, ActionsType | SetCurrentUserProfileActionType>  =>
+    async (dispatch,getState) => {
     dispatch(isFetchingPhotoToggle())
-    let response = await UserAPI.changeMainPhoto(photo)
-    if (response.data.resultCode === 0){
+    let data = await UserAPI.changeMainPhoto(photo)
+    if (data.resultCode === ResultCodesEnum.Success){
         dispatch(isFetchingPhotoToggle())
-        dispatch(updateProfilePhoto(response.data.data.photos))
-        dispatch(SetCurrentUserProfile(response.data.data.photos.large))
+        dispatch(updateProfilePhoto(data.photos))
+        dispatch(SetCurrentUserProfile(data.photos.large))
     }
 }
 

@@ -1,5 +1,7 @@
 import {DialogsApi} from "../../Api/Api";
-import {DialogsType, MessagesType} from "../../Types/Types";
+import {DialogsType, MessagesType, ResultCodesEnum} from "../../Types/Types";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "../ReduxStore";
 
 const SET_DIALOGS = 'SET_DIALOGS'
 const SET_MESSAGES = 'SET_MESSAGES'
@@ -15,7 +17,7 @@ let InitialState: InitialStateType = {
     MessagesData: null
 }
 
-const DialogReducer = (state = InitialState, action: any):InitialStateType => {
+const DialogReducer = (state = InitialState, action: ActionsType):InitialStateType => {
     switch (action.type) {
         case ADD_NEW_MESSAGE: {
             return {
@@ -39,6 +41,9 @@ const DialogReducer = (state = InitialState, action: any):InitialStateType => {
             return state
     }
 }
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsType>
+type ActionsType = ShowMessagesACType | SetDialogsActionType | AddNewMessageActionType
+
 type ShowMessagesACType = {
     type: typeof SET_MESSAGES
     messagesData: Array<MessagesType>
@@ -51,34 +56,39 @@ type AddNewMessageActionType = {
     type: typeof ADD_NEW_MESSAGE
     newMessage: MessagesType
 }
-const ShowMessagesAC = (messagesData: any):ShowMessagesACType => ({type: SET_MESSAGES, messagesData})
-const SetDialogs = (dialogsData:any): SetDialogsActionType => ({type: SET_DIALOGS, dialogsData})
-const AddNewMessage = (newMessage: any):AddNewMessageActionType => ({type: ADD_NEW_MESSAGE, newMessage})
+const ShowMessagesAC = (messagesData: Array<MessagesType>):ShowMessagesACType => ({type: SET_MESSAGES, messagesData})
+const SetDialogs = (dialogsData:Array<DialogsType>): SetDialogsActionType => ({type: SET_DIALOGS, dialogsData})
+const AddNewMessage = (newMessage: MessagesType):AddNewMessageActionType => ({type: ADD_NEW_MESSAGE, newMessage})
 
 
-export const AddNewDialog = (id: string) => async (dispatch: Function) => {
-    let response = await DialogsApi.PutDialog(id)
-    if (response.data.resultCode === 0) {
+export const AddNewDialog = (id: number) : ThunkType  =>
+    async (dispatch,getState) => {
+    let data = await DialogsApi.PutDialog(id)
+    if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(ShowDialogs())
     }
 }
-export const ShowDialogs = () => async (dispatch: Function) => {
-    let response = await DialogsApi.GetDialogs()
-    dispatch(SetDialogs(response.data))
+export const ShowDialogs = () : ThunkType  =>
+    async (dispatch,getState) => {
+    let data = await DialogsApi.GetDialogs()
+    dispatch(SetDialogs(data))
 }
-export const ShowMessages = (id: string) => async (dispatch: Function) => {
-    let response = await DialogsApi.GetUserDialog(id)
-    dispatch(ShowMessagesAC(response.data.items))
+export const ShowMessages = (id: string) : ThunkType  =>
+    async (dispatch,getState) => {
+    let data = await DialogsApi.GetUserDialog(id)
+    dispatch(ShowMessagesAC(data.items))
 }
-export const SendMessage = (userid: string,message: string) => async (dispatch: Function) => {
-    let response = await DialogsApi.PutMessage(userid, message)
-    if (response.data.resultCode === 0) {
-        dispatch(AddNewMessage(response.data.data.message))
+export const SendMessage = (userid: string,message: string) : ThunkType  =>
+    async (dispatch,getState) => {
+    let data = await DialogsApi.PutMessage(userid, message)
+    if (data.resultCode === ResultCodesEnum.Success) {
+        dispatch(AddNewMessage(data.data.message))
     }
 }
-export const DeleteMessage = (messageId:string, userID:string) => async (dispatch: Function) => {
-    let response = await DialogsApi.DeleteMessage(messageId)
-    if (response.data.resultCode === 0){
+export const DeleteMessage = (messageId:string, userID:string) : ThunkType =>
+    async (dispatch,getState) => {
+    let data = await DialogsApi.DeleteMessage(messageId)
+    if (data.resultCode=== ResultCodesEnum.Success){
         dispatch(ShowMessages(userID))
     }
 }

@@ -7,11 +7,11 @@ type NewsPostType = {
     Avtor: string
     Img: string
 }
-type InitialStateType = {
+export type InitialStateNewsType = {
     NewsPost: Array<NewsPostType>
     NewsNewsText: string
 }
-let InitialState: InitialStateType = {
+let InitialState: InitialStateNewsType = {
     NewsPost: [
         {Text: 'Сегодня баба Нюра засолила огурцы', id: 1, Avtor: 'Vasya Totechkin', Img: ''},
         {Text: 'Сегодня баба Нюра засолила огурцы', id: 2, Avtor: 'Vasya Totechkin', Img: ''},
@@ -23,7 +23,7 @@ let InitialState: InitialStateType = {
 }
 
 
-const NewsReducer = (state = InitialState, action:any):InitialStateType => {
+const NewsReducer = (state = InitialState, action:ActionsType):InitialStateNewsType => {
     switch (action.type) {
         case ADD_NEWS: {
             let NewPost = {
@@ -47,7 +47,7 @@ const NewsReducer = (state = InitialState, action:any):InitialStateType => {
             return state
     }
 }
-
+type ActionsType = addNewPostActionType | addNewTextActionType
 type addNewPostActionType = {
     type: typeof ADD_NEWS
 }
@@ -56,9 +56,11 @@ type addNewTextActionType = {
     newText: string
 }
 export const addNewPost = ():addNewPostActionType => ({type: ADD_NEWS})
+export type addNewPostType = typeof addNewPost
 export const addNewText = (text:string):addNewTextActionType => ({
     type: UPDATE_NEWS,
     newText: text
 })
+export type addNewTextType = typeof addNewText
 
 export default NewsReducer

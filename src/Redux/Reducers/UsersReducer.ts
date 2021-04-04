@@ -1,5 +1,8 @@
 import {UserAPI} from "../../Api/Api";
-import { UserType } from "../../Types/Types";
+import {ResultCodesEnum, UserType} from "../../Types/Types";
+import {Dispatch} from "redux";
+import {AppStateType} from "../ReduxStore";
+import {ThunkAction} from "redux-thunk";
 
 const FOLLOW_TOGGLE = 'FOLLOW_USER_TOGGLE'
 const SET_USERS = 'SET_USERS'
@@ -24,7 +27,7 @@ let InitialState = {
     currentSearchTerm: ''
 };
 type InitialStateType = typeof InitialState
-const UsersReducer = (state = InitialState, action: any):InitialStateType => {
+const UsersReducer = (state = InitialState, action: ActionsType):InitialStateType => {
     switch (action.type) {
         case SET_CURRENT_SEARCH_TERM:
             return {
@@ -99,18 +102,20 @@ const UsersReducer = (state = InitialState, action: any):InitialStateType => {
     }
 }
 
-
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsType>
+type ActionsType = toggleFollowProgressingActionType | setCurrentFriendPageACType | setCurrentPageACType | toggleFollowActionType |
+    setUsersActionType | setTotalUsersCountActionType | setFetchingActionType | setCurrentSearchTermActionType
 type toggleFollowProgressingActionType = {
     type: typeof TOGGLE_FOLLOW_PROGRESSING
     isProgressing: boolean
     userId: number
     isFriend: boolean
 }
-type setCurrentFriendPageACType = {
+export type setCurrentFriendPageACType = {
     type: typeof SET_CURRENT_FRIEND_PAGE
     FriendsPage: number
 }
-type setCurrentPageACType = {
+export type setCurrentPageACType = {
     type: typeof SET_CURRENT_PAGE
     page:number
 }
@@ -149,7 +154,9 @@ export const setTotalUsersCount = (totalUsersCount:number, isFriends=false): set
 export const setFetching = (isFetching:boolean): setFetchingActionType => ({type: SET_FETCHING, isFetching})
 export const setCurrentSearchTerm = (term:string): setCurrentSearchTermActionType => ({type: SET_CURRENT_SEARCH_TERM,term})
 
-export const requestUsers = (currentPage:number, pageSize:number, friend=false,term='') => async (dispatch:Function) => {
+//Пример типизации санки через Dispatch<>
+export const requestUsers = (currentPage:number, pageSize:number, friend=false,term='') =>
+    async (dispatch:Dispatch<ActionsType>, getState: () => AppStateType) => {
     dispatch(setFetching(true))   //активируем крутилку
     if (term) {
         dispatch(setCurrentSearchTerm(term))
@@ -160,15 +167,17 @@ export const requestUsers = (currentPage:number, pageSize:number, friend=false,t
     dispatch(setTotalUsersCount(response.totalCount,friend))//сетаем общее число юзеров
 
 }
-export const FollowOrUnfollow = (userId:number,follow:boolean,isFriend = false) => async (dispatch:Function) => {
+//Пример типизации санки через ThunkAction<>
+export const FollowOrUnfollow = (userId:number,follow:boolean,isFriend = false):ThunkType =>
+    async (dispatch,getState) => {
     dispatch(toggleFollowProgressing(true, userId, isFriend))
     if (follow){
         let response = await UserAPI.followUser(userId)
-        if (response.resultCode === 0) {
+        if (response.resultCode === ResultCodesEnum.Success) {
             dispatch(toggleFollow(userId,isFriend))
         }}
     else {let response = await UserAPI.unfollowUser(userId)
-        if (response.resultCode === 0) {
+        if (response.resultCode === ResultCodesEnum.Success) {
             dispatch(toggleFollow(userId,isFriend))
         }}
     dispatch(toggleFollowProgressing(false, userId, isFriend))

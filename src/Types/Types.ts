@@ -1,3 +1,6 @@
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "../Redux/ReduxStore";
+
 export type PhotosType = {
     small: string | null
     large: string | null
@@ -15,18 +18,21 @@ export type PostType = {
     likecount: number
 }
 export type ContactsType = {
-    github: string
-    vk: string
-    facebook: string
-    instagram: string
-    twitter: string
-    website: string
-    youtube: string
-    mainLink: string
+    [key: string]: string;
+    [key: number]: string;
+    ['github']: string
+    ['vk']: string
+    ['facebook']: string
+    ['instagram']: string
+    ['twitter']: string
+    ['website']: string
+    ['youtube']: string
+    ['mainLink']: string
 }
 
 export type ProfileType = {
     userId: number
+    aboutMe: number
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
@@ -51,4 +57,9 @@ export type MessagesType = {
     senderName: string
     translatedBody: null
     viewed: boolean
+}
+export enum ResultCodesEnum {
+    Success = 0,
+    Error = 1,
+    CaptchaIsRequired = 10
 }
