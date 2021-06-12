@@ -26,7 +26,7 @@ const ProfileInfoInputForm: React.FC<PropsType> = ({handleSubmit,error, initialV
         {FieldCreator('lookingForAJob',null, SpecialInput,'',{type: 'checkbox'},'Looking for a job:')}
         {FieldCreator('lookingForAJobDescription', [required], SpecialTextArea, 'Descriptions for looking', null)}
         Your contacts:
-        <hr></hr>
+
         {Object.keys(initialValues.contacts).map(key => <ContactsProfileField key = {key} name= {key}/>)}
         <Button htmlType = {"submit" }> Save </Button>
 

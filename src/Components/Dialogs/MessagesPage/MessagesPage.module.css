@@ -1,0 +1,18 @@
+.MessagesBody{
+    font-size: 20px;
+}
+.MessagesAuthor{
+    font-size: 15px;
+}
+.Message{
+    margin: 5px;
+}
+.MyMessage{
+    margin-right: 100px;
+    text-align: right;
+}
+
+.MyMessageDate{
+    color: #CCC;
+    font-size: 85%;
+}

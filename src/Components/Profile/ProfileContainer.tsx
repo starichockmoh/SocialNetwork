@@ -1,85 +1,35 @@
-import React from "react";
-import Profile from "./Profile";
-import {connect} from "react-redux";
-import {
-    getProfile,
-    getProfileStatus, saveMainPhoto, UpdateProfileInfo,
-    UpdateProfileStatus
-} from "../../Redux/Reducers/ProfileReducer";
-import {withRouter} from "react-router-dom"
-import {withAuthRedirect} from "../../HOC/withAuthRedirect";
-import {compose} from "redux";
-import {AddNewDialog} from "../../Redux/Reducers/DialogsReducer";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {getProfile, getProfileStatus} from "../../Redux/Reducers/ProfileReducer";
+import {useParams} from "react-router-dom"
 import {AppStateType} from "../../Redux/ReduxStore";
-import {ProfileType} from "../../Types/Types";
-
-type MapStateToPropsType = {
-    CurrentUserId: number | null
-    ProfileInfo: ProfileType | null
-    isFetching: boolean
-    submitWasSuccess: boolean
-    ProfileStatus: string
-}
-type MapDispatchToPropsType = {
-    getProfile: (userId: string | number) => void
-    getProfileStatus: (userId:string | number) => void
-    UpdateProfileStatus: (status:string) => void
-    UpdateProfileInfo: (id: number, profile: ProfileType) => void
-    saveMainPhoto: (photo:any) => void
-    AddNewDialog: (id: number) => void
-}
-
-type OwnPropsType = {
-    match:any
-}
-type PropsType = OwnPropsType & MapDispatchToPropsType & MapStateToPropsType
+import s from "./Profile.module.css";
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
 
+const ProfilePage: React.FC = () => {
+    const {userId} = useParams() as any
+    const dispatch = useDispatch()
+    const CurrentUserId = useSelector((state: AppStateType) => state.Auth.CurrentUserId)
 
-class ProfileContainerClass extends React.Component<PropsType> {
-    componentDidMount() {
-        let userId = this.props.match.params.userId
+    useEffect(() => {
         if (!userId) {
-            userId = this.props.CurrentUserId
-            this.props.getProfile(userId)
-            this.props.getProfileStatus(userId)
-
-        } else {
-            this.props.getProfileStatus(userId)
-            this.props.getProfile(userId)
+            dispatch(getProfile(CurrentUserId))
+            dispatch(getProfileStatus(CurrentUserId))
         }
-    }
-    componentDidUpdate(prevProps:Readonly<PropsType>) {
-        if (!this.props.match.params.userId && prevProps.match.params.userId && this.props.CurrentUserId !== null) {
-            this.props.getProfile(this.props.CurrentUserId)
-            this.props.getProfileStatus(this.props.CurrentUserId)
+        else {
+            dispatch(getProfile(userId))
+            dispatch(getProfileStatus(userId))
         }
-    }
-
-    render() {
-        return <Profile {...this.props} ProfileInfo={this.props.ProfileInfo}/>
-    }
+    }, [userId, dispatch, CurrentUserId])
+    return (<div className={s.Profile}>
+            <ProfileInfo/>
+            <MyPostsContainer/>
+        </div>
+    );
 }
 
-let mapStateToProps = (state: AppStateType):MapStateToPropsType => {
-    return {
-        ProfileInfo: state.ProfilePage.ProfileInfo,
-        CurrentUserId: state.Auth.CurrentUserId,
-        ProfileStatus: state.ProfilePage.ProfileStatus,
-        isFetching: state.ProfilePage.isFetching,
-        submitWasSuccess: state.ProfilePage.submitWasSuccess,
-    }
-}
 
-const ProfileContainer:any = compose(
-    connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-        getProfile,
-        getProfileStatus, UpdateProfileStatus, UpdateProfileInfo, saveMainPhoto, AddNewDialog
-    }),
-    withRouter,
-    withAuthRedirect
-)(ProfileContainerClass)
-
-
-export default ProfileContainer
+export default ProfilePage
 

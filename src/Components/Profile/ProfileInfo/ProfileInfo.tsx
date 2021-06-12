@@ -7,38 +7,35 @@ import StatusWithHooks from "./Status/StatusWithHooks";
 import ProfileInfoForm from "./ProfileInfoForm";
 import ProfileDescriptionBlock from "./ProfileDescriptionBlock";
 import ProfilePhotoInputFile from "./FileInputs/ProfilePhotoInputFile";
-import {useDispatch} from "react-redux";
-import {submitWasSuccess} from "../../../Redux/Reducers/ProfileReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {ProfileActions, saveMainPhoto, UpdateProfileInfo} from "../../../Redux/Reducers/ProfileReducer";
 import {NavLink} from "react-router-dom";
 import 'antd/dist/antd.css';
 import {Button} from 'antd';
 import AvatarInput from "./FileInputs/AvatarInput";
-import {ProfileType} from "../../../Types/Types";
-import {FormSubmitHandler} from "redux-form";
+import {AppStateType} from "../../../Redux/ReduxStore";
+import {AddNewDialog} from "../../../Redux/Reducers/DialogsReducer";
 
-type PropsType = {
-    CurrentUserId: number | null
-    ProfileInfo: ProfileType | null
-    isFetching: boolean
-    submitWasSuccess: boolean
-    ProfileStatus: string
+const ProfileInfo: React.FC = () => {
+    const ProfileInfo = useSelector((state: AppStateType) => state.ProfilePage.ProfileInfo)
 
-    UpdateProfileStatus: (status: string) => void
-    UpdateProfileInfo: (id: number, profile: ProfileType) => void
-    saveMainPhoto: (photo: any) => void
-    AddNewDialog: (id: number) => void
-}
-const ProfileInfo: React.FC<PropsType> = (props) => {
-    let DialogUrl: string = props.ProfileInfo? '/dialogs/' + props.ProfileInfo.userId: ''
-    let dispatch = useDispatch()
+    const isFetching = useSelector((state: AppStateType) => state.ProfilePage.isFetching)
+    const submitWasSuccess = useSelector((state: AppStateType) =>  state.ProfilePage.submitWasSuccess)
+    const CurrentUserId = useSelector((state: AppStateType) => state.Auth.CurrentUserId)
+    const DialogUrl: string = ProfileInfo? '/dialogs/' + ProfileInfo.userId: ''
+    const dispatch = useDispatch()
+
+
     useEffect(() => {
-        if (props.submitWasSuccess) {
+        if (submitWasSuccess) {
             deactivateMode()
-            dispatch(submitWasSuccess(false))
+            dispatch(ProfileActions.submitWasSuccess(false))
         }
-    }, [props.submitWasSuccess, dispatch])
+    }, [submitWasSuccess, dispatch])
+
     let [ProfileEditMode, setProfileEditeMode] = useState(false)
     let [isShowUploadButton, setUploadButtonState] = useState(false)
+
     let activateMode = () => {
         setProfileEditeMode(true)
     }
@@ -46,26 +43,28 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
         setProfileEditeMode(false)
     }
     let changeProfile = (data: any) => {
-        if (props.CurrentUserId !== null) {
-            props.UpdateProfileInfo(props.CurrentUserId, data)
+        if (CurrentUserId !== null) {
+            dispatch(UpdateProfileInfo(CurrentUserId, data))
         }
 
     }
     const onMainPhotoSelected = (e: any) => {
         if (e.file) {
-            props.saveMainPhoto(e.file)
+            dispatch(saveMainPhoto(e.file))
         }
     }
     const startDialog = () => {
-        if (props.ProfileInfo !== null) {
-            props.AddNewDialog(props.ProfileInfo.userId)
+        if (ProfileInfo !== null) {
+            dispatch(AddNewDialog(ProfileInfo.userId))
         }
-
     }
-    if (!props.ProfileInfo) {
+
+    if (!ProfileInfo) {
         return <Preloader/>
     }
-    const IDisCurrent: boolean = props.ProfileInfo.userId === props.CurrentUserId
+
+    const IDisCurrent: boolean = ProfileInfo.userId === CurrentUserId
+
     return (
         <div>
             <div onMouseMove={() => {
@@ -78,12 +77,12 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
                 {ProfileEditMode
                     ? <AvatarInput
                         IDisCurrent={IDisCurrent}
-                        avatar={props.ProfileInfo.photos.large ? props.ProfileInfo.photos.large : UserPhoto}
+                        avatar={ProfileInfo.photos.large ? ProfileInfo.photos.large : UserPhoto}
                         onMainPhotoSelected={onMainPhotoSelected}/>
-                    : props.isFetching ? <Preloader/> :
+                    : isFetching ? <Preloader/> :
                         <div>
                             <img className={s.img1} alt='avatar'
-                                 src={props.ProfileInfo.photos.large ? props.ProfileInfo.photos.large : UserPhoto}/>
+                                 src={ProfileInfo.photos.large ? ProfileInfo.photos.large : UserPhoto}/>
                         </div>
                 }
                 {IDisCurrent && !ProfileEditMode && isShowUploadButton &&
@@ -94,8 +93,7 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
             </div>
 
             <div className={s.statusBlock}>
-                <StatusWithHooks UpdateProfileStatus={props.UpdateProfileStatus} ProfileStatus={props.ProfileStatus}
-                                 IDisCurrent={IDisCurrent}/>
+                <StatusWithHooks IDisCurrent={IDisCurrent}/>
             </div>
 
             <NavLink to={DialogUrl}>
@@ -104,11 +102,11 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
 
             {ProfileEditMode
                 ? <>
-                    <ProfileInfoForm initialValues={props.ProfileInfo} onSubmit={changeProfile}/>
+                    <ProfileInfoForm initialValues={ProfileInfo} onSubmit={changeProfile}/>
                     <Button onClick={deactivateMode}> Escape </Button>
                 </>
                 : <ProfileDescriptionBlock IDisCurrent={IDisCurrent} activateMode={activateMode}
-                                           ProfileInfo={props.ProfileInfo}/>
+                                           ProfileInfo={ProfileInfo}/>
             }
         </div>
     )

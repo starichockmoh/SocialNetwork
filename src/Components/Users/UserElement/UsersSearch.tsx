@@ -1,30 +1,40 @@
-import React, {ChangeEvent, useState} from "react";
-import './UsersSearch.css'
-import { Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import React from "react";
+import styles from "./UsersSearch.module.css"
+import {Button, Checkbox, Form, Input} from 'antd';
+import {SearchOutlined} from '@ant-design/icons';
+import {useDispatch} from "react-redux";
+import {requestUsers} from "../../../Redux/Reducers/UsersReducer";
+
+type ValuesType = {
+    term: string,
+    followed: boolean
+}
 
 type PropsType = {
     currentPage: number
     pageSize: number
-
-    SearchRequest: (currentPage:number, pageSize:number, friend:boolean,term: string) => void
 }
 const UsersSearch: React.FC<PropsType> = (props) => {
-    let [SearchText, ChangeSearchText] = useState('')
-    const onChangeSearchText = (e:ChangeEvent<HTMLInputElement>) => {
-        ChangeSearchText(e.target.value)
+    const dispatch = useDispatch()
+    const ActivateSearch = (values: ValuesType) => {
+        dispatch(requestUsers(props.currentPage, props.pageSize, values.followed, values.term))
     }
-    const ActiveSearch = () => {
-        props.SearchRequest(props.currentPage,props.pageSize,false,SearchText)
+    return <>
+        <Form onFinish={ActivateSearch} name="user_search" className = {styles.Search}>
+            <Form.Item name="term">
+                <Input/>
+            </Form.Item>
+            <Form.Item name="followed" valuePropName="checked">
+                <Checkbox> Only followed </Checkbox>
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit" icon={<SearchOutlined/>}>
+                    Search
+                </Button>
+            </Form.Item>
 
-    }
-    return <div>
-        <span><input value={SearchText} onChange={onChangeSearchText}/>
-          <Button className='SearchButton' type="primary" icon={<SearchOutlined />} onClick={ActiveSearch}>
-            Search
-        </Button>
-        </span>
-    </div>
+        </Form>
+    </>
 }
 
 export default UsersSearch

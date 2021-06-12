@@ -1,0 +1,24 @@
+.DialogsPage{
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.DialogItem{
+    margin-bottom: 10px;
+    width: 90%;
+    border-radius: 10px;
+}
+
+.DialogBody{
+    font-size: 20px;
+}
+
+.Content{
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+.Date{
+    font-style: italic;
+    color: darkcyan;
+}

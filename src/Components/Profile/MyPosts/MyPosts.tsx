@@ -3,7 +3,6 @@ import s from './MyPosts.module.css';
 import Post from "./Post/Post";
 import PostInputReduxForm from "./MyPostsForm";
 import {PostType} from "../../../Types/Types";
-import {addNewPost} from "../../../Redux/Reducers/ProfileReducer";
 
 
 type PropsType = {
@@ -13,10 +12,10 @@ type PropsType = {
     deleteProfilePost: (postId: number) => void
 }
 const MyPosts: React.FC<PropsType> = React.memo(({PostsState, addNewPost, deleteProfilePost}) => {
-    let PostsElements = [...PostsState].map(p => <Post deleteProfilePost={deleteProfilePost}
+    const PostsElements = [...PostsState].map(p => <Post deleteProfilePost={deleteProfilePost}
                                                        key={p.id} message={p.message} likecount={p.likecount}
                                                        id={p.id}/>);
-    let addPost = (dataForm: {postInput: string}) => {
+    const addPost = (dataForm: {postInput: string}) => {
         addNewPost(dataForm.postInput)
     }
     return (<div className={s.PostDescription}>

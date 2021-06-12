@@ -40,7 +40,7 @@ export const DialogsApi = {
             .then(res => res.data)
     },
     GetUserDialog(userId: string) {
-        let url = 'dialogs/' + userId +'/messages'
+        let url = 'dialogs/' + userId +'/messages?page=2'
         return AxiosInstance.get<GetUserDialogResponseType>(url)
             .then(res => res.data)
     },
@@ -116,7 +116,7 @@ type UniversalProfileResponseType = {
 type ChangeMainPhotoResponseType = {
     resultCode: number
     messages: Array<string>
-    photos: PhotosType
+    data: { photos: PhotosType }
 }
 export const UserAPI = {
     getUsers(currentPage = 1, pageSize = 10,friend = false,term='') {
@@ -139,14 +139,14 @@ export const UserAPI = {
                 return response.data
             })
     },
-    getUserProfile(userId: string | number) {
+    getUserProfile(userId: string | number | null) {
         return AxiosInstance.get<GetProfileResponseType>(`profile/${userId}`)
             .then(response => {
                 return response.data
             })
 
     },
-    getProfileStatus(userId:string | number){
+    getProfileStatus(userId:string | number | null){
         return AxiosInstance.get<GetStatusResponseType>(`profile/status/${userId}`)
             .then(response => {
                 return response.data

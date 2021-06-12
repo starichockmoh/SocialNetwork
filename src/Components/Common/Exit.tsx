@@ -1,32 +1,25 @@
 import React from "react";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {authLogOut} from "../../Redux/Reducers/AuthReducer";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../Redux/ReduxStore";
 
-type PropsType = {
-    isAuth: boolean
-    authLogOut: () => void
-}
-const UserExit: React.FC<PropsType> = (props) => {
+const UserExit: React.FC = () => {
+    const dispatch = useDispatch()
+    const isAuth = useSelector((state: AppStateType) => state.Auth.isAuth)
     const LogOutUser = () => {
-        props.authLogOut()
+        dispatch(authLogOut())
     }
-    if (props.isAuth) {
+    if (isAuth) {
         return <div>
+            <div>
                 Are you sure?
-                <button onClick={LogOutUser}>Yes</button>
             </div>
-    }
-    else {
+            <button onClick={LogOutUser}>Yes</button>
+        </div>
+    } else {
         return <Redirect to={"/login"}/>
     }
 
 }
-
-let mapStateToProps = (state: AppStateType) => {
-    return {
-        isAuth: state.Auth.isAuth,
-    }
-}
-export default connect(mapStateToProps, {authLogOut})(UserExit)
+export default UserExit

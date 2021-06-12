@@ -1,37 +1,30 @@
 import {DialogsApi} from "../../Api/Api";
-import {DialogsType, MessagesType, ResultCodesEnum} from "../../Types/Types";
+import {ActionsType, DialogsType, MessagesType, NullableType, ResultCodesEnum} from "../../Types/Types";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "../ReduxStore";
 
-const SET_DIALOGS = 'SET_DIALOGS'
-const SET_MESSAGES = 'SET_MESSAGES'
-const ADD_NEW_MESSAGE = 'ADD_NEW_MESSAGE'
-
-type InitialStateType = {
-    DialogsData: Array<DialogsType> | null
-    MessagesData: Array<MessagesType> | null
-
-}
-let InitialState: InitialStateType = {
-    DialogsData: null,
-    MessagesData: null
+let InitialState = {
+    DialogsData: null as  NullableType<Array<DialogsType>>,
+    MessagesData: null as NullableType<Array<MessagesType>>
 }
 
-const DialogReducer = (state = InitialState, action: ActionsType):InitialStateType => {
+type InitialStateType = typeof InitialState
+
+const DialogReducer = (state = InitialState, action: DialogsActionsType):InitialStateType => {
     switch (action.type) {
-        case ADD_NEW_MESSAGE: {
+        case "ADD_NEW_MESSAGE": {
             return {
                 ...state,
                 MessagesData: [...state.MessagesData as Array<MessagesType>, action.newMessage],
             }
         }
-        case SET_MESSAGES: {
+        case "SET_MESSAGES": {
             return {
                 ...state,
                 MessagesData: action.messagesData
             }
         }
-        case SET_DIALOGS: {
+        case "SET_DIALOGS": {
             return {
                 ...state,
                 DialogsData: action.dialogsData
@@ -41,25 +34,14 @@ const DialogReducer = (state = InitialState, action: ActionsType):InitialStateTy
             return state
     }
 }
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsType>
-type ActionsType = ShowMessagesACType | SetDialogsActionType | AddNewMessageActionType
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, DialogsActionsType>
+type DialogsActionsType = ActionsType<typeof DialogsActions>
 
-type ShowMessagesACType = {
-    type: typeof SET_MESSAGES
-    messagesData: Array<MessagesType>
+const DialogsActions = {
+    ShowMessagesAC:(messagesData: Array<MessagesType>) => ({type: "SET_MESSAGES", messagesData} as const),
+    SetDialogs:(dialogsData:Array<DialogsType>) => ({type: "SET_DIALOGS", dialogsData} as const),
+    AddNewMessage: (newMessage: MessagesType) => ({type: "ADD_NEW_MESSAGE", newMessage} as const)
 }
-type SetDialogsActionType = {
-    type: typeof SET_DIALOGS
-    dialogsData: Array<DialogsType>
-}
-type AddNewMessageActionType = {
-    type: typeof ADD_NEW_MESSAGE
-    newMessage: MessagesType
-}
-const ShowMessagesAC = (messagesData: Array<MessagesType>):ShowMessagesACType => ({type: SET_MESSAGES, messagesData})
-const SetDialogs = (dialogsData:Array<DialogsType>): SetDialogsActionType => ({type: SET_DIALOGS, dialogsData})
-const AddNewMessage = (newMessage: MessagesType):AddNewMessageActionType => ({type: ADD_NEW_MESSAGE, newMessage})
-
 
 export const AddNewDialog = (id: number) : ThunkType  =>
     async (dispatch,getState) => {
@@ -69,20 +51,21 @@ export const AddNewDialog = (id: number) : ThunkType  =>
     }
 }
 export const ShowDialogs = () : ThunkType  =>
-    async (dispatch,getState) => {
+    async (dispatch) => {
     let data = await DialogsApi.GetDialogs()
-    dispatch(SetDialogs(data))
+    dispatch(DialogsActions.SetDialogs(data))
 }
 export const ShowMessages = (id: string) : ThunkType  =>
     async (dispatch,getState) => {
     let data = await DialogsApi.GetUserDialog(id)
-    dispatch(ShowMessagesAC(data.items))
+    dispatch(DialogsActions.ShowMessagesAC(data.items))
 }
-export const SendMessage = (userid: string,message: string) : ThunkType  =>
+export const SendMessage = (userid: string,message: string) : ThunkType =>
     async (dispatch,getState) => {
+    debugger
     let data = await DialogsApi.PutMessage(userid, message)
     if (data.resultCode === ResultCodesEnum.Success) {
-        dispatch(AddNewMessage(data.data.message))
+        dispatch(DialogsActions.AddNewMessage(data.data.message))
     }
 }
 export const DeleteMessage = (messageId:string, userID:string) : ThunkType =>

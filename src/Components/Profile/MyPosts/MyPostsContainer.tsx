@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import MyPosts from "./MyPosts";
-import {addNewPost, deleteProfilePost} from "../../../Redux/Reducers/ProfileReducer";
+import {ProfileActions} from "../../../Redux/Reducers/ProfileReducer";
 import { AppStateType } from '../../../Redux/ReduxStore';
 import {PostType} from "../../../Types/Types";
 
@@ -18,6 +18,8 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         PostsState: state.ProfilePage.PostsData
     }
 }
+const {addNewPost,deleteProfilePost } = {...ProfileActions}
+
 const MyPostsContainer = connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps,
     {addNewPost, deleteProfilePost})(MyPosts)
 

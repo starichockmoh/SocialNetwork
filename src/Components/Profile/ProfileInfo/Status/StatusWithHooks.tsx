@@ -1,26 +1,29 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import 'antd/dist/antd.css';
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../../../Redux/ReduxStore";
+import {UpdateProfileStatus} from "../../../../Redux/Reducers/ProfileReducer";
 
 type PropsType = {
-    ProfileStatus: string
     IDisCurrent: boolean
-    UpdateProfileStatus: (status:string) => void
 }
 
 const StatusWithHooks: React.FC<PropsType> = (props) => {
+    const dispatch = useDispatch()
     let [editMode, setEditeMode] = useState(false)
     let [status, setStatus] = useState('')
+    const ProfileStatus = useSelector((state: AppStateType) => state.ProfilePage.ProfileStatus)
 
     useEffect(()=>{
-        setStatus(props.ProfileStatus)
-    },[props.ProfileStatus])
+        setStatus(ProfileStatus)
+    },[ProfileStatus])
 
     const  activeEditMode = () => {
             setEditeMode(true)
     }
     const deactiveEditMode = () => {
         setEditeMode(false)
-        props.UpdateProfileStatus(status)
+        dispatch(UpdateProfileStatus(status))
     }
     const changeInputStatus = (e:ChangeEvent<HTMLInputElement>) => {
             setStatus(e.currentTarget.value)
@@ -28,9 +31,9 @@ const StatusWithHooks: React.FC<PropsType> = (props) => {
     if (props.IDisCurrent){
 
     return <>
-        {!editMode && props.ProfileStatus &&
+        {!editMode && ProfileStatus &&
         <div>
-            <span onDoubleClick={activeEditMode}><span>{props.ProfileStatus}</span></span>
+            <span onDoubleClick={activeEditMode}><span>{ProfileStatus}</span></span>
         </div>}
         {editMode &&
         <div>
@@ -40,8 +43,8 @@ const StatusWithHooks: React.FC<PropsType> = (props) => {
     </>}
     else {
         return <>
-            {props.ProfileStatus && <div>
-                <span><span>{props.ProfileStatus}</span></span>
+            {ProfileStatus && <div>
+                <span><span>{ProfileStatus}</span></span>
             </div>}
 
         </>

@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {
     FollowOrUnfollow,
     requestUsers,
-    setCurrentFriendPageAC, setCurrentFriendPageACType,
+    UserActions, setCurrentFriendPageACType,
 } from "../../Redux/Reducers/UsersReducer";
 import {
     getFollowIsProgressing,
@@ -67,6 +67,9 @@ let mapStateToProps = (state: AppStateType):MapStateToPropsType => {
         currentFriendPage: state.UsersPage.currentFriendPage
     }
 }
+
+const {setCurrentFriendPageAC} = {...UserActions}
+
 const FriendsContainer: any =  compose(
     connect<MapStateToPropsType, MapDispatchToPropsType, OwnProps, AppStateType>(mapStateToProps, {requestUsers,
         FollowOrUnfollow, setCurrentFriendPageAC}),
