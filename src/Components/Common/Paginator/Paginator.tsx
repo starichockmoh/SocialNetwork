@@ -13,7 +13,8 @@ type PropsType = {
     totalItems: number
     pageSize: number
     currentPage: number
-    currentPageAc: ActionCreatorUsers | ActionCreatorFriends
+    currentPageAc: any
+    // ActionCreatorUsers | ActionCreatorFriends
 }
 export const Paginator: React.FC<PropsType>= ({onPageChanged, totalItems, pageSize,currentPage, currentPageAc}) => {
     let pagesCount: number = Math.ceil(totalItems / pageSize)

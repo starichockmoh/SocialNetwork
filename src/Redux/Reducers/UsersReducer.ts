@@ -15,18 +15,15 @@ let InitialState = {
     followIsProgressing: [] as Array<number>,
     currentPage: 1,
     currentFriendPage: 1,
-    currentSearchTerm: '',
-    isOnlyFollowed: false
+    filter: {
+        friend: false,
+        term: ''
+    }
 };
 type InitialStateType = typeof InitialState
 
 const UsersReducer = (state = InitialState, action: UsersActionsType): InitialStateType => {
     switch (action.type) {
-        case "SET_CURRENT_SEARCH_TERM":
-            return {
-                ...state,
-                currentSearchTerm: action.term
-            }
         case "SET_CURRENT_FRIEND_PAGE":
             return {
                 ...state,
@@ -93,10 +90,13 @@ const UsersReducer = (state = InitialState, action: UsersActionsType): InitialSt
                     ? [...state.followIsProgressing, action.userId]
                     : state.followIsProgressing.filter(id => id !== action.userId)
             }
-        case "SET_IS_ONLY_FOLLOWED":
+        case "SET_FILTER":
             return {
                 ...state,
-                isOnlyFollowed: action.isOnlyFollowed
+                filter: {
+                    term: action.term,
+                    friend: action.friend
+                }
             }
         default:
             return state
@@ -124,16 +124,16 @@ export const UserActions = {
     setTotalUsersCount: (totalUsersCount: number, isFriends = false) =>
         ({type: "SET_TOTAL_USERS_COUNT", totalUsersCount, isFriends} as const),
     setFetching: (isFetching: boolean) => ({type: "SET_FETCHING", isFetching} as const),
-    setCurrentSearchTerm: (term: string) => ({type: "SET_CURRENT_SEARCH_TERM", term} as const),
-    setIsOnlyFollowed: (isOnlyFollowed: boolean) => ({type: "SET_IS_ONLY_FOLLOWED", isOnlyFollowed} as const)
+    setFilter: (friend: boolean, term: string) => ({type: "SET_FILTER", friend, term} as const)
+
 }
 
 //Пример типизации санки через Dispatch<>
 export const requestUsers = (currentPage: number, pageSize: number, friend = false, term = '') =>
     async (dispatch: Dispatch<UsersActionsType>, getState: () => AppStateType) => {
         dispatch(UserActions.setFetching(true))   //активируем крутилку
-        dispatch(UserActions.setCurrentSearchTerm(term))
-        dispatch(UserActions.setIsOnlyFollowed(friend))
+        dispatch(UserActions.setFilter(friend, term))
+        dispatch(UserActions.setCurrentPageAC(currentPage))
         let response = await UserAPI.getUsers(currentPage, pageSize, friend, term)
         dispatch(UserActions.setFetching(false)) //снимаем крутилку
         dispatch(UserActions.setUsers(response.items, friend)) //сетаем юзеров с респонса

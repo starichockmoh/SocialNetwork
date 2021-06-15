@@ -4,7 +4,7 @@ import {DialogsType, MessagesType, PhotosType, ProfileType, ResultCodesEnum, Use
 const AxiosInstance = axios.create({
     withCredentials: true,
     headers: {
-        'API-KEY': '4edd74e2-330b-411c-8c39-ff31c4d6ced4'
+        'API-KEY': '35381f05-7fad-43c3-9d23-eda73d59f86b'
     },
     baseURL: 'https://social-network.samuraijs.com/api/1.0',
 })
@@ -39,8 +39,8 @@ export const DialogsApi = {
         return AxiosInstance.get<GetDialogsResponseType>('dialogs')
             .then(res => res.data)
     },
-    GetUserDialog(userId: string) {
-        let url = 'dialogs/' + userId +'/messages?page=2'
+    GetUserDialog(userId: string, page: string) {
+        let url = `dialogs/${userId}/messages?page=${page}&count=10`
         return AxiosInstance.get<GetUserDialogResponseType>(url)
             .then(res => res.data)
     },

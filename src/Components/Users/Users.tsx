@@ -19,22 +19,26 @@ type UsersPropsType = {
     pageSize: number
 }
 
+type QueryType = {
+    term?: string,
+    friend?: string,
+    page?: string
+
+}
+
 const Users: React.FC<UsersPropsType> = ({pageSize, currentPage}) => {
     const dispatch = useDispatch()
-    const currentSearchTerm = useSelector((state: AppStateType) => state.UsersPage.currentSearchTerm)
-    const isOnlyFollowed = useSelector((state: AppStateType) => state.UsersPage.isOnlyFollowed)
+    const filter = useSelector((state: AppStateType) => state.UsersPage.filter)
     const onPageChanged = (p: number) => {
-        dispatch(requestUsers(p, pageSize, isOnlyFollowed, currentSearchTerm))
+        dispatch(requestUsers(p, pageSize, filter.friend, filter.term))
     }
     const FollowOrUnfollowCallback = (userId: number, follow: boolean, isFriend: boolean) => {
         dispatch(FollowOrUnfollow(userId, follow, isFriend))
     }
-
     const totalUsersCount = useSelector(getTotalUsersCount)
     const followIsProgressing = useSelector(getFollowIsProgressing)
     const isFetching = useSelector(getIsFetching)
     const users = useSelector(getUsersSuper)
-
 
     return <div>
         <Paginator
@@ -45,7 +49,7 @@ const Users: React.FC<UsersPropsType> = ({pageSize, currentPage}) => {
             currentPageAc={UserActions.setCurrentPageAC}
 
         />
-        <UsersSearch currentPage={currentPage} pageSize={pageSize}/>
+        <UsersSearch pageSize={pageSize}/>
         {isFetching ? <Preloader/> :
             users.map(u => <UserElement
                 key={u.id}

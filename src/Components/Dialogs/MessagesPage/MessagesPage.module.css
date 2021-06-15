@@ -1,18 +1,29 @@
 .MessagesBody{
     font-size: 20px;
 }
+.NotViewed{
+    background-color: #e6f7ff;
+    border-radius: 4px;
+    margin: 5px;
+}
 .MessagesAuthor{
     font-size: 15px;
 }
 .Message{
     margin: 5px;
+    padding: 5px;
 }
 .MyMessage{
     margin-right: 100px;
     text-align: right;
+    padding: 5px;
 }
 
 .MyMessageDate{
     color: #CCC;
     font-size: 85%;
+}
+
+.DeleteButton{
+    margin: 3px;
 }
