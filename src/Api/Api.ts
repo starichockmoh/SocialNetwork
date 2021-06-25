@@ -164,10 +164,7 @@ export const UserAPI = {
     changeMainPhoto(photo:any){
         const formData = new FormData()
         formData.append("image", photo)
-        return AxiosInstance.put<ChangeMainPhotoResponseType>(`profile/photo`, formData, {
-            headers:{
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then(res => res.data)
+        return AxiosInstance.put<ChangeMainPhotoResponseType>(`profile/photo`, formData
+        ).then(res => res.data)
     }
 }
