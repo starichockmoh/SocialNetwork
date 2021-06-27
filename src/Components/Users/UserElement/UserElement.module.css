@@ -1,4 +1,9 @@
 .UserPhoto{
-    width: 120px;
-    height: 70px;
+    height: 250px;
+    width: 250px;
+}
+
+.UserElement{
+    list-style: none;
+    margin: 10px
 }

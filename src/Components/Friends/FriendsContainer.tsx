@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {
     FollowOrUnfollow,
     requestUsers,
-    UserActions, setCurrentFriendPageACType,
+    UserActions, setCurrentFriendPageACType, setFilterType,
 } from "../../Redux/Reducers/UsersReducer";
 import {
     getFollowIsProgressing,
@@ -28,6 +28,7 @@ type MapDispatchToPropsType = {
     FollowOrUnfollow: (userId: number, follow: boolean, isFriend: boolean) => void
     setCurrentFriendPageAC: (FriendsPage:number) => setCurrentFriendPageACType
     requestUsers: (currentPage: number, pageSize: number, friend: boolean, term: string) => void
+    setFilter: (friend: boolean, term: string) => setFilterType
 }
 
 type OwnProps = {
@@ -40,9 +41,11 @@ class FriendsContainerClass extends React.Component<PropsType> {
     componentDidMount() {
         let {currentFriendPage} = this.props
         this.props.requestUsers(currentFriendPage,9,true,'')
-
-
     }
+    componentWillUnmount() {
+        this.props.setFilter(false, '')
+    }
+
     onPageChanged = (p:number) => {
         this.props.requestUsers(p,5, true,'')
     }
@@ -68,11 +71,11 @@ let mapStateToProps = (state: AppStateType):MapStateToPropsType => {
     }
 }
 
-const {setCurrentFriendPageAC} = {...UserActions}
+const {setCurrentFriendPageAC, setFilter} = {...UserActions}
 
 const FriendsContainer: any =  compose(
     connect<MapStateToPropsType, MapDispatchToPropsType, OwnProps, AppStateType>(mapStateToProps, {requestUsers,
-        FollowOrUnfollow, setCurrentFriendPageAC}),
+        FollowOrUnfollow, setCurrentFriendPageAC, setFilter}),
     withAuthRedirect
 )(FriendsContainerClass)
 

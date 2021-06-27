@@ -76,11 +76,12 @@ type LayOutProps = {
 }
 const LayOut: React.FC<LayOutProps> = (props) => {
     return <Layout>
-        <Header className="header">
+        <Header className={"Header"}>
             <HeaderContainer/>
         </Header>
         <Layout>
             <Sider width={200} className="site-layout-background">
+                <div className={"Menu"}>
                 <Menu
                     mode="inline"
                     defaultSelectedKeys={['1']}
@@ -108,6 +109,7 @@ const LayOut: React.FC<LayOutProps> = (props) => {
                         <Menu.Item key="10"><NavLink activeClassName={s.active} to='/exit'> Exit</NavLink></Menu.Item>}
                     </SubMenu>
                 </Menu>
+                </div>
             </Sider>
             <Layout style={{padding: '0 24px 24px'}}>
                 <Breadcrumb style={{margin: '16px 0'}}>

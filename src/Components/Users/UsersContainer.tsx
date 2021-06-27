@@ -7,6 +7,7 @@ import {AppStateType} from "../../Redux/ReduxStore";
 import { useHistory } from "react-router-dom"
 import * as queryString from "querystring"
 
+
 type QueryType = {
     term?: string,
     friend?: string,
@@ -33,14 +34,14 @@ const UsersPage: React.FC<UsersPagePropsType> = ({title}) => {
             pathname: '/users',
             search: queryString.stringify(query)
         })
-    }, [currentPage, filter])
+    }, [currentPage, filter, dispatch])
     useEffect(() => {
         const parsed: QueryType = queryString.parse(history.location.search.substr(1))
         let actualPage = parsed.page? Number(parsed.page) : 1
         let actualTerm = parsed.term? parsed.term: ''
         let actualIsOnlyFollowed = parsed.friend === "true"
         dispatch(requestUsers(actualPage, pageSize, actualIsOnlyFollowed, actualTerm))
-    },[history.location.search])
+    },[history.location.search, dispatch])
 
     return <>
         <h1>{title}</h1>

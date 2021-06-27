@@ -3,6 +3,7 @@ import UserElement from "./UserElement/UserElement";
 import {Paginator} from "../Common/Paginator/Paginator";
 import Preloader from "../Common/Preloader/Preloader";
 import UsersSearch from "./UserElement/UsersSearch";
+import styles from './Users.module.css'
 
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -40,6 +41,11 @@ const Users: React.FC<UsersPropsType> = ({pageSize, currentPage}) => {
     const isFetching = useSelector(getIsFetching)
     const users = useSelector(getUsersSuper)
 
+    let UsersArray = users? users.map(u => <UserElement key={u.id}
+                                                        user={u}
+                                                        followIsProgressing={followIsProgressing}
+                                                        FollowOrUnfollow={FollowOrUnfollowCallback}/>): []
+
     return <div>
         <Paginator
             onPageChanged={onPageChanged}
@@ -50,14 +56,7 @@ const Users: React.FC<UsersPropsType> = ({pageSize, currentPage}) => {
 
         />
         <UsersSearch pageSize={pageSize}/>
-        {isFetching ? <Preloader/> :
-            users.map(u => <UserElement
-                key={u.id}
-                user={u}
-                followIsProgressing={followIsProgressing}
-                FollowOrUnfollow={FollowOrUnfollowCallback}
-            />)
-        }
+        {isFetching ? <Preloader/> : <ul className={styles.UsersArray}>{UsersArray}</ul>}
     </div>
 }
 

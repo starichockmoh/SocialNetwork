@@ -3,6 +3,7 @@ import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../../Redux/ReduxStore";
 import {UpdateProfileStatus} from "../../../../Redux/Reducers/ProfileReducer";
+import {Input} from "antd";
 
 type PropsType = {
     IDisCurrent: boolean
@@ -37,7 +38,7 @@ const StatusWithHooks: React.FC<PropsType> = (props) => {
         </div>}
         {editMode &&
         <div>
-            <input onChange={changeInputStatus} autoFocus={true} onBlur={deactiveEditMode}
+            <Input onChange={changeInputStatus} autoFocus={true} onBlur={deactiveEditMode}
                     value={status}/>
         </div>}
     </>}

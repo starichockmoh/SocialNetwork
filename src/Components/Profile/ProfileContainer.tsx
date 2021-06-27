@@ -6,6 +6,7 @@ import {AppStateType} from "../../Redux/ReduxStore";
 import s from "./Profile.module.css";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 const ProfilePage: React.FC = () => {
@@ -15,8 +16,10 @@ const ProfilePage: React.FC = () => {
 
     useEffect(() => {
         if (!userId) {
-            dispatch(getProfile(CurrentUserId))
-            dispatch(getProfileStatus(CurrentUserId))
+            if (CurrentUserId) {
+                dispatch(getProfile(CurrentUserId))
+                dispatch(getProfileStatus(CurrentUserId))
+            }
         }
         else {
             dispatch(getProfile(userId))
@@ -31,5 +34,5 @@ const ProfilePage: React.FC = () => {
 }
 
 
-export default ProfilePage
+export default withAuthRedirect(ProfilePage)
 

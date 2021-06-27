@@ -1,5 +1,4 @@
 import React from "react";
-import music from './nature.mp3'
 import s from './Music.module.css'
 
 const Music = () => {
@@ -17,7 +16,7 @@ const Music = () => {
 const MusicBlock = () => {
     return <div className={s.MusicBlock}>
         <audio width="300" height="20" controls>
-            <source src={music}/>
+            <source src={''}/>
         </audio>
     </div>
 }

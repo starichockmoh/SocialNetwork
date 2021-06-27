@@ -38,6 +38,18 @@ body {
   background: #fff;
 }
 
+.Header{
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.Menu{
+  font-size: 30%;
+  position: sticky;
+  top: 16em;
+}
+
 
 
 

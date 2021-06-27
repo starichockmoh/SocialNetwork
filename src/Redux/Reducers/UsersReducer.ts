@@ -108,6 +108,7 @@ type UsersActionsType = ActionsType<typeof UserActions>
 
 export type setCurrentFriendPageACType = ReturnType<typeof UserActions.setCurrentFriendPageAC>
 export type setCurrentPageACType = ReturnType<typeof UserActions.setCurrentPageAC>
+export type setFilterType = ReturnType<typeof UserActions.setFilter>
 
 export const UserActions = {
     toggleFollowProgressing: (isProgressing: boolean, userId: number, isFriend: boolean) => ({

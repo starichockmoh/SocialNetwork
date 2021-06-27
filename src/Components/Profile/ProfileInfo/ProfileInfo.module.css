@@ -1,11 +1,19 @@
 .img1{
-    display: block;
-    width: 250px;
-    height: 250px;
-    border-radius: 10px 10px 0 0;
+    width: 300px;
+    height: 300px;
+    border-radius: 190px;
 }
 .DescriptionBlock {
     padding: 10px;
+    text-align: center;
+    position: relative;
+    bottom: 100px;
+}
+.DescriptionCard{
+
+}
+.DescriptionCard p{
+    text-align: left;
 }
 .contacts{
     padding: 5px;
@@ -25,6 +33,22 @@
     height: 250px;
 }
 .statusBlock{
-    margin: 4px;
+    text-align: center;
+    font-size: 200%;
+    position: relative;
+    bottom: 160px;
 }
+.AvatarBlock{
+    text-align: center;
+    position: relative;
+    bottom: 160px;
+}
+.ProfileHeader{
+    font-size: 250%;
+    text-align: center;
+    background:url("./../../../accepts/images/i.jpg");
+    height: 200px;
+
+}
+
 

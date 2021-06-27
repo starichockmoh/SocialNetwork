@@ -1,6 +1,7 @@
 import React from 'react';
 import UserPhoto from "../../../accepts/images/computer-icons-user-profile-avatar-png-favpng-CXDB2aUAq6zHS7pQSY9GjQ3ZH.jpg"
 import styles from './HeaderProfile.module.css'
+import {Avatar, Button} from "antd";
 
 type PropsType = {
     login: string | null
@@ -13,12 +14,12 @@ const HeaderProfile: React.FC<PropsType> = (props) => {
         props.authLogOut()
     }
     return <div>
-        <button onClick={onLogOut}>Log Out</button>
+        <Button onClick={onLogOut}>Log Out</Button>
         <span className={styles.LoginProfileHeader}>{props.login}</span>
 
         {props.CurrentUserPhoto
-            ? <img src = {props.CurrentUserPhoto} alt = ''/>
-            : <img src = {UserPhoto} alt = ''/> }
+            ? <Avatar style={{width: 50, height: 50}} src = {props.CurrentUserPhoto} alt = ''/>
+            : <Avatar src = {UserPhoto} alt = ''/> }
     </div>
 }
 

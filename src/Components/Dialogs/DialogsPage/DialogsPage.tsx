@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {DialogsActions, ShowDialogs} from "../../../Redux/Reducers/DialogsReducer";
 import {AppStateType} from "../../../Redux/ReduxStore";
 import styles from "./DialogsPage.module.css"
+import {withAuthRedirect} from "../../../HOC/withAuthRedirect";
 
 const DialogsPage = () => {
     const dispatch = useDispatch()
@@ -18,4 +19,4 @@ const DialogsPage = () => {
     </div>
 }
 
-export default DialogsPage
+export default withAuthRedirect(DialogsPage)

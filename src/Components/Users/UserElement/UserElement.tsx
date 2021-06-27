@@ -4,6 +4,7 @@ import userPhoto
     from '../../../accepts/images/computer-icons-user-profile-avatar-png-favpng-CXDB2aUAq6zHS7pQSY9GjQ3ZH.jpg'
 import {NavLink} from "react-router-dom";
 import {UserType} from "../../../Types/Types";
+import {Avatar, Button} from "antd";
 
 type PropsType = {
     user: UserType
@@ -14,20 +15,20 @@ type PropsType = {
 
 
 const UserElement: FC<PropsType> = ({user,followIsProgressing,FollowOrUnfollow, isFriend= false}) => {
-    return <div>
+    return <li className={s.UserElement}>
         <span>
             <div>
                 <NavLink to={'/profile/' + user.id}>
-                    <img className={s.UserPhoto} src={user.photos.large === null ? userPhoto : user.photos.large} alt={''}/>
+                    <Avatar className={s.UserPhoto} src={user.photos.large === null ? userPhoto : user.photos.large} alt={''}/>
                 </NavLink>
             </div>
             <div>
                 {(user.followed)
-                    ? <button disabled={followIsProgressing.some(id => id === user.id)}
-                        onClick={() => {FollowOrUnfollow(user.id,false, isFriend)}}>Unfollow</button>
+                    ? <Button disabled={followIsProgressing.some(id => id === user.id)}
+                        onClick={() => {FollowOrUnfollow(user.id,false, isFriend)}}>Unfollow</Button>
 
-                    : <button disabled={followIsProgressing.some(id => id === user.id)}
-                        onClick={() => {FollowOrUnfollow(user.id,true, isFriend)}}>Follow</button>}
+                    : <Button disabled={followIsProgressing.some(id => id === user.id)}
+                        onClick={() => {FollowOrUnfollow(user.id,true, isFriend)}}>Follow</Button>}
             </div>
         </span>
         <span>
@@ -36,7 +37,7 @@ const UserElement: FC<PropsType> = ({user,followIsProgressing,FollowOrUnfollow, 
                 <div> {user.status}</div>
             </span>
         </span>
-    </div>
+    </li>
 }
 
 export default UserElement
