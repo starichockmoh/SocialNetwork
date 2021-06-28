@@ -3,22 +3,19 @@ import s from './MyPosts.module.css';
 import Post from "./Post/Post";
 import PostInputReduxForm from "./MyPostsForm";
 import {PostType} from "../../../Types/Types";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../../Redux/ReduxStore";
+import {ProfileActions} from "../../../Redux/Reducers/ProfileReducer";
 
 
-type PropsType = {
-    PostsState: Array<PostType>
-
-    addNewPost: (post: string) => void
-    deleteProfilePost: (postId: number) => void
-}
-const MyPosts: React.FC<PropsType> = React.memo(({PostsState, addNewPost, deleteProfilePost}) => {
-    const PostsElements = [...PostsState].map(p => <Post deleteProfilePost={deleteProfilePost}
-                                                       key={p.id} message={p.message} likecount={p.likecount}
-                                                       id={p.id}/>);
+export const MyPosts: React.FC = React.memo(() => {
+    const PostData = useSelector((state: AppStateType) => state.ProfilePage.PostsData)
+    const dispatch = useDispatch()
+    const PostsElements = [...PostData].map(p => <Post key={p.id} message={p.message} likecount={p.likecount} id={p.id}/>);
     const addPost = (dataForm: {postInput: string}) => {
-        addNewPost(dataForm.postInput)
+        dispatch(ProfileActions.addNewPost(dataForm.postInput))
     }
-    return (<div className={s.PostDescription}>
+    return <div className={s.PostDescription}>
             <h3> My posts</h3>
             <div>
                 <PostInputReduxForm onSubmit={addPost}/>
@@ -27,7 +24,4 @@ const MyPosts: React.FC<PropsType> = React.memo(({PostsState, addNewPost, delete
                 {PostsElements}
             </div>
         </div>
-    );
 })
-
-export default MyPosts;

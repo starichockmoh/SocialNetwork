@@ -5,8 +5,8 @@ import {useParams} from "react-router-dom"
 import {AppStateType} from "../../Redux/ReduxStore";
 import s from "./Profile.module.css";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {MyPosts} from "./MyPosts/MyPosts";
 
 
 const ProfilePage: React.FC = () => {
@@ -28,7 +28,7 @@ const ProfilePage: React.FC = () => {
     }, [userId, dispatch, CurrentUserId])
     return (<div className={s.Profile}>
             <ProfileInfo/>
-            <MyPostsContainer/>
+            <MyPosts/>
         </div>
     );
 }

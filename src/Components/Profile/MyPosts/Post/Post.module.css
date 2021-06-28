@@ -1,13 +1,18 @@
-.item{
-    color: black;
-}
-.item img{
-    width: 30px;
-    border-radius: 30px;
-}
 
 .Hr {
     background-color: maroon;
     height: 2px
 }
 
+.PostContent{
+    display: grid;
+    grid-template-columns: 7fr 2fr;
+}
+.PostBlock{
+    background-color: rgb(240, 242, 245);
+    margin-top: 7px;
+}
+.Avatar{
+    width: 100px;
+    height: 100px;
+}

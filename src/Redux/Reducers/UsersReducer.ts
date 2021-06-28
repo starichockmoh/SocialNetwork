@@ -8,7 +8,7 @@ import {ThunkAction} from "redux-thunk";
 let InitialState = {
     users: [] as Array<UserType>,
     friends: [] as Array<UserType>,
-    pageSize: 5,
+    pageSize: 7,
     totalUsersCount: 19,
     totalFriendsCount: 3,
     isFetching: false,

@@ -1,54 +1,79 @@
-.img1{
-    width: 300px;
-    height: 300px;
-    border-radius: 190px;
+.ProfileInfo{
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: 2fr 5fr;
+    grid-template-areas:
+    "avatar disc"
+    "button1 button2"
+    "addinfo addinfo"
+;
 }
-.DescriptionBlock {
-    padding: 10px;
-    text-align: center;
-    position: relative;
-    bottom: 100px;
+.Avatar{
+    grid-area: avatar;
+    margin-left: 10px;
+    margin-top: 10px;
 }
-.DescriptionCard{
+.Avatar button{
+    margin-top: 10px;
+}
+.Description{
+    grid-area: disc;
+    margin: 10px;
 
 }
-.DescriptionCard p{
-    text-align: left;
+.Button1{
+    grid-area: button1;
+    margin-left: 10px;
 }
-.contacts{
-    padding: 5px;
-    background-color: lightblue;
-    border-radius: 3px;
+.Button2{
+    grid-area: button2;
+    margin-left: 10px;
 }
-.inputButton{
-    margin: 3px;
+.AdInfo{
+    grid-area: addinfo;
 }
+.AdInfoBlock{
+    display: grid;
+    margin-left: 10px;
+    grid-template-columns: 1.5fr 3fr;
+    grid-gap: 20px;
+}
+.StatusBlock{
+    font-size: 120%;
+    width: 50%;
+}
+.FriendCountBlock{
+    font-size: 120%;
+}
+.AboutMe{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1.5fr 4fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+.AdditAboutMe{
+    display: grid;
+    grid-template-columns: 0.8fr 4fr;
+    grid-template-rows: 35px 35px;
+}
+.AboutMeTitle{
+    color: gray;
+    font-size: 120%;
+}
+.AboutMeData{
+    font-size: 120%;
+    color: rgb(65, 106, 146);
+}
+.Contacts{
+    font-size: 110%;
 
-.avatar{
-    width: 250px;
-    height: 250px;
 }
-.avatar-uploader > .ant-upload {
-    width: 250px;
-    height: 250px;
+.AdInfoLine{
+    border-width: 1px;
 }
-.statusBlock{
-    text-align: center;
-    font-size: 200%;
-    position: relative;
-    bottom: 160px;
+.ProfileForm{
+    display: grid;
+    grid-template-columns: 300px 300px;
+    grid-gap: 50px;
+    margin-left: 10px;
 }
-.AvatarBlock{
-    text-align: center;
-    position: relative;
-    bottom: 160px;
-}
-.ProfileHeader{
-    font-size: 250%;
-    text-align: center;
-    background:url("./../../../accepts/images/i.jpg");
-    height: 200px;
-
-}
-
-

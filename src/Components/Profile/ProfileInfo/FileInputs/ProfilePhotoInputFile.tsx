@@ -16,7 +16,7 @@ const ProfilePhotoInputFile: React.FC<PropsType> = (props) => {
     };
     return <div className={s.input__wrapper}>
         <Upload {...Sprops}>
-            <Button  icon={<UploadOutlined />}>Change avatar</Button>
+            <Button style={{width: 250}} icon={<UploadOutlined />}>Change avatar</Button>
         </Upload>
     </div>
 }

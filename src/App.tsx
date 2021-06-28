@@ -27,6 +27,7 @@ const Login = React.lazy(() => import("./Components/Login/Login"));
 const Settings = React.lazy(() => import("./Components/Settings/Settings"));
 const NewsPage = React.lazy(() => import("./Components/News/NewsPage"));
 const UserExit = React.lazy(() => import("./Components/Common/Exit"));
+const ChatPage = React.lazy(() => import("./Components/Dialogs/ChatPage/ChatPage"));
 const {SubMenu} = Menu;
 const {Header, Content, Sider} = Layout;
 
@@ -121,8 +122,10 @@ const LayOut: React.FC<LayOutProps> = (props) => {
                     className="site-layout-background"
                     style={{
                         padding: 24,
-                        margin: 0,
+                        marginLeft: 100,
+                        marginRight: 100,
                         minHeight: 280,
+                        width: 1000
                     }}
                 >
                     <SuspenseMainContent globalError={props.globalError}/>
@@ -148,6 +151,7 @@ const MainContent: React.FC<{ globalError: string | null }> = (props) => {
             <Route path='/music' render={() => <Music/>}/>
             <Route path='/login' render={() => <Login/>}/>
             <Route path='/friends' render={() => <FriendsContainer title={'Друзья'}/>}/>
+            <Route path='/chat' render={() => <ChatPage/>}/>
             <Redirect exact from="/" to="/profile"/>
             <Route path='/*' render={() => <div>404 NOT FOUND</div>}/>
         </Switch>

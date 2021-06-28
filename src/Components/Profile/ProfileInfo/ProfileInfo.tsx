@@ -1,25 +1,23 @@
 import s from "./ProfileInfo.module.css";
 import React, {useEffect, useState} from "react";
 import Preloader from "../../Common/Preloader/Preloader";
-import UserPhoto
-    from "../../../accepts/images/computer-icons-user-profile-avatar-png-favpng-CXDB2aUAq6zHS7pQSY9GjQ3ZH.jpg"
-import StatusWithHooks from "./Status/StatusWithHooks";
-import ProfileInfoForm from "./ProfileInfoForm";
-import ProfileDescriptionBlock from "./ProfileDescriptionBlock";
 import {useDispatch, useSelector} from "react-redux";
 import {ProfileActions, saveMainPhoto, UpdateProfileInfo} from "../../../Redux/Reducers/ProfileReducer";
-import {NavLink} from "react-router-dom";
 import 'antd/dist/antd.css';
-import {Avatar, Button} from 'antd';
-import AvatarInput from "./FileInputs/AvatarInput";
+import {Button, Image} from 'antd';
 import {AppStateType} from "../../../Redux/ReduxStore";
 import {AddNewDialog} from "../../../Redux/Reducers/DialogsReducer";
-import {EditOutlined} from "@ant-design/icons";
+import {CloseOutlined, EditOutlined} from "@ant-design/icons";
+import ProfilePhotoInputFile from "./FileInputs/ProfilePhotoInputFile";
+import {ProfileAdDescription, ProfileDescription} from "./ProfileDescriptionBlock";
+import {NavLink} from "react-router-dom";
+import UserAvatar
+    from "./../../../accepts/images/computer-icons-user-profile-avatar-png-favpng-CXDB2aUAq6zHS7pQSY9GjQ3ZH.jpg"
+import ProfileInfoForm from "./ProfileInfoForm";
+
 
 const ProfileInfo: React.FC = () => {
     const ProfileInfo = useSelector((state: AppStateType) => state.ProfilePage.ProfileInfo)
-
-    const isFetching = useSelector((state: AppStateType) => state.ProfilePage.isFetching)
     const submitWasSuccess = useSelector((state: AppStateType) => state.ProfilePage.submitWasSuccess)
     const CurrentUserId = useSelector((state: AppStateType) => state.Auth.CurrentUserId)
     const DialogUrl: string = ProfileInfo ? '/dialogs/' + ProfileInfo.userId : ''
@@ -27,18 +25,12 @@ const ProfileInfo: React.FC = () => {
 
     useEffect(() => {
         if (submitWasSuccess) {
-            deactivateMode()
+            setProfileEditMode(false)
             dispatch(ProfileActions.submitWasSuccess(false))
         }
     }, [submitWasSuccess, dispatch])
 
-    let [ProfileEditMode, setProfileEditeMode] = useState(false)
-    let activateMode = () => {
-        setProfileEditeMode(true)
-    }
-    let deactivateMode = () => {
-        setProfileEditeMode(false)
-    }
+    let [ProfileEditMode, setProfileEditMode] = useState(false)
     let changeProfile = (data: any) => {
         if (CurrentUserId !== null) {
             dispatch(UpdateProfileInfo(CurrentUserId, data))
@@ -54,43 +46,28 @@ const ProfileInfo: React.FC = () => {
             dispatch(AddNewDialog(ProfileInfo.userId))
         }
     }
-
     if (!ProfileInfo) {
         return <Preloader/>
     }
-
     const IDisCurrent: boolean = ProfileInfo.userId === CurrentUserId
-
-    return (
-        <div>
-            <h1 className = {s.ProfileHeader}/>
-            {ProfileEditMode
-                ? <AvatarInput
-                    IDisCurrent={IDisCurrent}
-                    avatar={ProfileInfo.photos.large ? ProfileInfo.photos.large : UserPhoto}
-                    onMainPhotoSelected={onMainPhotoSelected}/>
-                : isFetching ? <Preloader/> :
-                    <div className={s.AvatarBlock}>
-                        <img className={s.img1} alt='avatar'
-                             src={ProfileInfo.photos.large ? ProfileInfo.photos.large : UserPhoto}/>
-                    </div>
-            }
-            <div className={s.statusBlock}>
-                <StatusWithHooks IDisCurrent={IDisCurrent}/>
-                <NavLink to={DialogUrl}>
-                    {!IDisCurrent && <Button type={"link"} icon = {<EditOutlined />} onClick={startDialog}>Start dialog</Button>}
-                </NavLink>
-            </div>
-            {ProfileEditMode
-                ? <>
-                    <ProfileInfoForm initialValues={ProfileInfo} onSubmit={changeProfile}/>
-                    <Button onClick={deactivateMode}> Escape </Button>
-                </>
-                : <ProfileDescriptionBlock IDisCurrent={IDisCurrent} activateMode={activateMode}
-                                           ProfileInfo={ProfileInfo}/>
-            }
+    return <div className={s.ProfileInfo}>
+        <div className={s.Avatar}>
+            <div><Image style={{width: 250}} src={ProfileInfo.photos.large ? ProfileInfo.photos.large : UserAvatar}/></div>
         </div>
-    )
+        <ProfileDescription aboutMe={ProfileInfo.aboutMe} fullName={ProfileInfo.fullName} IDisCurrent={IDisCurrent}/>
+        <div className={s.Button1}>
+            {IDisCurrent
+                ? <div><ProfilePhotoInputFile onMainPhotoSelected={onMainPhotoSelected}/></div>
+                : <NavLink to={DialogUrl}><Button icon={<EditOutlined/>} onClick={startDialog}> Start Dialog </Button></NavLink>}
+        </div>
+        <div className={s.Button2}>
+            {IDisCurrent ? ProfileEditMode?
+                <div><Button style={{width: 250}} onClick={() => setProfileEditMode(false)} icon={<CloseOutlined />}> Close </Button></div>:
+                <div><Button style={{width: 250}} onClick={() => setProfileEditMode(true)} icon={<EditOutlined/>}> Change Profile</Button></div>:null}
+        </div>
+        {ProfileEditMode? <ProfileInfoForm initialValues={ProfileInfo} onSubmit={changeProfile}/> : <ProfileAdDescription ProfileInfo={ProfileInfo}/>}
+
+    </div>
 }
 
 
