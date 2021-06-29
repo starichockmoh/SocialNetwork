@@ -102,12 +102,13 @@ const LayOut: React.FC<LayOutProps> = (props) => {
                         <Menu.Item key="5"><NavLink activeClassName={s.active} to='/users'>Find
                             Users</NavLink></Menu.Item>
                         <Menu.Item key="6"><NavLink activeClassName={s.active} to='/news'>News</NavLink></Menu.Item>
+                        <Menu.Item key="7"><NavLink activeClassName={s.active} to='/chat'>Common Chat</NavLink></Menu.Item>
                     </SubMenu>
                     <SubMenu key="sub3" icon={<NotificationOutlined/>} title="Other">
-                        <Menu.Item key="9"><NavLink activeClassName={s.active}
+                        <Menu.Item key="8"><NavLink activeClassName={s.active}
                                                     to='/settings'> Settings</NavLink></Menu.Item>
                         {props.isAuth &&
-                        <Menu.Item key="10"><NavLink activeClassName={s.active} to='/exit'> Exit</NavLink></Menu.Item>}
+                        <Menu.Item key="9"><NavLink activeClassName={s.active} to='/exit'> Exit</NavLink></Menu.Item>}
                     </SubMenu>
                 </Menu>
                 </div>
@@ -145,12 +146,12 @@ const MainContent: React.FC<{ globalError: string | null }> = (props) => {
             <Route path='/dialogs_page' render={() => <DialogsPage/>}/>
             <Route path ='/dialogs/:dialogId?' render = {() => <MessagesPage/>}/>
             <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-            <Route path='/users' render={() => <UsersPage title={'Пользователи'}/>}/>
+            <Route path='/users' render={() => <UsersPage title={'Users'}/>}/>
             <Route path='/news' render={() => <NewsPage/>}/>
             <Route path='/settings' render={() => <Settings/>}/>
             <Route path='/music' render={() => <Music/>}/>
             <Route path='/login' render={() => <Login/>}/>
-            <Route path='/friends' render={() => <FriendsContainer title={'Друзья'}/>}/>
+            <Route path='/friends' render={() => <FriendsContainer title={'Friends'}/>}/>
             <Route path='/chat' render={() => <ChatPage/>}/>
             <Redirect exact from="/" to="/profile"/>
             <Route path='/*' render={() => <div>404 NOT FOUND</div>}/>

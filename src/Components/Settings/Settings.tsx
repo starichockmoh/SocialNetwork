@@ -1,8 +1,12 @@
 import React from "react";
+import {PageHeader} from "antd";
+import {SettingOutlined} from "@ant-design/icons";
 
 const Settings:React.FC<{}> = () => {
     return (
-        <div>Settings</div>
+        <div>
+            <PageHeader title={<>Settings <SettingOutlined /></>}/>
+        </div>
     )
 }
 

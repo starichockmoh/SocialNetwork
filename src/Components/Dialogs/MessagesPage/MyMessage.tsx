@@ -18,7 +18,7 @@ const MyMessage: React.FC<PropsType> = ({Message}) => {
     const DeleteMessageF = () => {
         dispatch(DeleteMessage(Message.id, String(Message.recipientId), '1'))
     }
-    return <div className={ Message.viewed? styles.MyMessage: `${styles.MyMessage} ${styles.NotViewed}`}>
+    return <div className={ Message.viewed? styles.MyMessage:styles.NotViewed}>
         <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
             <span className = {styles.MyMessageDate}>{Message.addedAt}</span>
         </Tooltip>

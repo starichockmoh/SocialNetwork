@@ -56,7 +56,7 @@ const Users: React.FC<UsersPropsType> = ({pageSize, currentPage}) => {
 
         />
         <UsersSearch pageSize={pageSize}/>
-        {isFetching ? <Preloader/> : <ul className={styles.UsersArray}>{UsersArray}</ul>}
+        {isFetching ? <Preloader/> : <div>{UsersArray}</div>}
     </div>
 }
 

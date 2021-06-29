@@ -1,5 +1,7 @@
 import React from "react";
 import s from './Music.module.css'
+import {PageHeader} from "antd";
+import {SoundOutlined} from "@ant-design/icons";
 
 const Music = () => {
     let MusicArray = []
@@ -8,6 +10,7 @@ const Music = () => {
     }
     return (
         <div>
+            <PageHeader title={<>Music <SoundOutlined /></>}/>
             {MusicArray}
         </div>
     )
@@ -15,6 +18,7 @@ const Music = () => {
 
 const MusicBlock = () => {
     return <div className={s.MusicBlock}>
+
         <audio width="300" height="20" controls>
             <source src={''}/>
         </audio>

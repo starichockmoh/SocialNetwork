@@ -1,56 +1,39 @@
-import {ActionsType} from "../../Types/Types";
+import ReactPhoto from "./../../accepts/images/React.png"
+import ReduxPhoto from "./../../accepts/images/React-redux-.png"
+import tsPhoto from "./../../accepts/images/ts.png"
+import zina from "./../../accepts/images/zina.jpg"
+import og from "./../../accepts/images/IMG_2138.jpg"
 
 type NewsPostType = {
     Text: string
     id: number
-    Avtor: string
-    Img: string
+    Title: string
+    Img: Array<string>
+    Data: string
 }
 export type InitialStateNewsType = {
     NewsPost: Array<NewsPostType>
-    NewsNewsText: string
 }
 let InitialState: InitialStateNewsType = {
     NewsPost: [
-        {Text: 'Сегодня баба Нюра засолила огурцы', id: 1, Avtor: 'Vasya Totechkin', Img: ''},
-        {Text: 'Сегодня баба Нюра засолила огурцы', id: 2, Avtor: 'Vasya Totechkin', Img: ''},
-        {Text: 'Сегодня баба Нюра засолила огурцы', id: 3, Avtor: 'Vasya Totechkin', Img: ''},
-        {Text: 'Сегодня баба Нюра засолила огурцы', id: 4, Avtor: 'Vasya Totechkin', Img: ''},
-        {Text: 'Сегодня баба Нюра засолила огурцы', id: 5, Avtor: 'Vasya Totechkin', Img: ''},
+        {Text: 'Welcome to my first app!!! Unfortunately backend logic does not provide for news, but I did them in a simplified form.',
+            id: 1,
+            Img: [ReactPhoto,ReduxPhoto,tsPhoto],
+            Title: 'Welcome!', Data: '12.04.1970'},
+        {Text: 'Новости из России. Сегодня в 6:00 по Москве в селе Бердымухамедушки бабушка Зина засослила огурцы, получив навар в виде 6-ти  банок. ' +
+                'Очевидцы говорят, что этим делом злоумышленница занимается с прошлой весны. Заведено уголовное дело.',
+            id: 2,
+            Img: [zina,og],
+            Title: 'Crime Russia',Data: '12.04.4059'}
     ],
-    NewsNewsText: 'hey'
 }
 
 
-const NewsReducer = (state = InitialState, action: NewsActionsType): InitialStateNewsType => {
+const NewsReducer = (state = InitialState, action: any): InitialStateNewsType => {
     switch (action.type) {
-        case "ADD_NEWS": {
-            let NewPost = {
-                Text: state.NewsNewsText,
-                Id: 5,
-                Img: '',
-                Avtor: 'Salam'
-            }
-            return {
-                ...state,
-                NewsNewsText: '',
-                NewsPost: [...state.NewsPost, NewPost] as Array<NewsPostType>
-            }
-        }
-        case "UPDATE_NEWS":
-            return {
-                ...state,
-                NewsNewsText: action.newText
-            }
         default:
             return state
     }
-}
-export type NewsActionsType = ActionsType<typeof NewsActions>
-
-export const NewsActions = {
-    addNewPost: () => ({type: "ADD_NEWS"} as const),
-    addNewText: (text: string) => ({type: "UPDATE_NEWS", newText: text} as const)
 }
 
 export default NewsReducer

@@ -4,6 +4,9 @@ import {authLogin} from "../../Redux/Reducers/AuthReducer";
 import LoginReduxForm from "./LoginForm";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../Redux/ReduxStore";
+import styles from './Login.module.css'
+import {PageHeader} from "antd";
+import {LoginOutlined} from "@ant-design/icons";
 
 
 export type LoginFormDataType = {
@@ -18,13 +21,13 @@ const Login: React.FC= (props) => {
     const isAuth = useSelector((state: AppStateType) => state.Auth.isAuth)
     const CaptchaImg = useSelector((state: AppStateType) => state.Auth.CaptchaImg)
     const onSubmit = (dataForm: LoginFormDataType) => {
-        dispatch(authLogin(dataForm.email, dataForm.password, dataForm.rememberMe, dataForm.captcha=''))
+        dispatch(authLogin(dataForm.email, dataForm.password, dataForm.rememberMe, dataForm.captcha))
     }
     if (isAuth) {
         return <Redirect to={"/"}/>
     }
-    return <div>
-        <h1>LOGIN</h1>
+    return <div className={styles.LoginPage}>
+        <PageHeader title={<>Login <LoginOutlined /></>}/>
         <LoginReduxForm CaptchaImg={CaptchaImg} onSubmit={onSubmit}/>
     </div>
 }

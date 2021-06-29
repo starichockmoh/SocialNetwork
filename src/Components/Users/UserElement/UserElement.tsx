@@ -5,6 +5,8 @@ import userPhoto
 import {NavLink} from "react-router-dom";
 import {UserType} from "../../../Types/Types";
 import {Avatar, Button} from "antd";
+import Rus from './../../../accepts/images/1615023361_preview_911308-russian-flag-wallpapers-2000x1333-htc.jpg'
+import {UserAddOutlined,UserDeleteOutlined} from "@ant-design/icons";
 
 type PropsType = {
     user: UserType
@@ -15,29 +17,26 @@ type PropsType = {
 
 
 const UserElement: FC<PropsType> = ({user,followIsProgressing,FollowOrUnfollow, isFriend= false}) => {
-    return <li className={s.UserElement}>
-        <span>
-            <div>
+    return <div className={s.UserElement}>
+        <div>
                 <NavLink to={'/profile/' + user.id}>
                     <Avatar className={s.UserPhoto} src={user.photos.large === null ? userPhoto : user.photos.large} alt={''}/>
                 </NavLink>
-            </div>
-            <div>
-                {(user.followed)
-                    ? <Button disabled={followIsProgressing.some(id => id === user.id)}
-                        onClick={() => {FollowOrUnfollow(user.id,false, isFriend)}}>Unfollow</Button>
 
-                    : <Button disabled={followIsProgressing.some(id => id === user.id)}
-                        onClick={() => {FollowOrUnfollow(user.id,true, isFriend)}}>Follow</Button>}
-            </div>
-        </span>
-        <span>
-            <span>
-                <div>{user.name}</div>
-                <div> {user.status}</div>
-            </span>
-        </span>
-    </li>
+        </div>
+        <div>
+            <div className = {s.Location}> <Avatar style={{width: 18, height:18}} src = {Rus}/> Rus, Saratov</div>
+            <div>{user.name}</div>
+        </div>
+        <div>
+            {(user.followed)
+                ? <Button icon={<UserDeleteOutlined />} disabled={followIsProgressing.some(id => id === user.id)}
+                          onClick={() => {FollowOrUnfollow(user.id,false, isFriend)}}>Unfollow</Button>
+
+                : <Button icon={<UserAddOutlined />} disabled={followIsProgressing.some(id => id === user.id)}
+                          onClick={() => {FollowOrUnfollow(user.id,true, isFriend)}}>Follow</Button>}
+        </div>
+    </div>
 }
 
 export default UserElement

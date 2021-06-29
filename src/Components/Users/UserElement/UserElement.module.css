@@ -1,9 +1,22 @@
 .UserPhoto{
-    height: 250px;
-    width: 250px;
+    height: 80px;
+    width: 80px;
 }
 
 .UserElement{
-    list-style: none;
-    margin: 10px
+    margin: 10px;
+    background-color: rgb(240, 242, 245);
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+}
+.FriendElement{
+    margin: 10px;
+    background-color: rgb(240, 242, 245);
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    width: 200px;
+}
+.Location{
+    color: grey;
+    font-size: 90%;
 }

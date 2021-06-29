@@ -60,7 +60,7 @@ export const Paginator: React.FC<PropsType>= ({onPageChanged, totalItems, pageSi
             break
         }
     }
-    return <div>
+    return <div className={s.PaginatorBlock}>
         {(pageLeft === 1)? null
             : <span><Button onClick={pageLeft > 1? MaxLeft: undefined}>back</Button>
                 <Button onClick={pageLeft > 1? changeSizeToLeft: undefined}>←</Button></span> }

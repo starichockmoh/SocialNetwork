@@ -1,5 +1,4 @@
-.NewsPost {
-    border: 0.5px solid black;
-    border-radius: 4px;
-    margin-top: 3px;
+.NewsPost{
+    width: 80%;
+    padding: 10px;
 }

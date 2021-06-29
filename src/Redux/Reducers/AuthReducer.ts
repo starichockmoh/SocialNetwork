@@ -4,6 +4,7 @@ import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "../ReduxStore";
 import {ActionsType, NullableType, ResultCodesEnum} from "../../Types/Types";
 import {Dispatch} from "redux";
+import {requestUsers, setFilterType, UserActions} from "./UsersReducer";
 
 
 let InitialState = {
@@ -39,7 +40,7 @@ let AuthReducer = (state = InitialState, action:AuthActionsType):InitialStateTyp
     }
 }
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, AuthActionsType>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, AuthActionsType | setFilterType>
 type StopSubmitType = ReturnType<typeof stopSubmit>
 type AuthActionsType = ActionsType<typeof AuthActions>
 export type SetCurrentUserProfileActionType = {
@@ -66,6 +67,8 @@ export const authUser = () : ThunkType  =>
         dispatch(AuthActions.SetAuthUserData(id, email, login, true))
         let ProfileResponse = await UserAPI.getUserProfile(response.data.id)
         dispatch(AuthActions.SetCurrentUserProfile(ProfileResponse.photos.large))
+        dispatch(requestUsers(1,10,true,''))
+        dispatch(UserActions.setFilter(false, ''))
     }
 }
 

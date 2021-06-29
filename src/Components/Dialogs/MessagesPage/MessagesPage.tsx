@@ -12,6 +12,7 @@ import TextArea from "antd/es/input/TextArea";
 import queryString from "querystring";
 import {requestUsers} from "../../../Redux/Reducers/UsersReducer";
 import {Paginator} from "../../Common/Paginator/Paginator";
+import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 
 
 type ParamsType = {
@@ -70,7 +71,7 @@ const MessagesPage: React.FC = () => {
     const onPageChanged = (page: number) => {
         dispatch(ShowMessages(dialogId, String(page)))
     }
-    return <div>
+    return <div className = {styles.MessagesPage}>
         <Paginator onPageChanged={onPageChanged}
                    totalItems={TotalMessagesItems}
                    pageSize={10}
@@ -78,12 +79,14 @@ const MessagesPage: React.FC = () => {
                    currentPageAc={DialogsActions.SetCurrentPage}/>
         {MessagesComponentsArray}
         <Form name = "send_message_form" onFinish={onFinish} form = {form}>
-            <Form.Item name = "send_message_textarea">
+            <Form.Item name = "send_message_textarea" rules={[
+                {required: true, message: 'Please input message!'},
+            ]}>
                 <TextArea/>
             </Form.Item>
             <Form.Item>
-                <Button htmlType="submit">Send</Button>
-                <Button htmlType="button" onClick={onReset}>
+                <Button icon={<CheckOutlined/>} htmlType="submit">Send</Button>
+                <Button icon={<CloseOutlined/>} htmlType="button" onClick={onReset}>
                     Reset
                 </Button>
             </Form.Item>

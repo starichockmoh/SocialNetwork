@@ -2,6 +2,7 @@ import React from 'react';
 import UserPhoto from "../../../accepts/images/computer-icons-user-profile-avatar-png-favpng-CXDB2aUAq6zHS7pQSY9GjQ3ZH.jpg"
 import styles from './HeaderProfile.module.css'
 import {Avatar, Button} from "antd";
+import {LogoutOutlined} from "@ant-design/icons";
 
 type PropsType = {
     login: string | null
@@ -14,7 +15,7 @@ const HeaderProfile: React.FC<PropsType> = (props) => {
         props.authLogOut()
     }
     return <div>
-        <Button onClick={onLogOut}>Log Out</Button>
+        <Button icon={<LogoutOutlined/>} onClick={onLogOut}>Log Out</Button>
         <span className={styles.LoginProfileHeader}>{props.login}</span>
 
         {props.CurrentUserPhoto

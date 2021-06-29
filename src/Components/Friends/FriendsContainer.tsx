@@ -15,6 +15,8 @@ import {
 import Friends from "./Friends";
 import {AppStateType} from "../../Redux/ReduxStore";
 import {UserType} from "../../Types/Types";
+import {PageHeader} from "antd";
+import {HeartOutlined} from "@ant-design/icons";
 
 type MapStateToPropsType = {
     currentFriendPage: number
@@ -40,19 +42,21 @@ type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnProps
 class FriendsContainerClass extends React.Component<PropsType> {
     componentDidMount() {
         let {currentFriendPage} = this.props
-        this.props.requestUsers(currentFriendPage,9,true,'')
+        this.props.requestUsers(currentFriendPage, 9, true, '')
     }
+
     componentWillUnmount() {
         this.props.setFilter(false, '')
     }
 
-    onPageChanged = (p:number) => {
-        this.props.requestUsers(p,5, true,'')
+    onPageChanged = (p: number) => {
+        this.props.requestUsers(p, 5, true, '')
     }
 
     render() {
         return (
             <div>
+                <PageHeader title={<>{this.props.title} <HeartOutlined/></>}/>
                 <div><Friends {...this.props} onPageChanged={this.onPageChanged}/></div>
             </div>
         )

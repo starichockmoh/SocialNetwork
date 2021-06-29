@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import s from "./ProfileInfo.module.css";
 import {PageHeader} from "antd";
 import StatusWithHooks from "./Status/StatusWithHooks";
 import {ProfileType} from "../../../Types/Types";
+import {useSelector} from "react-redux";
+import {AppStateType} from "../../../Redux/ReduxStore";
 
 
 type ContactsProfilePropsType = {
@@ -24,6 +26,7 @@ type ProfileDescriptionType = {
     IDisCurrent: boolean
 }
 export const ProfileDescription: React.FC<ProfileDescriptionType> = ({fullName, aboutMe, IDisCurrent}) => {
+    const FriendsCount = useSelector((state: AppStateType) => state.UsersPage.totalFriendsCount)
     return <div className={s.Description}>
         <PageHeader title={fullName} subTitle={'Rus, Saratov'}/>
         <div className={s.StatusBlock}>
@@ -31,7 +34,7 @@ export const ProfileDescription: React.FC<ProfileDescriptionType> = ({fullName, 
             <StatusWithHooks IDisCurrent={IDisCurrent}/>
         </div>
         <div className={s.FriendCountBlock}>
-            Friends:  &nbsp; 4
+            Friends:  &nbsp; {FriendsCount}
         </div>
         <div className={s.AboutMe}>
             <div className={s.AboutMeTitle}>My Phone:</div>
