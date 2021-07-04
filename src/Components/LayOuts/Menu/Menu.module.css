@@ -1,0 +1,13 @@
+.MenuBlock{
+    font-size: 30%;
+    position: sticky;
+    top: 16em;
+}
+.Menu{
+    height: 100%;
+    border-right: 0
+}
+.Sider{
+    width: 200px;
+    background: #fff
+}

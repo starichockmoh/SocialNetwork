@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import {ChatMessageType, WSStatusType} from "../Types/Types";
 
 type SubscriberFunction = (messages: Array<ChatMessageType>) => void
@@ -36,6 +37,7 @@ const ErrorHandler = () => {
 const createChannel = () => { //функция создания канала
     CleanUp()
     ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx') //открываем канал
+
     ws.addEventListener('close', CloseHandler) //подписываемся на закрытие
     ws.addEventListener('message', MessageHandler)
     ws.addEventListener('open', OpenHandler)

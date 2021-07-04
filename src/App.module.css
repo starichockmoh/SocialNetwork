@@ -1,4 +1,4 @@
-.app-wrapper-content {
+.appWrapperContent {
   background-color: aliceblue;
   border-radius: 10px;
 }
@@ -8,8 +8,13 @@
   color: maroon;
 }
 
-.site-layout-background {
+.site_layout_content {
   background: #fff;
+  padding: 24px;
+  margin-left: 100px;
+  margin-right: 100px;
+  min-height: 280px;
+  width: 1000px;
 }
 
 .Header{
@@ -17,12 +22,11 @@
   top: 0;
   z-index: 3;
 }
-
-.Menu{
-  font-size: 30%;
-  position: sticky;
-  top: 16em;
+.Footer{
+  text-align: center
 }
+
+
 
 
 

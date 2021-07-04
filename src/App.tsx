@@ -1,11 +1,10 @@
 import 'antd/dist/antd.css';
-import {Layout, Menu, Breadcrumb} from 'antd';
-import {UserOutlined, LaptopOutlined, NotificationOutlined} from '@ant-design/icons';
+import {Layout, Menu} from 'antd';
 
 import React from "react";
-import './App.css';
+import styles from "./App.module.css"
 import store, {AppStateType} from "./Redux/ReduxStore";
-import {BrowserRouter, HashRouter, Route, withRouter, Switch, Redirect, NavLink} from "react-router-dom";
+import {HashRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializedApp, setGlobalError} from "./Redux/Reducers/AppReducer";
@@ -13,11 +12,11 @@ import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import AppPreloader from "./Components/Common/Preloader/AppPreloader";
 import {withSuspense} from "./HOC/withSuspense";
-import s from "./Components/Navbar/Navbar.module.css";
 import FriendsContainer from "./Components/Friends/FriendsContainer";
 import DialogsPage from "./Components/Dialogs/DialogsPage/DialogsPage";
 import MessagesPage from "./Components/Dialogs/MessagesPage/MessagesPage";
 import {Footer} from "antd/es/layout/layout";
+import {AppMenu} from "./Components/LayOuts/Menu/Menu";
 
 
 const Music = React.lazy(() => import("./Components/Music/Music"));
@@ -27,8 +26,7 @@ const Settings = React.lazy(() => import("./Components/Settings/Settings"));
 const NewsPage = React.lazy(() => import("./Components/News/NewsPage"));
 const UserExit = React.lazy(() => import("./Components/Common/Exit"));
 const ChatPage = React.lazy(() => import("./Components/Dialogs/ChatPage/ChatPage"));
-const {SubMenu} = Menu;
-const {Header, Content, Sider} = Layout;
+const {Header, Content} = Layout;
 
 type MapStateToPropsType = {
     initialized: boolean
@@ -40,6 +38,7 @@ type MapDispatchToPropsType = {
     setGlobalError: (error: string | null) => void
 }
 type AppPropsType = MapDispatchToPropsType & MapStateToPropsType
+
 
 class App extends React.Component<AppPropsType> {
     catchAllErrors = (data: any) => {
@@ -63,10 +62,8 @@ class App extends React.Component<AppPropsType> {
         if (!this.props.initialized) {
             return <AppPreloader/>
         }
-        return (<div>
-                <LayOut globalError={this.props.globalError} isAuth={this.props.isAuth}/>
-            </div>
-        )
+        return <LayOut globalError={this.props.globalError} isAuth={this.props.isAuth}/>
+
     }
 }
 
@@ -77,63 +74,18 @@ type LayOutProps = {
 }
 const LayOut: React.FC<LayOutProps> = (props) => {
     return <Layout>
-        <Header className={"Header"}>
+        <Header className={styles.Header}>
             <HeaderContainer/>
         </Header>
         <Layout>
-            <Sider width={200} className="site-layout-background">
-                <div className={"Menu"}>
-                <Menu
-                    mode="inline"
-                    defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
-                    style={{height: '100%', borderRight: 0}}
-                >
-                    <SubMenu key="sub1" icon={<UserOutlined/>} title="Profile">
-                        <Menu.Item key="1"><NavLink activeClassName={s.active} exact
-                                                    to='/profile'>Profile</NavLink></Menu.Item>
-                        <Menu.Item key="2"><NavLink activeClassName={s.active}
-                                                    to='/friends'>Friends</NavLink></Menu.Item>
-                        <Menu.Item key="3"><NavLink activeClassName={s.active} to='/music'>Music</NavLink></Menu.Item>
-                        <Menu.Item key="4"><NavLink activeClassName={s.active}
-                                                    to='/dialogs_page'>Messages</NavLink></Menu.Item>
-                    </SubMenu>
-                    <SubMenu key="sub2" icon={<LaptopOutlined/>} title="Social">
-                        <Menu.Item key="5"><NavLink activeClassName={s.active} to='/users'>Find
-                            Users</NavLink></Menu.Item>
-                        <Menu.Item key="6"><NavLink activeClassName={s.active} to='/news'>News</NavLink></Menu.Item>
-                        <Menu.Item key="7"><NavLink activeClassName={s.active} to='/chat'>Common Chat</NavLink></Menu.Item>
-                    </SubMenu>
-                    <SubMenu key="sub3" icon={<NotificationOutlined/>} title="Other">
-                        <Menu.Item key="8"><NavLink activeClassName={s.active}
-                                                    to='/settings'> Settings</NavLink></Menu.Item>
-                        {props.isAuth &&
-                        <Menu.Item key="9"><NavLink activeClassName={s.active} to='/exit'> Exit</NavLink></Menu.Item>}
-                    </SubMenu>
-                </Menu>
-                </div>
-            </Sider>
+            <AppMenu isAuth={props.isAuth}/>
             <Layout style={{padding: '0 24px 24px'}}>
-                <Breadcrumb style={{margin: '16px 0'}}>
-                    <Breadcrumb.Item><NavLink to='/profile'>Home</NavLink></Breadcrumb.Item>
-                    <Breadcrumb.Item><NavLink to='/dialogs_page'>Dialogs</NavLink></Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
-                <Content
-                    className="site-layout-background"
-                    style={{
-                        padding: 24,
-                        marginLeft: 100,
-                        marginRight: 100,
-                        minHeight: 280,
-                        width: 1000
-                    }}
-                >
+                <Content className={styles.site_layout_content}>
                     <SuspenseMainContent globalError={props.globalError}/>
                 </Content>
             </Layout>
         </Layout>
-        <Footer style={{textAlign: "center"}}>
+        <Footer className={styles.Footer}>
             Social Network 2021 Created by Ilia
         </Footer>
     </Layout>
@@ -141,12 +93,12 @@ const LayOut: React.FC<LayOutProps> = (props) => {
 
 
 const MainContent: React.FC<{ globalError: string | null }> = (props) => {
-    return <div className='app-wrapper-content'>
-        {props.globalError && <div className='globalError'>{props.globalError}</div>}
+    return <div className={styles.appWrapperContent}>
+        {props.globalError && <div className={styles.globalError}>{props.globalError}</div>}
         <Switch>
             <Route path='/exit' render={() => <UserExit/>}/>
             <Route path='/dialogs_page' render={() => <DialogsPage/>}/>
-            <Route path ='/dialogs/:dialogId?' render = {() => <MessagesPage/>}/>
+            <Route path='/dialogs/:dialogId?' render={() => <MessagesPage/>}/>
             <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
             <Route path='/users' render={() => <UsersPage title={'Users'}/>}/>
             <Route path='/news' render={() => <NewsPage/>}/>

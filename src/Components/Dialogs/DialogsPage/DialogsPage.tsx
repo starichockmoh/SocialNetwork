@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 import {Button, PageHeader} from "antd";
 import {CommentOutlined, MailOutlined} from "@ant-design/icons";
 import Preloader from "../../Common/Preloader/Preloader";
+import {io} from "socket.io-client";
 
 const DialogsPage = () => {
     const dispatch = useDispatch()

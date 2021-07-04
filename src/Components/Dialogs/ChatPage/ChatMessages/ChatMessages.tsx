@@ -18,7 +18,6 @@ export const ChatMessages: React.FC<{ MessagesArray: Array<ChatMessageTypeWithId
     useEffect(() => {
         if (IsAutoScroll) MessagesAnchor.current?.scrollIntoView({behavior: 'smooth'})
     }, [MessagesArray, IsAutoScroll])
-    debugger
 
     return <div>
         <div className={styles.ChatMessages} onScroll={onScroll}>
