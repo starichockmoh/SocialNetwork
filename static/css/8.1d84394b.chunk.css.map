@@ -1,0 +1,1 @@
+{"version":3,"sources":["UsersSearch.module.css"],"names":[],"mappings":"AAAA,2BACI,YAAa,CACb,kCAAmC,CACnC,WAAY,CACZ,YACJ","file":"8.1d84394b.chunk.css","sourcesContent":[".Search{\r\n    display: grid;\r\n    grid-template-columns: 10fr 2fr 4fr;\r\n    margin: 10px;\r\n    grid-gap: 2px;\r\n}"]}

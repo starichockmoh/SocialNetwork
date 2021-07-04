@@ -1,0 +1,1 @@
+{"version":3,"sources":["News.module.css","NewPost.module.css"],"names":[],"mappings":"AAAA,uBACG,WACH,CCFA,yBACI,SAAU,CACV,YACJ","file":"5.6fe5193a.chunk.css","sourcesContent":[".NewsPosts {\r\n   padding: 7px;\r\n}",".NewsPost{\r\n    width: 80%;\r\n    padding: 10px;\r\n}"]}
