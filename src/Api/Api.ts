@@ -4,7 +4,7 @@ import {DialogsType, MessagesType, PhotosType, ProfileType, ResultCodesEnum, Use
 const AxiosInstance = axios.create({
     withCredentials: true,
     headers: {
-        'API-KEY': '35381f05-7fad-43c3-9d23-eda73d59f86b'
+        'API-KEY': 'ae66965c-b54d-4b4f-97e5-e32103b2b4f9'
     },
     baseURL: 'https://social-network.samuraijs.com/api/1.0',
 })

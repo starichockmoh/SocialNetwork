@@ -23,7 +23,7 @@ const UsersSearch: React.FC<PropsType> = (props) => {
     return <>
         <Form onFinish={ActivateSearch} name="user_search" className = {styles.Search}>
             <Form.Item name="term">
-                <Input/>
+                <Input placeholder={'Enter name...'}/>
             </Form.Item>
             <Form.Item name="followed" valuePropName="checked">
                 <Checkbox> Only followed </Checkbox>

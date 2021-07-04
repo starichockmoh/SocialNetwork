@@ -11,11 +11,13 @@ import {ProfileActions} from "../../../Redux/Reducers/ProfileReducer";
 export const MyPosts: React.FC = React.memo(() => {
     const PostData = useSelector((state: AppStateType) => state.ProfilePage.PostsData)
     const dispatch = useDispatch()
+    const ProfileID = useSelector((state: AppStateType) => state.ProfilePage.ProfileInfo?.userId)
+    const CurrentUserID = useSelector((state: AppStateType) => state.Auth.CurrentUserId)
     const PostsElements = [...PostData].map(p => <Post key={p.id} message={p.message} likecount={p.likecount} id={p.id}/>);
     const addPost = (dataForm: {postInput: string}) => {
         dispatch(ProfileActions.addNewPost(dataForm.postInput))
     }
-    return <div className={s.PostDescription}>
+    if (ProfileID == CurrentUserID) return <div className={s.PostDescription}>
             <h3> My posts</h3>
             <div>
                 <PostInputReduxForm onSubmit={addPost}/>
@@ -24,4 +26,7 @@ export const MyPosts: React.FC = React.memo(() => {
                 {PostsElements}
             </div>
         </div>
+    else return <div className={s.PostDescription}>
+        <h3>Posts</h3>
+    </div>
 })

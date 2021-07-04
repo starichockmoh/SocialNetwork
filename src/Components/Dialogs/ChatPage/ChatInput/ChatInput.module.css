@@ -1,0 +1,5 @@
+.ChatInput{
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    grid-gap: 10px;
+}

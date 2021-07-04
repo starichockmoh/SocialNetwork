@@ -13,6 +13,8 @@ import queryString from "querystring";
 import {requestUsers} from "../../../Redux/Reducers/UsersReducer";
 import {Paginator} from "../../Common/Paginator/Paginator";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
+import {withAuthRedirect} from "../../../HOC/withAuthRedirect";
+import Preloader from "../../Common/Preloader/Preloader";
 
 
 type ParamsType = {
@@ -71,6 +73,7 @@ const MessagesPage: React.FC = () => {
     const onPageChanged = (page: number) => {
         dispatch(ShowMessages(dialogId, String(page)))
     }
+    if (!MessagesData) return <Preloader/>
     return <div className = {styles.MessagesPage}>
         <Paginator onPageChanged={onPageChanged}
                    totalItems={TotalMessagesItems}
@@ -94,7 +97,7 @@ const MessagesPage: React.FC = () => {
     </div>
 }
 
-export default MessagesPage
+export default withAuthRedirect(MessagesPage)
 
 
 

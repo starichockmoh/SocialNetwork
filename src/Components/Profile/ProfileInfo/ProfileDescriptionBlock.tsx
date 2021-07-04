@@ -38,7 +38,7 @@ export const ProfileDescription: React.FC<ProfileDescriptionType> = ({fullName, 
         </div>
         <div className={s.AboutMe}>
             <div className={s.AboutMeTitle}>My Phone:</div>
-            <div className={s.AboutMeData}> +375 (33) 355-29-71</div>
+            <div className={s.AboutMeData}> +375 (33) 355-29-98</div>
             <div className={s.AboutMeTitle}> Date of birth:</div>
             <div className={s.AboutMeData}> 24 April 20001</div>
             <div className={s.AboutMeTitle}> Abot me:</div>

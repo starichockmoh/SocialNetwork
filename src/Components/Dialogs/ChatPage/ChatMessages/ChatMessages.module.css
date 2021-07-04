@@ -1,8 +1,15 @@
 .ChatMessage{
     margin: 5px;
     padding: 5px;
+    background-color: white;;
+    border-radius: 10px;
 }
 .ChatMessages{
     height: 400px;
     overflow-y: auto;
+}
+.CheckBox{
+    position: sticky;
+    top: 0;
+    z-index: 3;
 }

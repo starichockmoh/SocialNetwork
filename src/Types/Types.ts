@@ -57,6 +57,15 @@ export type MessagesType = {
     translatedBody: null
     viewed: boolean
 }
+
+export type ChatMessageType = {
+    photo: string
+    userName: string
+    message: string
+    userId: number
+}
+
+export type WSStatusType =  'OPENED' | 'CLOSED' | 'PENDING' | 'ERROR'
 export enum ResultCodesEnum {
     Success = 0,
     Error = 1,

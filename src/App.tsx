@@ -17,8 +17,7 @@ import s from "./Components/Navbar/Navbar.module.css";
 import FriendsContainer from "./Components/Friends/FriendsContainer";
 import DialogsPage from "./Components/Dialogs/DialogsPage/DialogsPage";
 import MessagesPage from "./Components/Dialogs/MessagesPage/MessagesPage";
-
-
+import {Footer} from "antd/es/layout/layout";
 
 
 const Music = React.lazy(() => import("./Components/Music/Music"));
@@ -70,6 +69,7 @@ class App extends React.Component<AppPropsType> {
         )
     }
 }
+
 
 type LayOutProps = {
     globalError: string | null
@@ -133,12 +133,14 @@ const LayOut: React.FC<LayOutProps> = (props) => {
                 </Content>
             </Layout>
         </Layout>
+        <Footer style={{textAlign: "center"}}>
+            Social Network 2021 Created by Ilia
+        </Footer>
     </Layout>
 }
 
 
 const MainContent: React.FC<{ globalError: string | null }> = (props) => {
-
     return <div className='app-wrapper-content'>
         {props.globalError && <div className='globalError'>{props.globalError}</div>}
         <Switch>

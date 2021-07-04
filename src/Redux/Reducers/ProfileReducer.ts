@@ -8,8 +8,9 @@ import {AppStateType} from "../ReduxStore";
 
 let InitialState = {
     PostsData: [
-        {message: 'Heil Hitler', id: 1, likecount: 1488},
+        {message: 'Здарова всем славянам', id: 1, likecount: 1488},
         {message: 'salam', id: 2, likecount: 228},
+        {message: 'Это мой немой пост', id: 3, likecount: 3},
     ] as Array<PostType>,
     ProfileInfo: null as NullableType<ProfileType>,
     ProfileStatus: '',
