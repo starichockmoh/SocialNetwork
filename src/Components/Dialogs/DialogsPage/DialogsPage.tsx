@@ -1,7 +1,7 @@
 import React, {useEffect} from "react"
 import DialogItem from "./DialogItem";
 import {useDispatch, useSelector} from "react-redux";
-import {DialogsActions, ShowDialogs} from "../../../Redux/Reducers/DialogsReducer";
+import {DialogsActions} from "../../../Redux/Reducers/DialogsReducer";
 import {AppStateType} from "../../../Redux/ReduxStore";
 import styles from "./DialogsPage.module.css"
 import {withAuthRedirect} from "../../../HOC/withAuthRedirect";
@@ -9,12 +9,12 @@ import { NavLink } from "react-router-dom";
 import {Button, PageHeader} from "antd";
 import {CommentOutlined, MailOutlined} from "@ant-design/icons";
 import Preloader from "../../Common/Preloader/Preloader";
-import {io} from "socket.io-client";
+import {ActivateSagasActions} from "../../../Redux/Sagas/DialogsSagas";
 
 const DialogsPage = () => {
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(ShowDialogs())
+        dispatch(ActivateSagasActions.ShowDialogsAC())
         dispatch(DialogsActions.SetCurrentPage(1))
     }, [dispatch])
     const DialogsData = useSelector((state: AppStateType) => state.DialogsPage.DialogsData)

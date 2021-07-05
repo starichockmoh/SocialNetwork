@@ -6,7 +6,6 @@ import {ProfileActions, saveMainPhoto, UpdateProfileInfo} from "../../../Redux/R
 import 'antd/dist/antd.css';
 import {Button, Image} from 'antd';
 import {AppStateType} from "../../../Redux/ReduxStore";
-import {AddNewDialog} from "../../../Redux/Reducers/DialogsReducer";
 import {CloseOutlined, EditOutlined} from "@ant-design/icons";
 import ProfilePhotoInputFile from "./FileInputs/ProfilePhotoInputFile";
 import {ProfileAdDescription, ProfileDescription} from "./ProfileDescriptionBlock";
@@ -14,6 +13,7 @@ import {NavLink} from "react-router-dom";
 import UserAvatar
     from "./../../../accepts/images/computer-icons-user-profile-avatar-png-favpng-CXDB2aUAq6zHS7pQSY9GjQ3ZH.jpg"
 import ProfileInfoForm from "./ProfileInfoForm";
+import {ActivateSagasActions} from "../../../Redux/Sagas/DialogsSagas";
 
 
 const ProfileInfo: React.FC = () => {
@@ -43,7 +43,7 @@ const ProfileInfo: React.FC = () => {
     }
     const startDialog = () => {
         if (ProfileInfo !== null) {
-            dispatch(AddNewDialog(ProfileInfo.userId))
+            dispatch(ActivateSagasActions.AddNewDialogAC(ProfileInfo.userId))
         }
     }
     if (!ProfileInfo) {

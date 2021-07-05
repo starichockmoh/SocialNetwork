@@ -5,13 +5,15 @@ import NavbarReducer from "./Reducers/NavbarReducer";
 import UsersReducer from "./Reducers/UsersReducer";
 import AuthReducer from "./Reducers/AuthReducer";
 import thunkMiddleware from "redux-thunk";
+import createSagaMiddleware from "redux-saga"
 import { reducer as formReducer} from "redux-form";
 import AppReducer from "./Reducers/AppReducer";
 import NewsReducer from "./Reducers/NewsReducer";
 import ChatReducer from "./Reducers/ChatReducer";
+import {watchDeleteMessage} from "./Sagas/DialogsSagas";
 
 
-let MainReducer = combineReducers({
+const MainReducer = combineReducers({
     DialogsPage : DialogReducer,
     ProfilePage: ProfileReducer,
     NewsPage: NewsReducer,
@@ -25,9 +27,13 @@ let MainReducer = combineReducers({
 
 type MainReducerType = typeof MainReducer
 export type AppStateType = ReturnType<MainReducerType>
+const sagaMiddleware = createSagaMiddleware()
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(MainReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
+const store = createStore(MainReducer, composeEnhancers(applyMiddleware(thunkMiddleware, sagaMiddleware)));
+
+
+sagaMiddleware.run(watchDeleteMessage)
 
 export default store
 

@@ -1,20 +1,20 @@
 import React, {useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router-dom";
-import {DialogsActions, SendMessage, ShowMessages} from "../../../Redux/Reducers/DialogsReducer";
+import {DialogsActions} from "../../../Redux/Reducers/DialogsReducer";
 import {AppStateType} from "../../../Redux/ReduxStore";
 import styles from "./MessagesPage.module.css"
 import MyMessage from "./MyMessage";
 import Message from "./Message";
 import {getProfile} from "../../../Redux/Reducers/ProfileReducer";
-import {Button, Form, Input} from "antd";
+import {Button, Form} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import queryString from "querystring";
-import {requestUsers} from "../../../Redux/Reducers/UsersReducer";
 import {Paginator} from "../../Common/Paginator/Paginator";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import {withAuthRedirect} from "../../../HOC/withAuthRedirect";
 import Preloader from "../../Common/Preloader/Preloader";
+import {ActivateSagasActions} from "../../../Redux/Sagas/DialogsSagas";
 
 
 type ParamsType = {
@@ -43,7 +43,7 @@ const MessagesPage: React.FC = () => {
     useEffect(() => {
         const parsed: any = queryString.parse(history.location.search.substr(1))
         let actualPage = parsed.page? parsed.page : 1
-        dispatch(ShowMessages(dialogId, actualPage))
+        dispatch(ActivateSagasActions.ShowMessagesAC(dialogId, actualPage))
     },[history.location.search])
 
 
@@ -64,14 +64,15 @@ const MessagesPage: React.FC = () => {
 
     })
     const onFinish = (values: {send_message_textarea: string}) => {
-        dispatch(SendMessage(String(FriendId), values.send_message_textarea))
+        dispatch( ActivateSagasActions.SendMessageAC(String(FriendId), values.send_message_textarea))
         form.resetFields();
     }
     const onReset = () => {
         form.resetFields();
     };
     const onPageChanged = (page: number) => {
-        dispatch(ShowMessages(dialogId, String(page)))
+
+        dispatch( ActivateSagasActions.ShowMessagesAC(dialogId, String(page)))
     }
     if (!MessagesData) return <Preloader/>
     return <div className = {styles.MessagesPage}>

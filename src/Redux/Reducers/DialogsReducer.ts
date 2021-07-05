@@ -1,7 +1,4 @@
-import {DialogsApi} from "../../Api/Api";
-import {ActionsType, DialogsType, MessagesType, NullableType, ResultCodesEnum} from "../../Types/Types";
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "../ReduxStore";
+import {ActionsType, DialogsType, MessagesType, NullableType} from "../../Types/Types";
 
 let InitialState = {
     DialogsData: null as NullableType<Array<DialogsType>>,
@@ -48,7 +45,6 @@ const DialogReducer = (state = InitialState, action: DialogsActionsType): Initia
             return state
     }
 }
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, DialogsActionsType>
 type DialogsActionsType = ActionsType<typeof DialogsActions>
 
 export const DialogsActions = {
@@ -59,39 +55,7 @@ export const DialogsActions = {
     SetTotalItems: (totalItems: number) => ({type: "SET_TOTAL_MESSAGES_ITEMS", totalItems} as const)
 }
 
-export const AddNewDialog = (id: number): ThunkType =>
-    async (dispatch, getState) => {
-        let data = await DialogsApi.PutDialog(id)
-        if (data.resultCode === ResultCodesEnum.Success) {
-            dispatch(ShowDialogs())
-        }
-    }
-export const ShowDialogs = (): ThunkType =>
-    async (dispatch) => {
-        let data = await DialogsApi.GetDialogs()
-        dispatch(DialogsActions.SetDialogs(data))
-    }
-export const ShowMessages = (id: string, page: string): ThunkType =>
-    async (dispatch, getState) => {
-        let data = await DialogsApi.GetUserDialog(id, page)
-        dispatch(DialogsActions.SetCurrentPage(Number(page)))
-        dispatch(DialogsActions.SetTotalItems(data.totalCount))
-        dispatch(DialogsActions.ShowMessagesAC(data.items))
-    }
-export const SendMessage = (userid: string, message: string): ThunkType =>
-    async (dispatch, getState) => {
-        let data = await DialogsApi.PutMessage(userid, message)
-        if (data.resultCode === ResultCodesEnum.Success) {
-            dispatch(DialogsActions.AddNewMessage(data.data.message))
-        }
-    }
-export const DeleteMessage = (messageId: string, userID: string, page: string): ThunkType =>
-    async (dispatch, getState) => {
-        let data = await DialogsApi.DeleteMessage(messageId)
 
-        if (data.resultCode === ResultCodesEnum.Success) {
-            dispatch(ShowMessages(userID, page))
-        }
-    }
+
 
 export default DialogReducer;

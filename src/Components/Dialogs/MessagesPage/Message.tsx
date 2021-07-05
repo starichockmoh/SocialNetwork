@@ -26,7 +26,7 @@ const Message: React.FC<PropsType> = ({Message,FriendAvatar}) => {
             }
             datetime={
                 <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                    <span>{Message.addedAt}</span>
+                    <span>{Message.addedAt.substring(0, 10)}</span>
                 </Tooltip>
             }
         />
