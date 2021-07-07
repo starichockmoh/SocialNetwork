@@ -1,21 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {ChatMessages} from "./ChatMessages/ChatMessages";
 import {PageHeader} from "antd";
 import {CommentOutlined} from "@ant-design/icons";
-import { ChatInput } from "./ChatInput/ChatInput";
+import {ChatInput} from "./ChatInput/ChatInput";
 import Preloader from "../../Common/Preloader/Preloader";
-import {ChatMessageType, NullableType} from "../../../Types/Types";
-import {cleanup} from "@testing-library/react";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    SendChatMessage,
-    StartMessagesListening,
-    StartToControlStatus,
-    StopMessagesListening, StopToControlStatus
-} from "../../../Redux/Reducers/ChatReducer";
 import {AppStateType} from "../../../Redux/ReduxStore";
 import {withAuthRedirect} from "../../../HOC/withAuthRedirect";
-
+import {StartChatSagaActions} from "../../../Redux/Sagas/ChatSagas";
 
 
 const ChatPage: React.FC = () => {
@@ -31,11 +23,9 @@ const Chat = () => {
     const MessagesArray = useSelector(((state: AppStateType) => state.Chat.ChatMessages))
     const WSStatus = useSelector(((state: AppStateType) => state.Chat.WSStatus))
     useEffect(() => {
-        dispatch(StartMessagesListening())
-        dispatch(StartToControlStatus())
+        dispatch(StartChatSagaActions.StartWsAC())
         return () => {
-            dispatch(StopMessagesListening())
-            dispatch(StopToControlStatus())
+            dispatch(StartChatSagaActions.CloseWSAC())
         }
     }, [dispatch])
 

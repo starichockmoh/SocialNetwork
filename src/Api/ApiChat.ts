@@ -1,72 +1,74 @@
-import { io } from "socket.io-client";
-import {ChatMessageType, WSStatusType} from "../Types/Types";
+import {ChatMessageType} from "../Types/Types";
+import {ChatActions, ChatActionsType} from "../Redux/Reducers/ChatReducer";
+import {eventChannel} from "redux-saga";
 
-type SubscriberFunction = (messages: Array<ChatMessageType>) => void
-type SubscriberStatusFunction = (WSStatus: WSStatusType) => void
+let ws: WebSocket | null = null
+export type EmitterActionsType = ChatActionsType | {type: "TRY_TO_RECONNECT"}
+type EmitterType = (input: EmitterActionsType) => void
+let emitter: EmitterType
 
-let ws: WebSocket | null = null //инициализация сокета
-let subscribers: Array<SubscriberFunction> = []
-let statusSubscribers: Array<SubscriberStatusFunction> = []
+
+const MessageHandler = (e: MessageEvent) => {
+    let ChatMessages: Array<ChatMessageType> | null = null
+    try {
+        ChatMessages = JSON.parse(e.data)
+    } catch(e) {
+        console.error(`Error parsing : ${e.data}`)
+    }
+    if (ChatMessages) {
+        return emitter(ChatActions.SetChatMessages(ChatMessages))
+    }
+}
+
+const CloseHandler = () => {
+    console.log("CLOSED")
+    emitter(ChatActions.SetWSStatus("CLOSED"))
+    setTimeout(() => emitter({ type: "TRY_TO_RECONNECT"}), 3000)
+
+}
+
+const OpenedHandler = () => {
+    console.log("OPENED")
+    emitter(ChatActions.SetWSStatus("OPENED"))
+}
+const ErrorHandler = () => {
+    console.log("ERROR")
+    emitter(ChatActions.SetWSStatus("ERROR"))
+}
 
 const CleanUp = () => {
-    ws?.removeEventListener('close', CloseHandler) // зачищаем предыдущий сокет, если таковой имеется
+    ws?.removeEventListener('close',CloseHandler)
     ws?.removeEventListener('message', MessageHandler)
-    ws?.removeEventListener('open', OpenHandler)
+    ws?.removeEventListener('open', OpenedHandler)
     ws?.removeEventListener('error', ErrorHandler)
     ws?.close()
 }
 
-const CloseHandler = () => { //функция пересоздающая канал каждые три секунды после срабатывания события close
-    console.log('CLOSED')
-    statusSubscribers.forEach((c) => c('CLOSED'))
-    setTimeout(createChannel, 3000)
-}
 
-const MessageHandler = (ev: MessageEvent) => {
-    let NewMessages = JSON.parse(ev.data)
-    subscribers.forEach((c) => c(NewMessages))
-}
-const OpenHandler = () => {
-    statusSubscribers.forEach((c) => c('OPENED'))
-}
-const ErrorHandler = () => {
-    statusSubscribers.forEach((c) => c('ERROR'))
-    console.error('SOME ERROR')
-}
+const initWebsocket = () => {
+    return eventChannel((emitt: EmitterType) => {
+        emitter = emitt
+        CleanUp()
+        ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
+        ws.addEventListener('close', CloseHandler)
+        ws.addEventListener('open', OpenedHandler)
+        ws.addEventListener('error', ErrorHandler)
+        ws.addEventListener('message', MessageHandler)
+        return () => {
 
-const createChannel = () => { //функция создания канала
-    CleanUp()
-    ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx') //открываем канал
-
-    ws.addEventListener('close', CloseHandler) //подписываемся на закрытие
-    ws.addEventListener('message', MessageHandler)
-    ws.addEventListener('open', OpenHandler)
-    ws.addEventListener('error', ErrorHandler)
+        }
+    })
 }
-
 
 export const chatAPI = {
     start() {
-        createChannel()
+       return initWebsocket()
     },
-    stop() {
+    stop(){
         CleanUp()
-        subscribers = []
-        statusSubscribers = []
     },
-    subscribe(callback: SubscriberFunction) {
-        subscribers.push(callback)
-    },
-    unsubscribe(callback: SubscriberFunction) {
-        subscribers = subscribers.filter((c) => c !== callback)
-    },
-    sendMessage(message: string) {
+    sendMessage(message: string){
         ws?.send(message)
-    },
-    subscribeOnStatus(callback: SubscriberStatusFunction) {
-        statusSubscribers.push(callback)
-    },
-    unsubscribeOnStatus(callback: SubscriberStatusFunction) {
-        statusSubscribers = statusSubscribers.filter((c) => c !== callback)
     }
 }
+

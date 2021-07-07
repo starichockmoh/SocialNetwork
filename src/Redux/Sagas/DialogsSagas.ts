@@ -19,7 +19,7 @@ export const ActivateSagasActions = {
 
 
 
-export function* watchDeleteMessage(): Generator<any, any, any> {
+export function* watchMessages(): Generator<any, any, any> {
     yield takeEvery<PatternsType, SagaWorkerType<MessageDeleteActionType>>("FETCH_DELETE_MESSAGE", fetchDeleteMessage)
     yield takeLatest<PatternsType, SagaWorkerType<MessagesShowActionType>>("FETCH_SHOW_MESSAGE", fetchShowMessages)
     yield takeEvery<PatternsType, SagaWorkerType<AddNewDialogActionType>>("FETCH_ADD_NEW_DIALOG", fetchAddNewDialog)
@@ -31,7 +31,7 @@ export function* watchDeleteMessage(): Generator<any, any, any> {
 type MessagesShowActionType = ReturnType<typeof ActivateSagasActions.ShowMessagesAC>
 type GetUserDataType = SagaReturnType<typeof DialogsApi.GetUserDialog>
 
-function* fetchShowMessages(action: MessagesShowActionType) {
+export function* fetchShowMessages(action: MessagesShowActionType) {
     const data: GetUserDataType = yield call(DialogsApi.GetUserDialog, action.id, action.page)
     yield put(DialogsActions.SetCurrentPage(Number(action.page)))
     yield put(DialogsActions.SetTotalItems(data.totalCount))

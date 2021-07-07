@@ -10,7 +10,9 @@ import { reducer as formReducer} from "redux-form";
 import AppReducer from "./Reducers/AppReducer";
 import NewsReducer from "./Reducers/NewsReducer";
 import ChatReducer from "./Reducers/ChatReducer";
-import {watchDeleteMessage} from "./Sagas/DialogsSagas";
+import {watchMessages} from "./Sagas/DialogsSagas";
+import { all } from "redux-saga/effects";
+import {StopWSSaga, wsSaga} from "./Sagas/ChatSagas";
 
 
 const MainReducer = combineReducers({
@@ -32,8 +34,14 @@ const sagaMiddleware = createSagaMiddleware()
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(MainReducer, composeEnhancers(applyMiddleware(thunkMiddleware, sagaMiddleware)));
 
-
-sagaMiddleware.run(watchDeleteMessage)
+function* rootSaga() {
+    yield all([
+        watchMessages(),
+        wsSaga(),
+        StopWSSaga()
+    ])
+}
+sagaMiddleware.run(rootSaga)
 
 export default store
 

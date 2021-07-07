@@ -1,8 +1,4 @@
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "../ReduxStore";
 import {ActionsType, ChatMessageType, WSStatusType} from "../../Types/Types";
-import {chatAPI} from "../../Api/ApiChat";
-import {Dispatch} from "redux";
 import {v1} from "uuid"
 
 
@@ -32,60 +28,11 @@ const ChatReducer = (state = InitialState, action: ChatActionsType): InitialStat
     }
 }
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ChatActionsType>
-type ChatActionsType = ActionsType<typeof ChatActions>
-
-
+export type ChatActionsType = ActionsType<typeof ChatActions>
 
 export const ChatActions = {
     SetChatMessages: (ChatMessages: Array<ChatMessageType>) => ({type: "SET_CHAT_MESSAGES", ChatMessages} as const),
-    SetWSStatus: (WSStatus: WSStatusType) => ({type: 'SET_WS_STATUS', WSStatus} as const)
+    SetWSStatus: (WSStatus: WSStatusType) => ({type: 'SET_WS_STATUS', WSStatus} as const),
 }
 
-
-let _StatusSubscriber: ((WSStatus: WSStatusType) => void) | null = null
-
-const GetStatusSubscriber = (dispatch: Dispatch) => {
-    if (!_StatusSubscriber) {
-        _StatusSubscriber = (WSStatus) => {
-            dispatch(ChatActions.SetWSStatus(WSStatus))
-        }
-    }
-    return _StatusSubscriber
-}
-
-
-let _Subscriber: ((messages: ChatMessageType[]) => void) | null = null
-
-const GetSubscriber = (dispatch: Dispatch) => {
-    if (!_Subscriber) {
-        _Subscriber = (messages) => {
-            dispatch(ChatActions.SetChatMessages(messages))
-        }
-    }
-    return _Subscriber
-}
-
-export const StartMessagesListening = (): ThunkType =>
-    async (dispatch) => {
-        chatAPI.start()
-        chatAPI.subscribe(GetSubscriber(dispatch))
-    }
-export const StopMessagesListening = (): ThunkType =>
-    async (dispatch) => {
-        chatAPI.unsubscribe(GetSubscriber(dispatch))
-        chatAPI.stop()
-    }
-export const SendChatMessage = (message: string): ThunkType =>
-    async (dispatch) => {
-        chatAPI.sendMessage(message)
-    }
-export const StartToControlStatus = (): ThunkType =>
-    async (dispatch) => {
-    chatAPI.subscribeOnStatus(GetStatusSubscriber(dispatch))
-    }
-export const StopToControlStatus = (): ThunkType =>
-    async (dispatch) => {
-        chatAPI.unsubscribeOnStatus(GetStatusSubscriber(dispatch))
-    }
 export default ChatReducer

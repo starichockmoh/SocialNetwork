@@ -5,7 +5,8 @@ import styles from "./ChatInput.module.css"
 import {CloseCircleOutlined, SendOutlined} from "@ant-design/icons";
 import {WSStatusType} from "../../../../Types/Types";
 import {useDispatch} from "react-redux";
-import {SendChatMessage} from "../../../../Redux/Reducers/ChatReducer";
+import {StartChatSagaActions} from "../../../../Redux/Sagas/ChatSagas";
+
 
 type PropsType = {
     WSStatus: WSStatusType
@@ -14,7 +15,7 @@ type PropsType = {
 export const ChatInput: React.FC<PropsType> = ({WSStatus}) => {
     const dispatch = useDispatch()
     const onFinish = (values:{ChatInputEnterMessage: string}) => {
-        dispatch(SendChatMessage(values.ChatInputEnterMessage))
+        dispatch(StartChatSagaActions.SendMessageAC(values.ChatInputEnterMessage))
         form.resetFields()
     }
     const [form] = Form.useForm();
