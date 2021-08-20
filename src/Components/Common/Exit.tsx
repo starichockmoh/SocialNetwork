@@ -1,16 +1,16 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {authLogOut} from "../../Redux/Reducers/AuthReducer";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../Redux/ReduxStore";
 import {Button, PageHeader} from "antd";
 import {PoweroffOutlined} from "@ant-design/icons";
+import {ActivateLoginFlowSagasActions} from "../../Redux/Sagas/LoginFlowSagas";
 
 const UserExit: React.FC = () => {
     const dispatch = useDispatch()
     const isAuth = useSelector((state: AppStateType) => state.Auth.isAuth)
     const LogOutUser = () => {
-        dispatch(authLogOut())
+        dispatch(ActivateLoginFlowSagasActions.LogOutAC())
     }
     if (isAuth) {
         return <div style={{marginLeft:10}}>

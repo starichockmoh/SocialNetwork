@@ -1,4 +1,4 @@
-import {createStore, combineReducers, applyMiddleware, compose} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import DialogReducer from "./Reducers/DialogsReducer";
 import ProfileReducer from "./Reducers/ProfileReducer";
 import NavbarReducer from "./Reducers/NavbarReducer";
@@ -6,13 +6,15 @@ import UsersReducer from "./Reducers/UsersReducer";
 import AuthReducer from "./Reducers/AuthReducer";
 import thunkMiddleware from "redux-thunk";
 import createSagaMiddleware from "redux-saga"
-import { reducer as formReducer} from "redux-form";
+import {reducer as formReducer} from "redux-form";
 import AppReducer from "./Reducers/AppReducer";
 import NewsReducer from "./Reducers/NewsReducer";
 import ChatReducer from "./Reducers/ChatReducer";
 import {watchMessages} from "./Sagas/DialogsSagas";
-import { all } from "redux-saga/effects";
-import {StopWSSaga, wsSaga} from "./Sagas/ChatSagas";
+import {all} from "redux-saga/effects";
+import {StopWSSagaWatcher, WSSagaWatcher} from "./Sagas/ChatSagas";
+import {WatchLoginSaga, WatchLogOutSaga} from "./Sagas/LoginFlowSagas";
+import {initializedAppSaga} from "./Sagas/AppSagas";
 
 
 const MainReducer = combineReducers({
@@ -27,18 +29,24 @@ const MainReducer = combineReducers({
     Chat: ChatReducer
 })
 
-type MainReducerType = typeof MainReducer
-export type AppStateType = ReturnType<MainReducerType>
+
+export type AppStateType = ReturnType<typeof MainReducer>
 const sagaMiddleware = createSagaMiddleware()
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(MainReducer, composeEnhancers(applyMiddleware(thunkMiddleware, sagaMiddleware)));
+const store = createStore(MainReducer, composeEnhancers(applyMiddleware(
+    thunkMiddleware,
+    sagaMiddleware
+    )));
 
 function* rootSaga() {
     yield all([
         watchMessages(),
-        wsSaga(),
-        StopWSSaga()
+        WSSagaWatcher(),
+        StopWSSagaWatcher(),
+        WatchLoginSaga(),
+        initializedAppSaga(),
+        WatchLogOutSaga()
     ])
 }
 sagaMiddleware.run(rootSaga)

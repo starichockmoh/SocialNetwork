@@ -1,7 +1,7 @@
-import {authUser} from "./AuthReducer";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "../ReduxStore";
 import {ActionsType, NullableType} from "../../Types/Types";
+
 
 
 let InitialState= {
@@ -29,7 +29,6 @@ let AppReducer = (state = InitialState, action:AppActionsType): InitialStateType
     }
 }
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, AppActionsType>
 type AppActionsType = ActionsType<typeof AppActions>
 
 export const AppActions = {
@@ -37,19 +36,7 @@ export const AppActions = {
     showGlobalError:(error: string | null) => ({type: 'SOME_GLOBAL_ERROR', error} as const)
 }
 
-export const initializedApp = () => {
-    return (dispatch: Function) => {
-        let promise = dispatch(authUser())
-        promise.then(() => {
-            dispatch(AppActions.initializedSuccess())
-        })
-    }
-}
-export const setGlobalError = (error: NullableType<string>): ThunkType  =>
-    async (dispatch,getState) => {
-    dispatch(AppActions.showGlobalError(error))
-    setTimeout(() => {dispatch(AppActions.showGlobalError(null))},5000)
-}
+
 
 
 export default AppReducer

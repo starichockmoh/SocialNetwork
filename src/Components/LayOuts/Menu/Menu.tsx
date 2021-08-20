@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "./Menu.module.css"
 import {LaptopOutlined, NotificationOutlined, UserOutlined} from "@ant-design/icons";
-import {NavLink, useHistory} from "react-router-dom";
+import {Link, NavLink, useHistory} from "react-router-dom";
 import {Layout, Menu} from 'antd';
 const {Sider} = Layout;
 
@@ -36,7 +36,7 @@ export const AppMenu: React.FC<{ isAuth: boolean }> = ({isAuth}) => {
                 </SubMenu>
                 <SubMenu key="sub3" icon={<NotificationOutlined/>} title="Other">
                     <Menu.Item key="settings"><NavLink to='/settings'> Settings</NavLink></Menu.Item>
-                    {isAuth && <Menu.Item key="exit"><NavLink to='/exit'> Exit</NavLink></Menu.Item>}
+                    {isAuth && <Menu.Item key="exit"><Link to='/exit'> Exit</Link></Menu.Item>}
                 </SubMenu>
             </Menu>
         </div>

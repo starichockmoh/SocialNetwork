@@ -3,16 +3,18 @@ import UserPhoto from "../../../accepts/images/computer-icons-user-profile-avata
 import styles from './HeaderProfile.module.css'
 import {Avatar, Button} from "antd";
 import {LogoutOutlined} from "@ant-design/icons";
+import {useDispatch} from "react-redux";
+import {ActivateLoginFlowSagasActions} from "../../../Redux/Sagas/LoginFlowSagas";
 
 type PropsType = {
     login: string | null
     CurrentUserPhoto:  string | null
 
-    authLogOut: () => void
 }
 const HeaderProfile: React.FC<PropsType> = (props) => {
+    const dispatch = useDispatch()
     const onLogOut = () => {
-        props.authLogOut()
+        dispatch(ActivateLoginFlowSagasActions.LogOutAC())
     }
     return <div>
         <Button icon={<LogoutOutlined/>} onClick={onLogOut}>Log Out</Button>

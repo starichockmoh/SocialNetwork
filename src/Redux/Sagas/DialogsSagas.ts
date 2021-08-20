@@ -20,18 +20,18 @@ export const ActivateSagasActions = {
 
 
 export function* watchMessages(): Generator<any, any, any> {
-    yield takeEvery<PatternsType, SagaWorkerType<MessageDeleteActionType>>("FETCH_DELETE_MESSAGE", fetchDeleteMessage)
-    yield takeLatest<PatternsType, SagaWorkerType<MessagesShowActionType>>("FETCH_SHOW_MESSAGE", fetchShowMessages)
-    yield takeEvery<PatternsType, SagaWorkerType<AddNewDialogActionType>>("FETCH_ADD_NEW_DIALOG", fetchAddNewDialog)
-    yield takeEvery<PatternsType, SagaWorkerType<ShowDialogsActionType>>("FETCH_SHOW_DIALOGS", fetchShowDialogs)
-    yield takeEvery<PatternsType, SagaWorkerType<SendMessageActionType>>("FETCH_SEND_MESSAGE", fetchSendMessage)
+    yield takeEvery<PatternsType, SagaWorkerType<MessageDeleteActionType>>("FETCH_DELETE_MESSAGE", DeleteMessageWorker)
+    yield takeLatest<PatternsType, SagaWorkerType<MessagesShowActionType>>("FETCH_SHOW_MESSAGE", ShowMessagesWorker)
+    yield takeEvery<PatternsType, SagaWorkerType<AddNewDialogActionType>>("FETCH_ADD_NEW_DIALOG", AddNewDialogWorker)
+    yield takeEvery<PatternsType, SagaWorkerType<ShowDialogsActionType>>("FETCH_SHOW_DIALOGS", ShowDialogsWorker)
+    yield takeEvery<PatternsType, SagaWorkerType<SendMessageActionType>>("FETCH_SEND_MESSAGE", SendMessageWorker)
 }
 
 
 type MessagesShowActionType = ReturnType<typeof ActivateSagasActions.ShowMessagesAC>
 type GetUserDataType = SagaReturnType<typeof DialogsApi.GetUserDialog>
 
-export function* fetchShowMessages(action: MessagesShowActionType) {
+export function* ShowMessagesWorker(action: MessagesShowActionType) {
     const data: GetUserDataType = yield call(DialogsApi.GetUserDialog, action.id, action.page)
     yield put(DialogsActions.SetCurrentPage(Number(action.page)))
     yield put(DialogsActions.SetTotalItems(data.totalCount))
@@ -42,10 +42,10 @@ export function* fetchShowMessages(action: MessagesShowActionType) {
 type MessageDeleteActionType = ReturnType<typeof ActivateSagasActions.DeleteMessageAC>
 type DeleteDataType = SagaReturnType<typeof DialogsApi.DeleteMessage>
 
-function* fetchDeleteMessage(action: MessageDeleteActionType){
+function* DeleteMessageWorker(action: MessageDeleteActionType){
     const data: DeleteDataType = yield call( DialogsApi.DeleteMessage, action.messageId)
     if (data.resultCode === ResultCodesEnum.Success) {
-        yield call(fetchShowMessages, ActivateSagasActions.ShowMessagesAC(action.userID,action.page))
+        yield call(ShowMessagesWorker, ActivateSagasActions.ShowMessagesAC(action.userID,action.page))
     }
 }
 
@@ -53,10 +53,10 @@ function* fetchDeleteMessage(action: MessageDeleteActionType){
 type AddNewDialogActionType = ReturnType<typeof ActivateSagasActions.AddNewDialogAC>
 type AddNewDialogDataType = SagaReturnType<typeof DialogsApi.PutDialog>
 
-function* fetchAddNewDialog(action: AddNewDialogActionType){
+function* AddNewDialogWorker(action: AddNewDialogActionType){
     const data: AddNewDialogDataType = yield call( DialogsApi.PutDialog, action.id)
     if (data.resultCode === ResultCodesEnum.Success) {
-        yield call(fetchShowDialogs, ActivateSagasActions.ShowDialogsAC())
+        yield call(ShowDialogsWorker, ActivateSagasActions.ShowDialogsAC())
     }
 }
 
@@ -64,7 +64,7 @@ function* fetchAddNewDialog(action: AddNewDialogActionType){
 type ShowDialogsActionType = ReturnType<typeof ActivateSagasActions.ShowDialogsAC>
 type ShowDialogDataType = SagaReturnType<typeof DialogsApi.GetDialogs>
 
-function* fetchShowDialogs(action: ShowDialogsActionType){
+function* ShowDialogsWorker(action: ShowDialogsActionType){
     const data: ShowDialogDataType = yield call( DialogsApi.GetDialogs)
     yield put(DialogsActions.SetDialogs(data))
 
@@ -74,7 +74,7 @@ function* fetchShowDialogs(action: ShowDialogsActionType){
 type SendMessageActionType = ReturnType<typeof ActivateSagasActions.SendMessageAC>
 type SendMessageDataType = SagaReturnType<typeof DialogsApi.PutMessage>
 
-function* fetchSendMessage(action: SendMessageActionType){
+function* SendMessageWorker(action: SendMessageActionType){
     const data: SendMessageDataType = yield call( DialogsApi.PutMessage, action.userid, action.message)
     if (data.resultCode === ResultCodesEnum.Success) {
         yield put(DialogsActions.AddNewMessage(data.data.message))

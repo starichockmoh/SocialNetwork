@@ -1,4 +1,4 @@
-import {call, put, take, takeEvery} from "redux-saga/effects"
+import {call, put, take, takeEvery, takeLatest} from "redux-saga/effects"
 import {ActionsConstantsType} from "../../Types/Types";
 import {ChatActions} from "../Reducers/ChatReducer";
 import {chatAPI, EmitterActionsType} from "../../Api/ApiChat";
@@ -12,10 +12,10 @@ export const StartChatSagaActions = {
 type SendMessageActionType = ReturnType<typeof StartChatSagaActions.SendMessageAC>
 type StartChatSagaActionsConstants = ActionsConstantsType<typeof StartChatSagaActions>
 
-export function* wsSaga() {
+export function* WSSagaWatcher() {
     yield takeEvery<StartChatSagaActionsConstants>("START_WS", function* (){
         let channel: ReturnType<typeof chatAPI.start> = yield call(chatAPI.start)
-        yield takeEvery<StartChatSagaActionsConstants, any>("SEND_CHAT_MESSAGE", SendMessageWorker)
+        yield takeLatest<StartChatSagaActionsConstants, any>("SEND_CHAT_MESSAGE", SendMessageWorker)
         while (true) {
             const WSAction: EmitterActionsType  = yield take(channel)
             if (WSAction.type === "TRY_TO_RECONNECT") {
@@ -30,7 +30,7 @@ function* SendMessageWorker(action: SendMessageActionType) {
 }
 
 
-export function* StopWSSaga() {
+export function* StopWSSagaWatcher() {
     yield takeEvery<StartChatSagaActionsConstants, any>("CLOSE_WS_CHANNEL", StopWSWorker)
 }
 

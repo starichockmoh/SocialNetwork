@@ -1,13 +1,11 @@
 import 'antd/dist/antd.css';
-import {Layout, Menu} from 'antd';
+import {Layout} from 'antd';
 
 import React from "react";
 import styles from "./App.module.css"
 import store, {AppStateType} from "./Redux/ReduxStore";
-import {HashRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
-import {initializedApp, setGlobalError} from "./Redux/Reducers/AppReducer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import AppPreloader from "./Components/Common/Preloader/AppPreloader";
@@ -17,6 +15,11 @@ import DialogsPage from "./Components/Dialogs/DialogsPage/DialogsPage";
 import MessagesPage from "./Components/Dialogs/MessagesPage/MessagesPage";
 import {Footer} from "antd/es/layout/layout";
 import {AppMenu} from "./Components/LayOuts/Menu/Menu";
+import {ActivateAppSagaAC} from "./Redux/Sagas/AppSagas";
+import Exit from "./Components/Common/Exit";
+import {BrowserRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
+import {TestApp} from "./Components/TestTrans/TestApp";
+import {TestApp1} from "./Components/TestTrans/TestApp1";
 
 
 const Music = React.lazy(() => import("./Components/Music/Music"));
@@ -34,8 +37,9 @@ type MapStateToPropsType = {
     isAuth: boolean
 }
 type MapDispatchToPropsType = {
-    initializedApp: () => void
-    setGlobalError: (error: string | null) => void
+    startInitApp: () => ({ type: "START_INIT_APP" })
+    setGlobalError: (error: string | null) => ({ type: "SET_GLOBAL_ERROR", error: string | null })
+
 }
 type AppPropsType = MapDispatchToPropsType & MapStateToPropsType
 
@@ -50,7 +54,7 @@ class App extends React.Component<AppPropsType> {
     }
 
     componentDidMount() {
-        this.props.initializedApp()
+        this.props.startInitApp()
         window.addEventListener("unhandledrejection", this.catchAllErrors)
     }
 
@@ -96,7 +100,7 @@ const MainContent: React.FC<{ globalError: string | null }> = (props) => {
     return <div className={styles.appWrapperContent}>
         {props.globalError && <div className={styles.globalError}>{props.globalError}</div>}
         <Switch>
-            <Route path='/exit' render={() => <UserExit/>}/>
+            <Route path='/exit'><Exit/></Route>
             <Route path='/dialogs_page' render={() => <DialogsPage/>}/>
             <Route path='/dialogs/:dialogId?' render={() => <MessagesPage/>}/>
             <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
@@ -107,6 +111,8 @@ const MainContent: React.FC<{ globalError: string | null }> = (props) => {
             <Route path='/login' render={() => <Login/>}/>
             <Route path='/friends' render={() => <FriendsContainer title={'Friends'}/>}/>
             <Route path='/chat' render={() => <ChatPage/>}/>
+            <Route path='/test' render={() => <TestApp/>}/>
+            <Route path='/test1' render={() => <TestApp1/>}/>
             <Redirect exact from="/" to="/profile"/>
             <Route path='/*' render={() => <div>404 NOT FOUND</div>}/>
         </Switch>
@@ -114,27 +120,28 @@ const MainContent: React.FC<{ globalError: string | null }> = (props) => {
 }
 const SuspenseMainContent = withSuspense(MainContent)
 
-
+const {startInitApp, setGlobalError} = ActivateAppSagaAC
 let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     initialized: state.App.initialized,
     globalError: state.App.globalError,
     isAuth: state.Auth.isAuth,
 })
+
+
 const AppContainer: any = compose(
     connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps, {
-        initializedApp,
-        setGlobalError
+        setGlobalError, startInitApp,
     }),
     withRouter
 )(App)
 
 const FirstReactApp = () => {
     return <React.StrictMode>
-        <HashRouter>
             <Provider store={store}>
-                <AppContainer/>
+               <BrowserRouter>
+                   <AppContainer/>
+               </BrowserRouter>
             </Provider>
-        </HashRouter>
     </React.StrictMode>
 }
 

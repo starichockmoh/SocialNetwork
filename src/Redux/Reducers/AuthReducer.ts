@@ -1,10 +1,4 @@
-import {AuthAPI, UserAPI} from "../../Api/Api";
-import {stopSubmit} from "redux-form";
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "../ReduxStore";
-import {ActionsType, NullableType, ResultCodesEnum} from "../../Types/Types";
-import {Dispatch} from "redux";
-import {requestUsers, setFilterType, UserActions} from "./UsersReducer";
+import {ActionsType, NullableType} from "../../Types/Types";
 
 
 let InitialState = {
@@ -40,8 +34,6 @@ let AuthReducer = (state = InitialState, action:AuthActionsType):InitialStateTyp
     }
 }
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, AuthActionsType | setFilterType>
-type StopSubmitType = ReturnType<typeof stopSubmit>
 type AuthActionsType = ActionsType<typeof AuthActions>
 export type SetCurrentUserProfileActionType = {
     type: "SET_CURRENT_USER_PROFILE"
@@ -58,56 +50,6 @@ export const AuthActions = {
     SetCaptchaImg: (CaptchaImg:string) => ({type: "SET_CAPTCHA_IMG", CaptchaImg} as const)
 }
 
-
-export const authUser = () : ThunkType  =>
-    async (dispatch,getState) => {
-    let response = await AuthAPI.AuthUser()
-    if (response.resultCode === ResultCodesEnum.Success) {
-        let {id, email, login} = response.data
-        dispatch(AuthActions.SetAuthUserData(id, email, login, true))
-        let ProfileResponse = await UserAPI.getUserProfile(response.data.id)
-        dispatch(AuthActions.SetCurrentUserProfile(ProfileResponse.photos.large))
-        dispatch(requestUsers(1,10,true,''))
-        dispatch(UserActions.setFilter(false, ''))
-    }
-}
-
-
-export const authLogin = (email: string, password: string, rememberMe: boolean,captcha: string) : ThunkAction<Promise<void>, AppStateType, any,
-    AuthActionsType | StopSubmitType> =>
-    async (dispatch,getState) => {
-    let data = await AuthAPI.AuthLogin(email, password, rememberMe,captcha)
-    if (data.resultCode === ResultCodesEnum.Success) {
-        dispatch(authUser())
-        dispatch(AuthActions.SetCaptchaImg(''))
-    }
-    else {
-        let errorMessage = data.messages.length > 0 ? data.messages[0] : 'Some error'
-        // if (errorMessage === 'Incorrect anti-bot symbols'){
-        //     dispatch(ActivateCaptcha())
-        // }
-        if (data.resultCode === ResultCodesEnum.CaptchaIsRequired){
-            dispatch(ActivateCaptcha())
-        }
-        dispatch(stopSubmit('login', {_error: errorMessage}))
-    }
-}
-
-
-export const authLogOut = () : ThunkType =>
-    async (dispatch,getState) => {
-    let data = await AuthAPI.AuthLogOut()
-    if (data.resultCode === ResultCodesEnum.Success) {
-        dispatch(AuthActions.SetAuthUserData(null, null, null, false))
-    }
-}
-
-
-export const ActivateCaptcha = () =>
-    async (dispatch: Dispatch<AuthActionsType>) => {
-    let data = await AuthAPI.Captcha()
-    dispatch(AuthActions.SetCaptchaImg(data.url))
-}
 
 
 export default AuthReducer

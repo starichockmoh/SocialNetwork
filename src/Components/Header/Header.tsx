@@ -9,7 +9,6 @@ type PropsType = {
     isAuth: boolean
     CurrentUserPhoto:  string | null
 
-    authLogOut: () => void
 }
 
 const Header: React.FC<PropsType> = (props) => {
@@ -21,7 +20,6 @@ const Header: React.FC<PropsType> = (props) => {
                 {props.isAuth ?
                     <HeaderProfile login={props.login}
                                    CurrentUserPhoto={props.CurrentUserPhoto}
-                                   authLogOut = {props.authLogOut}
                     />
 
                     : <NavLink to='/login'>Login</NavLink>}
