@@ -15,6 +15,7 @@ import {all} from "redux-saga/effects";
 import {StopWSSagaWatcher, WSSagaWatcher} from "./Sagas/ChatSagas";
 import {WatchLoginSaga, WatchLogOutSaga} from "./Sagas/LoginFlowSagas";
 import {initializedAppSaga} from "./Sagas/AppSagas";
+import {AimGameReducer} from "./Reducers/AimGameReducer";
 
 
 const MainReducer = combineReducers({
@@ -26,7 +27,8 @@ const MainReducer = combineReducers({
     Auth: AuthReducer,
     form: formReducer,
     App: AppReducer,
-    Chat: ChatReducer
+    Chat: ChatReducer,
+    Aim: AimGameReducer
 })
 
 

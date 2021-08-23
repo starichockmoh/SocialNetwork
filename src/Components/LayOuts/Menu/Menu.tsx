@@ -36,6 +36,7 @@ export const AppMenu: React.FC<{ isAuth: boolean }> = ({isAuth}) => {
                 </SubMenu>
                 <SubMenu key="sub3" icon={<NotificationOutlined/>} title="Other">
                     <Menu.Item key="settings"><NavLink to='/settings'> Settings</NavLink></Menu.Item>
+                    <Menu.Item key="mini_apps"><NavLink to='/mini_apps'>Mini apps</NavLink></Menu.Item>
                     {isAuth && <Menu.Item key="exit"><Link to='/exit'> Exit</Link></Menu.Item>}
                 </SubMenu>
             </Menu>

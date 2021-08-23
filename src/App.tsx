@@ -18,8 +18,13 @@ import {AppMenu} from "./Components/LayOuts/Menu/Menu";
 import {ActivateAppSagaAC} from "./Redux/Sagas/AppSagas";
 import Exit from "./Components/Common/Exit";
 import {BrowserRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
-import {TestApp} from "./Components/TestTrans/TestApp";
-import {TestApp1} from "./Components/TestTrans/TestApp1";
+import {MiniApps} from "./Components/MiniApps/MiniApps";
+import {TestApp2} from "./Components/MiniApps/Apps/TestApp2/TestApp2";
+import { TestApp3 } from './Components/MiniApps/Apps/TestApp3/TestApp_3';
+import { TestApp } from './Components/MiniApps/Apps/TestApp/TestApp';
+import {TestApp1} from "./Components/MiniApps/Apps/TestApp1/TestApp1";
+import {TestApp4} from "./Components/MiniApps/Apps/TestApp4/TestApp4";
+
 
 
 const Music = React.lazy(() => import("./Components/Music/Music"));
@@ -111,8 +116,12 @@ const MainContent: React.FC<{ globalError: string | null }> = (props) => {
             <Route path='/login' render={() => <Login/>}/>
             <Route path='/friends' render={() => <FriendsContainer title={'Friends'}/>}/>
             <Route path='/chat' render={() => <ChatPage/>}/>
+            <Route path='/mini_apps' render={() => <MiniApps/>}/>
             <Route path='/test' render={() => <TestApp/>}/>
             <Route path='/test1' render={() => <TestApp1/>}/>
+            <Route path='/test2' render={() => <TestApp2/>}/>
+            <Route path='/test3' render={() => <TestApp3/>}/>
+            <Route path='/test4' render={() => <TestApp4/>}/>
             <Redirect exact from="/" to="/profile"/>
             <Route path='/*' render={() => <div>404 NOT FOUND</div>}/>
         </Switch>
