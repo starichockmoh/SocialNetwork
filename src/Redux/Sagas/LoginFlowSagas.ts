@@ -17,13 +17,16 @@ type LoginData = SagaReturnType<typeof AuthAPI.AuthLogin>
 export function* WatchLoginSaga() {
     while (true){
         const {email, password, rememberMe, captcha} = yield take("LOGIN")
+        yield put(AuthActions.SetLoading(true))
         const data: LoginData = yield call(AuthAPI.AuthLogin, email, password, rememberMe, captcha)
         if (data.resultCode === ResultCodesEnum.Success){
-            yield fork(WatchAuthSaga)
+            yield call(WatchAuthSaga)
+            yield put(AuthActions.SetLoading(false))
             yield put(AuthActions.SetCaptchaImg(''))
 
         }
         else {
+            yield put(AuthActions.SetLoading(false))
             let errorMessage = data.messages.length > 0 ? data.messages[0] : 'Some error'
             if (data.resultCode === ResultCodesEnum.CaptchaIsRequired){
                 yield call(ActivateCaptchaSaga)
@@ -37,6 +40,8 @@ export function* WatchLoginSaga() {
 type AuthData = SagaReturnType<typeof AuthAPI.AuthUser >
 type ProfileData = SagaReturnType<typeof UserAPI.getUserProfile>
 type GetFriendsData = SagaReturnType<typeof UserAPI.getUsers>
+
+
 export function* WatchAuthSaga() {
     const data: AuthData = yield call(AuthAPI.AuthUser)
     if (data.resultCode === ResultCodesEnum.Success) {

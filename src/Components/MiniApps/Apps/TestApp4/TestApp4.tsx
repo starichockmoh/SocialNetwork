@@ -32,7 +32,7 @@ const StartScreen: React.FC = () => {
         dispatch(AimActions.SetGameStart(true))
     }
     return <div className={isStartGame ? `${styles.screen} ${styles.up}` : styles.screen}>
-        <h1>Aim Training</h1>
+        <h1 className={styles.h1}>Aim Training</h1>
         <NavLink to={"#"} className={styles.start}
                  onClick={StartGame} id="start">
             Начать игру
@@ -47,7 +47,7 @@ const SecondScreen: React.FC = () => {
     }
     const GameTime = useSelector((state: AppStateType) => state.Aim.gameTime)
     return <div className={GameTime ? `${styles.screen} ${styles.up}` : styles.screen}>
-        <h1>Выберите время</h1>
+        <h1 className={styles.h1}>Выберите время</h1>
         <ul className={styles.time_list} id="time-list">
             <li>
                 <button className={styles.time_btn} onClick={() => {
@@ -178,7 +178,7 @@ const GameScreen: React.FC = () => {
         </h3>
         <div className={isError ? `${styles.board} ${styles.error}` : styles.board} onClick={ChangeCircle}>
             {!isEnd ? isError? null: <div id ='circle' className={styles.circle} style={CircleStyle}/>:
-                <h1>Ваш счёт:
+                <h1 className={styles.h1}>Ваш счёт:
                     <span className={styles.primary}> {Score}</span>
                 </h1>}
         </div>

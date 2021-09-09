@@ -3,6 +3,8 @@ import styles from "./TestApp3.module.css"
 import {Button} from "antd";
 import {FormatPainterOutlined} from "@ant-design/icons";
 
+
+
 export const TestApp3: React.FC = () => {
     const [SquareCount, SetSquareCount] = useState(980)
     const [FullScreen, SetFullScreen] = useState(false)
@@ -24,42 +26,15 @@ export const TestApp3: React.FC = () => {
                 Colors
             </h3>
             <div>
-                <Button style={{backgroundColor: '#2F4F4F'}}
-                        className={styles.ColorListButton}
-                        onClick={() => ChangeColor('#2F4F4F')}
-                        icon={<FormatPainterOutlined/>}
-                />
-
-                <Button style={{backgroundColor: '#006400'}}
-                        className={styles.ColorListButton}
-                        onClick={() => ChangeColor('#006400')}
-                        icon={<FormatPainterOutlined/>}
-                />
-                <Button style={{backgroundColor: '#00FFFF'}}
-                        className={styles.ColorListButton}
-                        onClick={() => ChangeColor('#00FFFF')}
-                        icon={<FormatPainterOutlined/>}
-                />
-                <Button style={{backgroundColor: '#B22222'}}
-                        className={styles.ColorListButton}
-                        onClick={() => ChangeColor('#B22222')}
-                        icon={<FormatPainterOutlined/>}
-                />
-                <Button style={{backgroundColor: '#EE82EE'}}
-                        className={styles.ColorListButton}
-                        onClick={() => ChangeColor('#EE82EE')}
-                        icon={<FormatPainterOutlined/>}
-                />
-                <Button style={{backgroundColor: '#EECFA1'}}
-                        className={styles.ColorListButton}
-                        onClick={() => ChangeColor('#EECFA1')}
-                        icon={<FormatPainterOutlined/>}
-                />
-                <Button style={{backgroundColor: '#FFD700'}}
-                        className={styles.ColorListButton}
-                        onClick={() => ChangeColor('#FFD700')}
-                        icon={<FormatPainterOutlined/>}
-                />
+                <ColorButton color={'#2F4F4F'} ChangeColor={ChangeColor}/>
+                <ColorButton color={'#006400'} ChangeColor={ChangeColor}/>
+                <ColorButton color={'#00FFFF'} ChangeColor={ChangeColor}/>
+                <ColorButton color={'#B22222'} ChangeColor={ChangeColor}/>
+                <ColorButton color={'#EECFA1'} ChangeColor={ChangeColor}/>
+                <ColorButton color={'#f754e1'} ChangeColor={ChangeColor}/>
+                <ColorButton color={'#FFD700'} ChangeColor={ChangeColor}/>
+                <ColorButton color={'#0000CD'} ChangeColor={ChangeColor}/>
+                <ColorButton color={'#DAA520'} ChangeColor={ChangeColor}/>
             </div>
             <Button className={styles.FullScreenButton} type={"link"} onClick={() => {
                 SetFullScreen(!FullScreen)
@@ -88,4 +63,17 @@ const Square: React.FC<{ color: string }> = ({color}) => {
                 style={{background: OwnColor}}>
 
     </div>
+}
+
+type PropsType = {
+    color: string
+    ChangeColor: (color: string) => void
+}
+
+const ColorButton:React.FC<PropsType> = ({color, ChangeColor}) => {
+    return  <Button style={{backgroundColor: color}}
+                    className={styles.ColorListButton}
+                    onClick={() => ChangeColor(color)}
+                    icon={<FormatPainterOutlined/>}
+    />
 }

@@ -1,0 +1,52 @@
+
+.Container {
+    margin: 15px;
+}
+.Table {
+    display: grid;
+    grid-template-columns: 20vw 75vw;
+    grid-gap: 10px;
+}
+.UsersList {
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.UsersList li{
+    display: flex;
+    padding: 4px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.UsersList li:hover {
+    background-color: #bbbbbb;
+    border-radius: 10px;
+    transform: scale(1.1);
+    transition: background-color 100ms ease-in, transform 200ms ease-in-out;
+}
+
+.UsersList li div{
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    width: 15vw;
+    white-space: nowrap;
+    margin-left: 6px;
+}
+.active {
+    background-color: #bbbbbb;
+    border-radius: 10px;
+}
+
+.Info {
+    text-align: center;
+}
+.Info span{
+    font-weight: 600;
+    color: gray;
+}
+
+.ResetBtn {
+    margin-top: 5px;
+}
+

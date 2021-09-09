@@ -13,12 +13,14 @@ const SpecialInput = SpecialFormCreator('input')
 
 type PropsType = {
     CaptchaImg: string // the custom prop
+    isLoading: boolean
 
 }
 
 
 
-const LoginForm: React.FC<PropsType & InjectedFormProps<LoginFormDataType, PropsType>> = ({handleSubmit,CaptchaImg,error }) => {
+const LoginForm: React.FC<PropsType & InjectedFormProps<LoginFormDataType, PropsType>> =
+    ({handleSubmit,CaptchaImg,error, isLoading }) => {
     return <form onSubmit={handleSubmit}>
         {FieldCreator('email',[required], InputField,'Enter your email',null)}
         {FieldCreator('password',[required], InputField,'Enter your password',null)}
@@ -28,7 +30,7 @@ const LoginForm: React.FC<PropsType & InjectedFormProps<LoginFormDataType, Props
         </div>}
         {CaptchaImg !== '' ?  <CaptchaControl CaptchaImg={CaptchaImg}/>:null}
         <div>
-            <Button htmlType={"submit"}>LOG IN</Button>
+            <Button disabled={isLoading} htmlType={"submit"}>LOG IN</Button>
         </div>
     </form>
 }
