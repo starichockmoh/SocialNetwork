@@ -7,8 +7,11 @@ import {TestingUseState} from "./Hooks/TestingUseState";
 import {TestingUseEffect} from "./Hooks/TestingUseEffect";
 
 
+
+
+
 ReactDOM.render(
-        <TestingUseEffect/>,
+    <FirstReactApp/>,
     document.getElementById('root')
 );
 

@@ -5,7 +5,6 @@ import userPhoto
 import {NavLink} from "react-router-dom";
 import {UserType} from "../../../Types/Types";
 import {Avatar, Button} from "antd";
-import Rus from './../../../accepts/images/1615023361_preview_911308-russian-flag-wallpapers-2000x1333-htc.jpg'
 import {UserAddOutlined,UserDeleteOutlined} from "@ant-design/icons";
 
 type PropsType = {
@@ -17,6 +16,7 @@ type PropsType = {
 
 
 const UserElement: FC<PropsType> = ({user,followIsProgressing,FollowOrUnfollow, isFriend= false}) => {
+    let Rus = ''
     return <div className={s.UserElement}>
         <div>
                 <NavLink to={'/profile/' + user.id}>

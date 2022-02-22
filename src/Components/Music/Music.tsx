@@ -3,7 +3,7 @@ import s from './Music.module.css'
 import {PageHeader} from "antd";
 import {SoundOutlined} from "@ant-design/icons";
 // @ts-ignore
-import music from './MusicFiles/music.mp3'
+
 
 const Music = () => {
     let MusicArray = []
@@ -19,7 +19,7 @@ const Music = () => {
 const MusicBlock = () => {
     return <div className={s.MusicBlock}>
         <audio style={{width: 600, height: 80}} controls>
-            <source src={music}/>
+            <source src={''}/>
         </audio>
     </div>
 }

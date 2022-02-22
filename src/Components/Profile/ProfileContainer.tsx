@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getProfile, getProfileStatus} from "../../Redux/Reducers/ProfileReducer";
 import {useParams} from "react-router-dom"
@@ -7,6 +7,8 @@ import s from "./Profile.module.css";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 import {MyPosts} from "./MyPosts/MyPosts";
+import TextArea from "antd/es/input/TextArea";
+import {Button} from "antd";
 
 
 const ProfilePage: React.FC = () => {
@@ -20,12 +22,14 @@ const ProfilePage: React.FC = () => {
                 dispatch(getProfile(CurrentUserId))
                 dispatch(getProfileStatus(CurrentUserId))
             }
-        }
-        else {
+        } else {
             dispatch(getProfile(userId))
             dispatch(getProfileStatus(userId))
         }
     }, [userId, dispatch, CurrentUserId])
+
+
+
     return (<div className={s.Profile}>
             <ProfileInfo/>
             <MyPosts/>

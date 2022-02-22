@@ -1,8 +1,4 @@
-import ReactPhoto from "./../../accepts/images/React.png"
-import ReduxPhoto from "./../../accepts/images/React-redux-.png"
-import tsPhoto from "./../../accepts/images/ts.png"
-import zina from "./../../accepts/images/zina.jpg"
-import og from "./../../accepts/images/IMG_2138.jpg"
+
 
 type NewsPostType = {
     Text: string
@@ -18,12 +14,12 @@ let InitialState: InitialStateNewsType = {
     NewsPost: [
         {Text: 'Welcome to my first app!!! Unfortunately backend logic does not provide for news, but I did them in a simplified form.',
             id: 1,
-            Img: [ReactPhoto,ReduxPhoto,tsPhoto],
+            Img: ['','',''],
             Title: 'Welcome!', Data: '12.04.1970'},
         {Text: 'Новости из России. Сегодня в 6:00 по Москве в селе Бердымухамедушки бабушка Зина засослила огурцы, получив навар в виде 6-ти  банок. ' +
                 'Очевидцы говорят, что этим делом злоумышленница занимается с прошлой весны. Заведено уголовное дело.',
             id: 2,
-            Img: [zina,og],
+            Img: ['', ''],
             Title: 'Crime Russia',Data: '12.04.4059'}
     ],
 }

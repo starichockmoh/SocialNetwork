@@ -1,13 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./MiniApps.module.css"
-import photo from "./../../accepts/images/app1.png"
-import photo1 from "./../../accepts/images/app2.png"
-import photo2 from "./../../accepts/images/app3.png"
-import photo3 from "./../../accepts/images/app4.png"
-import photo4 from "./../../accepts/images/app5.png"
+
 
 export const MiniApps: React.FC = () => {
+    let photo = ''
+    let photo1 = ''
+    let photo2 = ''
+    let photo3 = ''
+    let photo4 = ''
     return <div className={styles.MiniAppsBlock}>
         <h1 className={styles.Title}> Mini Apps </h1>
         <ul className={styles.AppsList}>

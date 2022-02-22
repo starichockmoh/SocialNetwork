@@ -12,7 +12,7 @@ const MessageHandler = (e: MessageEvent) => {
     let ChatMessages: Array<ChatMessageType> | null = null
     try {
         ChatMessages = JSON.parse(e.data)
-    } catch(e) {
+    } catch(e: any) {
         console.error(`Error parsing : ${e.data}`)
     }
     if (ChatMessages) {

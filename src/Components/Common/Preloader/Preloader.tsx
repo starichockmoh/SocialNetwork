@@ -1,5 +1,5 @@
 import React from "react";
-import PreloaderLogo from '../../../accepts/images/Bean Eater-2s-200px.svg'
+import PreloaderLogo from '../../../accepts/images/Bean Eater-1s-200px.svg'
 import s from './Preloader.module.css'
 
 const Preloader: React.FC = () => {
