@@ -1,0 +1,103 @@
+.notification__wrapper {
+  bottom: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-x: hidden;
+  padding: 0.714rem;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  row-gap: 1em;
+  top: 0;
+  width: 22.857rem;
+  z-index: 2000;
+}
+
+.toast {
+  animation: slide_in 300ms ease-out;
+  align-items: flex-start;
+  background-color: #fff;
+  border-radius: 0.333em;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  font-size: 1.071em; /* 15px */
+  min-width: 18.333em;
+  pointer-events: all;
+  transform: translateX(0);
+}
+
+.toast--close {
+  animation: slide_out 300ms ease-in;
+  transform: translateX(120%);
+}
+
+.toast__mark_area {
+  padding: 1em 0 1em 1.333em;
+}
+
+.toast__message {
+  padding-left: 1em;
+  padding-top: 1em;
+  flex-grow: 1;
+}
+
+.toast--warning {
+  background-color: #fff6e6;
+}
+
+.toast--error {
+  background-color: #fef4f3;
+}
+
+.toast--success {
+  background-color: #ecffea;
+}
+
+.toast__close_button {
+  align-self: stretch;
+  background-color: transparent;
+  border-radius: 0 0.357em 0.357em 0;
+  border: none;
+  border-left: 2px solid #7d7d7d1a;
+  font-size: 1.071rem;
+  margin: 0;
+  padding: 1em;
+}
+
+.toast__close_button:hover {
+  background-color: #7d7d7d1a;
+}
+
+.toast__close_button:active {
+  background-color: #7d7d7d2a;
+}
+
+.toast__close_button:disabled {
+  visibility: hidden;
+}
+
+.mark {
+  width: 2.571rem;
+}
+
+@keyframes slide_in {
+  0% {
+    transform: translateX(120%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide_out {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(120%);
+  }
+}

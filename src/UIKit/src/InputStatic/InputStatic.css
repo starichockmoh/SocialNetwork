@@ -1,0 +1,112 @@
+.input_static {
+  font-size: 15px;
+  font-weight: 375;
+  --input-static-padding: 0.567em 0.6em 0.567em 0.933em;
+  --input-static-color-label: var(--color-gray-7);
+  --input-static-color-text: var(--color-gray-10);
+  --input-static-color-background: var(--color-gray-f);
+  --input-static-color-border: var(--color-gray-5);
+  --input-static-color-border-hover: var(--color-gray-6);
+  --input-static-color-border-focus: var(--color-gray-7);
+}
+
+.input_static.size--small {
+  --input-static-padding: 0.367em 0.6em 0.367em 0.933em;
+}
+
+.input_static.size--large {
+  --input-static-padding: 0.7em 0.6em 0.7em 0.933em;
+}
+
+.input_static.status--disabled {
+  --input-static-color-text: var(--color-gray-6);
+  --input-static-color-background: var(--color-gray-1);
+  --input-static-color-border: var(--color-gray-3);
+  --input-static-color-border-hover: var(--color-gray-3);
+  --input-static-color-border-focus: var(--color-gray-3);
+}
+
+.input_static.status--error {
+  --input-static-color-label: var(--color-red-5);
+  --input-static-color-border: var(--color-red-5);
+  --input-static-color-border-hover: var(--color-red-5);
+  --input-static-color-border-focus: var(--color-red-5);
+}
+
+.input_static__label {
+  line-height: 1em;
+  font-size: 0.867em;
+  display: inline-block;
+  border: none;
+  color: var(--input-static-color-label);
+  margin-bottom: 0.333em;
+  margin-left: 0.067em;
+}
+
+.input_static__input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--input-static-padding);
+  border: 0.067em solid var(--input-static-color-border);
+  border-radius: 0.267em;
+  background-color: var(--input-static-color-background);
+}
+
+.input_static__input:hover {
+  border: 0.067em solid var(--input-static-color-border-hover);
+}
+
+.input_static__input:focus-within {
+  border: 0.067em solid var(--input-static-color-border-focus);
+}
+
+.input_static__input input {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--input-static-color-text);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1.133em;
+}
+
+.input_static__input input:focus {
+  outline: none;
+}
+
+.input_static__input input::placeholder {
+  color: var(--color-gray-6);
+}
+
+.input_static__input input::-ms-reveal {
+  display: none;
+}
+
+.input_static__icon {
+  padding: 0;
+  margin-left: 0.667em;
+  display: flex;
+  align-items: center;
+}
+
+.input_static__button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.input_static__error {
+  margin: 0;
+  font-size: 0.8em;
+  line-height: 0.933em;
+  color: var(--color-red-5);
+  margin-left: 0.067em;
+}
+
+.input_static__required_marker {
+  color: var(--color-red-5);
+}

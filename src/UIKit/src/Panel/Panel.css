@@ -1,0 +1,37 @@
+.panel {
+  background-color: #fff;
+  border-radius: 0.571em;
+  box-shadow: 0 0.071em 0.143em 0 var(--color-shadow);
+}
+
+.panel__body {
+  padding: 1.429em;
+}
+
+.panel__title_bar {
+  align-items: center;
+  background-color: #00000005;
+  border-bottom: 0.071em solid #00000005;
+  display: flex;
+  height: 3.571em;
+  padding: 0 2.143em;
+}
+
+.panel__title {
+  font-size: 1.429em;
+  font-weight: 500;
+  line-height: 1.16em;
+  margin: 0;
+  margin-right: 2.75em;
+}
+
+.panel__title_left {
+  flex-grow: 1;
+}
+
+.panel__title_left,
+.panel__title_right {
+  align-items: center;
+  column-gap: 1.429em;
+  display: flex;
+}

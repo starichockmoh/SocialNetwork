@@ -1,0 +1,79 @@
+@import './Assets/Fonts/GTEstiProText/stylesheet.css';
+
+:root {
+  --color-gray-f: #ffffff;
+  --color-gray-1: #fbfbfb;
+  --color-gray-2: #f5f5f5;
+  --color-gray-3: #ebebeb;
+  --color-gray-4: #e2e2e2;
+  --color-gray-5: #dddddd;
+  --color-gray-6: #bfbfbf;
+  --color-gray-7: #8c8c8c;
+  --color-gray-8: #7d7d7d;
+  --color-gray-9: #434343;
+  --color-gray-10: #262626;
+  --color-gray-11: #1f1f1f;
+  --color-gray-12: #141414;
+  --color-gray-13-corporate: #d9dada;
+  --color-gray-0: #000000;
+
+  --color-orange-1: #fde3cf;
+  --color-orange-2: #fbcba7;
+  --color-orange-3: #f9b583;
+  --color-orange-4: #f7a162;
+  --color-orange-5: #f68f44;
+  --color-orange-6-corporate: #ed7817;
+  --color-orange-7: #e3660b;
+  --color-orange-8: #bc5509;
+  --color-orange-9: #9c4707;
+  --color-orange-10: #813b06;
+  --color-orange-11: #6b3105;
+
+  --color-yellow-1: #fff8ec;
+  --color-yellow-2: #fef0d8;
+  --color-yellow-3: #fee5ba;
+  --color-yellow-4: #fdd796;
+  --color-yellow-5: #fdca75;
+  --color-yellow-6: #fcbf57;
+  --color-yellow-7-corporate: #fab82e;
+  --color-yellow-8: #fda610;
+  --color-yellow-9: #d38603;
+  --color-yellow-10: #af6f02;
+  --color-yellow-11: #915c02;
+  --color-yellow-12: #784c02;
+
+  --color-red-1: #fdf0ef;
+  --color-red-2: #f8b9b4;
+  --color-red-3: #f48981;
+  --color-red-4: #eb5757;
+  --color-red-5: #eb3333;
+  --color-red-6-corporate: #e32213;
+  --color-red-7: #bc1c10;
+  --color-red-8: #9c170d;
+  --color-red-9: #81130b;
+  --color-red-10: #6b1009;
+  --color-red-11: #590d07;
+}
+
+body {
+  margin: 0;
+  font-family: 'GT Eesti Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.a11y_hidden {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}

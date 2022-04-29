@@ -1,0 +1,29 @@
+.evraz_logo {
+  align-items: flex-end;
+  display: flex;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.evraz_logo__base {
+  min-height: 1.357em;
+  min-width: 8.571em;
+}
+
+.evraz_logo__subheader {
+  font-size: 0.714em;
+  font-weight: 500;
+  line-height: 1.16em;
+  margin-left: 1.4em;
+  white-space: nowrap;
+}
+
+.evraz_logo__subheader::before {
+  background-color: var(--color-brand-yellow);
+  content: '';
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transform: translateX(-0.7em);
+  width: 0.1em;
+}

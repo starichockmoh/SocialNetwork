@@ -1,0 +1,20 @@
+.text_radio_group {
+  display: inline-flex;
+  background-color: #fff;
+  border-radius: 0.286em;
+  padding: 0.429em;
+}
+
+.text_marker {
+  border-radius: 0.308em;
+  cursor: pointer;
+  font-size: 0.929em;
+  font-weight: 500;
+  line-height: 1.16em;
+  padding: 0.308em 1.154em;
+  text-align: center;
+}
+
+.text_marker--checked {
+  background-color: var(--color-brand-yellow);
+}

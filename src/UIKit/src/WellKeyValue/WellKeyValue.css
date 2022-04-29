@@ -1,0 +1,11 @@
+.well_key_value {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 0.357em;
+  column-gap: 0.714em;
+  display: inline-flex;
+  padding: 0.5em 0.714em;
+}
+
+.well_key_value__value {
+  font-weight: 500;
+}

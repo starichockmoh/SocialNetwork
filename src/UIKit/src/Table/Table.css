@@ -1,0 +1,144 @@
+.table {
+  border-collapse: collapse;
+}
+
+.table__header {
+  color: #00000099;
+  font-size: 0.929em;
+  font-weight: normal;
+  line-height: 1.16em;
+  padding: 0.769em 0.769em 0.923em;
+  position: relative;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table__header::after {
+  background-color: #00000066;
+  bottom: 0.231em;
+  content: '';
+  height: 0.154em;
+  left: 0.077em;
+  position: absolute;
+  width: calc(100% - 0.154em);
+}
+
+.table__header_glyph {
+  --glyph-fill: #00000099;
+}
+
+.table__header_button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 0.7em;
+  margin-left: 0.769em;
+  padding: 0;
+}
+
+.table__header_button:focus {
+  outline: none;
+}
+
+.table__header_button:focus-visible {
+  outline: 0.154em solid var(--color-brand-yellow);
+  outline-offset: 0.154em;
+}
+.table__header_button:hover .table__header_glyph {
+  --glyph-fill: black;
+}
+
+.table__cell,
+.table__cell_foot {
+  border-bottom: 0.143em solid white;
+  border-top: 0.143em solid white;
+  box-sizing: border-box;
+  color: black;
+  font-weight: 400;
+  line-height: 1.16em;
+  min-width: 4.286em;
+  padding: 0.857em 0.714em;
+  vertical-align: top;
+}
+
+.table__cell:first-child,
+.table__cell_foot:first-child {
+  padding-left: 1.571em;
+  position: relative;
+  text-align: left;
+}
+
+.table__cell:first-child::before {
+  background-color: var(--color-gray-two);
+  content: '';
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 0.143em;
+}
+
+.table__row {
+  background-color: #c4c4c41a;
+}
+
+.table__order_button {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.table__order_button:hover {
+  color: black;
+  cursor: pointer;
+}
+
+.table__order_button:disabled {
+  color: inherit;
+  cursor: default;
+}
+
+.table__order_button:focus {
+  outline: none;
+}
+
+.table__order_button:focus-visible {
+  outline: 0.154em solid var(--color-brand-yellow);
+  outline-offset: 0.154em;
+}
+
+.table__header_wrapper {
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+
+.table__order_glyph {
+  --glyph-size: 0.692em;
+  margin-left: 0.769em;
+}
+
+.order--desc {
+  transform: scaleY(-1);
+}
+
+.table__link {
+  color: var(--color-brand-orange);
+  text-decoration: none;
+}
+
+.table__link:hover {
+  text-decoration: underline;
+}
+
+.table__cell_foot {
+  background-color: #e5e5e5;
+  font-weight: 500;
+}

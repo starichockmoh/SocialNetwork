@@ -1,0 +1,51 @@
+.button {
+  background-color: #fff;
+  border: 0.077em solid var(--color-yellow-7-corporate);
+  border-radius: 0.308em;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.16em;
+  margin: 0;
+  padding: 0.538em 1.077em 0.463em;
+  transition: background-color 120ms ease-out;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible {
+  background-color: var(--color-yellow-8);
+  outline: 0.167em solid var(--color-yellow-7-corporate);
+  outline-offset: 0.167em;
+}
+
+.button:hover {
+  background-color: var(--color-yellow-8);
+}
+
+.button:disabled {
+  background-color: #fff;
+  border-color: #fef0d8;
+  color: var(--color-gray-6);
+  cursor: default;
+}
+
+.button--primary {
+  background-color: var(--color-yellow-7-corporate);
+}
+
+.button--primary:disabled {
+  background-color: var(--color-yellow-3);
+}
+
+.button--small {
+  padding: 0.308em 1.077em 0.231em;
+}
+
+.button--big {
+  padding: 0.923em 1.077em 0.8475em;
+}

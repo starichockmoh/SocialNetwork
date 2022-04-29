@@ -1,0 +1,40 @@
+.button.button_with_icon {
+  align-items: center;
+  column-gap: 0.769em;
+  display: flex;
+  padding: 0.462em 1.077em;
+}
+
+.button.button_with_icon--left {
+  padding-left: 0.692em;
+}
+
+.button.button_with_icon--right {
+  padding-right: 0.692em;
+}
+
+.glyph.button_with_icon__glyph {
+  --glyph-size: 1.231em;
+}
+
+.button_with_icon.button--small {
+  padding-top: 0.231em;
+  padding-bottom: 0.231em;
+}
+
+.button_with_icon.button--big {
+  padding-top: 0.846em;
+  padding-bottom: 0.846em;
+}
+
+.button_with_icon.button_with_icon--no_child {
+  padding: 0.462em;
+}
+
+.button_with_icon--no_child.button--small {
+  padding: 0.231em;
+}
+
+.button_with_icon--no_child.button--big {
+  padding: 0.847em;
+}

@@ -1,0 +1,154 @@
+.select_container {
+  font-size: 15px;
+  font-weight: 375;
+}
+
+.select_outline {
+  font-size: 15px;
+  font-weight: 375;
+  position: relative;
+  --select-outline-padding: 0.567em 0.6em 0.567em 0.933em;
+  --select-outline-color-label: var(--color-gray-7);
+  --select-outline-color-text: var(--color-gray-10);
+  --select-outline-color-background: var(--color-gray-f);
+  --select-outline-color-border: var(--color-gray-5);
+  --select-outline-color-border-hover: var(--color-gray-6);
+  --select-outline-color-border-focus: var(--color-gray-7);
+}
+
+.select_outline.size--small {
+  --select-outline-padding: 0.367em 0.6em 0.367em 0.933em;
+}
+
+.select_outline.size--large {
+  --select-outline-padding: 0.7em 0.6em 0.7em 0.933em;
+}
+
+.select_outline.status--disabled {
+  --select-outline-color-text: var(--color-gray-6);
+  --select-outline-color-background: var(--color-gray-1);
+  --select-outline-color-border: var(--color-gray-3);
+  --select-outline-color-border-hover: var(--color-gray-3);
+  --select-outline-color-border-focus: var(--color-gray-3);
+}
+
+.select_outline.status--error {
+  --select-outline-color-label: var(--color-red-5);
+  --select-outline-color-border: var(--color-red-5);
+  --select-outline-color-border-hover: var(--color-red-5);
+  --select-outline-color-border-focus: var(--color-red-5);
+}
+
+.select_outline__label {
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
+  pointer-events: none;
+  top: 50%;
+  left: 0.933em;
+  transform: translateY(-50%);
+  transform-origin: left top;
+  transition: top 0.1s ease-in-out;
+  line-height: 1.133em;
+  font-size: 1em;
+  border: none;
+  color: var(--select-outline-color-label);
+  background-color: var(--select-outline-color-background);
+  padding: 0em 0.333em;
+  border-radius: 0.333em;
+}
+
+.select_outline__selector:focus-within ~ .select_outline__label {
+  top: 0;
+  transform: translateY(-50%) scale(0.8);
+  transform-origin: left top;
+}
+
+.select_outline__label.status--filled {
+  top: 0;
+  transform: translateY(-50%) scale(0.8);
+  transform-origin: left top;
+}
+
+.select_outline__value {
+  color: var(--select-outline-color-text);
+  height: 1.133em;
+}
+
+.select_outline__arrow {
+  height: 1.133em;
+}
+
+.select_outline__container {
+  position: relative;
+}
+
+.select_outline__selector {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--select-outline-padding);
+  border: 0.067em solid var(--select-outline-color-border);
+  border-radius: 0.267em;
+  background-color: var(--select-outline-color-background);
+  color: var(--select-outline-color-text);
+}
+
+.select_outline__selector:hover {
+  border: 0.067em solid var(--select-outline-color-border-hover);
+}
+
+.select_outline__selector:focus-within {
+  border: 0.067em solid var(--select-outline-color-border-focus);
+}
+
+.select_outline__options {
+  position: absolute;
+  overflow: auto;
+  width: calc(100% - 0.667em - 1em + 0.133em);
+  padding: 0.667em;
+  max-height: 13.6em;
+  background-color: var(--select-outline-color-background);
+  border: 0.067em solid var(--select-outline-color-background);
+  border-radius: 0.267em;
+  box-shadow: 0em 0.267em 1em rgba(0, 0, 0, 0.21);
+}
+
+.select_outline__option {
+  display: block;
+  cursor: pointer;
+  font-size: 0.867em;
+  line-height: 1.385em;
+  padding: 0.615em 0.769em 0.615em 1.154em;
+}
+
+.select_outline__option:hover {
+  background-color: var(--color-gray-1);
+}
+
+.select_outline__required_marker {
+  color: var(--color-red-5);
+}
+
+.select_outline__error {
+  margin: 0;
+  font-size: 0.8em;
+  line-height: 0.933em;
+  color: var(--color-red-5);
+  margin-left: 0.067em;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gray-1);
+  border-radius: 0.133em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-3);
+  border-radius: 0.133em;
+}

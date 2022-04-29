@@ -4,17 +4,23 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../../Redux/ReduxStore";
 import {UpdateProfileStatus} from "../../../../Redux/Reducers/ProfileReducer";
 import {Input} from "antd";
+import {useQuery} from "react-query";
+import axios from "axios";
+import {UserAPI} from "../../../../Api/Api";
 
 type PropsType = {
     IDisCurrent: boolean
 }
 
 const StatusWithHooks: React.FC<PropsType> = (props) => {
+
+
+
+
     const dispatch = useDispatch()
     let [editMode, setEditeMode] = useState(false)
     let [status, setStatus] = useState('')
     const ProfileStatus = useSelector((state: AppStateType) => state.ProfilePage.ProfileStatus)
-
     useEffect(()=>{
         setStatus(ProfileStatus)
     },[ProfileStatus])

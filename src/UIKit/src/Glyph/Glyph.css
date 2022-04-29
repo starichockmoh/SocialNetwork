@@ -1,0 +1,29 @@
+.glyph {
+  --glyph-size: 1rem;
+  --glyph-fill: #25282b;
+  align-items: center;
+  display: inline-flex;
+  height: var(--glyph-size);
+  width: var(--glyph-size);
+}
+
+[class*='glyph__'] {
+  width: 100%;
+  fill-rule: evenodd;
+}
+
+.glyph__align_left,
+.glyph__align_right {
+  fill: var(--glyph-fill);
+}
+
+.glyph__menu {
+  --glyph-fill: white;
+  stroke: var(--glyph-fill);
+}
+
+.glyph__filter,
+.glyph__edit,
+.glyph__cross {
+  stroke: var(--glyph-fill);
+}

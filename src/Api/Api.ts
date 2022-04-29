@@ -153,6 +153,7 @@ export const UserAPI = {
     getProfileStatus(userId: string | number | null) {
         return AxiosInstance.get<GetStatusResponseType>(`profile/status/${userId}`)
             .then(response => {
+                console.log(response)
                 return response.data
             })
     },

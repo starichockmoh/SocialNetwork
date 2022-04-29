@@ -27,6 +27,8 @@ import { TestApp } from './Components/MiniApps/Apps/TestApp/TestApp';
 import {TestApp1} from "./Components/MiniApps/Apps/TestApp1/TestApp1";
 import {TestApp4} from "./Components/MiniApps/Apps/TestApp4/TestApp4";
 import {TestingUseState} from "./Hooks/TestingUseState";
+import {AppQTest} from "./TestQuery/QueryAPI";
+import {QueryClient, QueryClientProvider} from "react-query";
 
 
 const Music = React.lazy(() => import("./Components/Music/Music"));
@@ -86,6 +88,11 @@ const LayOut: React.FC = () => {
     </Layout>
 }
 
+function Concat (props: {id: number}) {
+    return <>
+        {props.id}
+    </>
+}
 
 const MainContent: React.FC<{ globalError: string | null }> = (props) => {
     return <div className={styles.appWrapperContent}>
@@ -108,6 +115,7 @@ const MainContent: React.FC<{ globalError: string | null }> = (props) => {
             <Route path='/test2' render={() => <TestApp2/>}/>
             <Route path='/test3' render={() => <TestApp3/>}/>
             <Route path='/test4' render={() => <TestApp4/>}/>
+            <Route path='/qtest' render={() => <AppQTest/>}/>
             <Redirect exact from="/FirstProject" to="/profile"/>
             <Redirect exact from="/" to="/profile"/>
             <Route path='/*' render={() => <div>404 NOT FOUND</div>}/>
@@ -117,14 +125,16 @@ const MainContent: React.FC<{ globalError: string | null }> = (props) => {
 const SuspenseMainContent = withSuspense(MainContent)
 
 const AppContainer: any = compose(withRouter)(App)
-
+const queryClient = new QueryClient();
 export const FirstReactApp = () => {
     return <React.StrictMode>
+        <QueryClientProvider client={queryClient}>
             <Provider store={store}>
                <BrowserRouter>
                    <AppContainer/>
                </BrowserRouter>
             </Provider>
+        </QueryClientProvider>
     </React.StrictMode>
 }
 

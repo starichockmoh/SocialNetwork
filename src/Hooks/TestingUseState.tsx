@@ -55,6 +55,7 @@ export const TestingUseState: React.FC = () => {
             </div>
             <button onClick={() => {
                 SetCounts((actual) => ({
+
                     ...actual,
                     c2: actual.c2 + 1
                 }))}}>

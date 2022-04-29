@@ -1,0 +1,25 @@
+.textbox {
+  background-color: white;
+  border: 0.077em solid #0000004d;
+  border-radius: 0.308em;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 0.929em;
+  font-weight: 500;
+  line-height: 1.16em;
+  padding: 0.462em 0.692em 0.538em;
+  width: 100%;
+}
+
+.textbox:focus {
+  outline: none;
+}
+
+.textbox:focus-visible {
+  border-color: var(--color-brand-yellow);
+}
+
+.textbox:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,75 @@
+.radiobutton {
+    display: flex;
+    height: 18px;
+    position: relative;
+    padding-left: 28px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 15px;
+    font-weight: 400;
+    align-items: center;
+}
+
+.radiobutton input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radiobutton__label {
+    cursor: default;
+}
+
+.radiobutton__checkmark {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: var(--color-gray-f);
+    border: 1px solid var(--color-gray-5);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.radiobutton input:disabled~.radiobutton__checkmark {
+    display: block;
+    color: var(--color-gray-7);
+    background-color: var(--color-gray-2);
+    cursor: default;
+}
+
+.radiobutton input:disabled~.radiobutton__label {
+    color: var(--color-gray-7);
+}
+
+.radiobutton input:disabled {
+    cursor: default;
+}
+
+.radiobutton__checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.radiobutton input:checked~.radiobutton__checkmark:after {
+    display: block;
+}
+
+.radiobutton__checkmark:after {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-yellow-7-corporate);
+}
+
+.radiobutton input:disabled~.radiobutton__checkmark:after {
+    background: var(--color-gray-6);
+}

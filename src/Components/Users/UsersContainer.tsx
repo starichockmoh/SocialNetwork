@@ -49,6 +49,7 @@ const UsersPage: React.FC<UsersPagePropsType> = ({title}) => {
     useEffect(() => {
         dispatch(UserActions.setFilter(false, ''))
     }, [dispatch])
+
     return <>
         <PageHeader title={<>{title} <TeamOutlined /></>}/>
         <Users pageSize={pageSize} currentPage={currentPage}/>
